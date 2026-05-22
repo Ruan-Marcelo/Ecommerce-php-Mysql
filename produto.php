@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'funcoes.php';
+require_once __DIR__ . '/app/core/funcoes.php';
 
 // Obter o ID do produto da query string
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;

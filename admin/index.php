@@ -1,10 +1,10 @@
 <?php
 session_start();
-require_once '../funcoes.php';
+require_once dirname(__DIR__) . '/app/core/funcoes.php';
 proteger_pagina_admin(); // Redireciona se não estiver logado ou não for admin
 
 $titulo_pagina = 'Dashboard';
-require_once '../includes/head.php';
+require_once dirname(__DIR__) . '/app/views/includes/head.php';
 ?>
 <!-- Admin Sidebar -->
 <aside
@@ -229,5 +229,5 @@ require_once '../includes/head.php';
   </div>
 </main>
 <?php
-require_once '../includes/footer.php';
+require_once dirname(__DIR__) . '/app/views/includes/footer.php';
 ?>

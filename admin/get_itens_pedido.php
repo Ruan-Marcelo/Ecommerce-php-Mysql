@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../funcoes.php';
+require_once dirname(__DIR__) . '/app/core/funcoes.php';
 proteger_pagina_admin();
 
 header('Content-Type: application/json');

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'funcoes.php';
+require_once __DIR__ . '/app/core/funcoes.php';
 proteger_pagina(); // Redireciona se não estiver logado
 
 // Verificar se carrinho está vazio
@@ -11,8 +11,8 @@ if (empty($_SESSION['carrinho'])) {
 }
 
 $titulo_pagina = 'Finalizar compra';
-require_once 'includes/header.php';
-require_once 'includes/navbar.php';
+require_once __DIR__ . '/app/views/includes/header.php';
+require_once __DIR__ . '/app/views/includes/navbar.php';
 
 // Calcular totais
 $subtotal = 0;
@@ -163,5 +163,5 @@ $total = $subtotal - $desconto;
 </div>
 
 <?php
-require_once 'includes/footer.php';
+require_once __DIR__ . '/app/views/includes/footer.php';
 ?>

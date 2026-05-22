@@ -1,10 +1,10 @@
 <?php
 session_start();
-require_once '../funcoes.php';
+require_once dirname(__DIR__) . '/app/core/funcoes.php';
 proteger_pagina_admin();
 
 $titulo_pagina = 'Gerenciar Pedidos';
-require_once '../includes/head.php';
+require_once dirname(__DIR__) . '/app/views/includes/head.php';
 global $pdo;
 
 // Processar ações (atualizar status do pedido)
@@ -571,5 +571,5 @@ window.addEventListener('click', function(e) {
 </script>
 
 <?php
-require_once '../includes/footer.php';
+require_once dirname(__DIR__) . '/app/views/includes/footer.php';
 ?>

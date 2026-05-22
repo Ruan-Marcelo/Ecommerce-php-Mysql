@@ -1,7 +1,7 @@
 <?php
 $titulo_pagina = 'Sobre';
-require_once 'includes/header.php';
-require_once 'includes/navbar.php';
+require_once __DIR__ . '/app/views/includes/header.php';
+require_once __DIR__ . '/app/views/includes/navbar.php';
 ?>
 <div class="flex-grow flex items-center justify-center py-section-gap px-gutter">
   <div class="max-w-container-max w-full">
@@ -198,5 +198,5 @@ require_once 'includes/navbar.php';
   </div>
 </div>
 <?php
-require_once 'includes/footer.php';
+require_once __DIR__ . '/app/views/includes/footer.php';
 ?>

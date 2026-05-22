@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'funcoes.php';
+require_once __DIR__ . '/app/core/funcoes.php';
 
 echo "Testing complete flow...<br>";
 

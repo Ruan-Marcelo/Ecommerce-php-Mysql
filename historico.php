@@ -1,11 +1,11 @@
 <?php
 session_start();
-require_once 'funcoes.php';
+require_once __DIR__ . '/app/core/funcoes.php';
 proteger_pagina(); // Redireciona se não estiver logado
 
 $titulo_pagina = 'Meus Pedidos';
-require_once 'includes/header.php';
-require_once 'includes/navbar.php';
+require_once __DIR__ . '/app/views/includes/header.php';
+require_once __DIR__ . '/app/views/includes/navbar.php';
 
 // Parâmetros de paginação
 $pagina = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
@@ -177,5 +177,5 @@ $total_paginas = ceil($total_pedidos / $limite);
 </div>
 
 <?php
-require_once 'includes/footer.php';
+require_once __DIR__ . '/app/views/includes/footer.php';
 ?>

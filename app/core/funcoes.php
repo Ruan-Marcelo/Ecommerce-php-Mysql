@@ -1,5 +1,5 @@
 <?php
-require_once 'config.php';
+require_once __DIR__ . '/config.php';
 
 function executar_consulta_paginada($sql, $params, $limite, $offset) {
     global $pdo;
@@ -319,7 +319,9 @@ function obter_quantidade_carrinho() {
 }
 
 // Função para fazer upload de imagem
-function upload_imagem($file, $pasta = 'uploads') {
+function upload_imagem($file, $pasta = null) {
+    $pasta = $pasta ?: dirname(__DIR__, 2) . '/public/uploads';
+
     // Verificar se há erro no upload
     if ($file['error'] !== UPLOAD_ERR_OK) {
         return ['erro' => 'Erro no upload do arquivo'];
@@ -340,7 +342,7 @@ function upload_imagem($file, $pasta = 'uploads') {
     // Gerar nome único para o arquivo
     $extensao = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $nome_arquivo = uniqid('img_', true) . '.' . $extensao;
-    $caminho_destino = $pasta . '/' . $nome_arquivo;
+    $caminho_destino = rtrim($pasta, '/\\') . '/' . $nome_arquivo;
 
     // Criar pasta se não existir
     if (!is_dir($pasta)) {
@@ -365,7 +367,7 @@ function imagem_produto_url($imagem, $prefixo = '') {
         return $imagem;
     }
 
-    return $prefixo . 'uploads/' . rawurlencode($imagem);
+    return $prefixo . 'public/uploads/' . rawurlencode($imagem);
 }
 
 function imagem_produto_disponivel($imagem, $diretorio_uploads = null) {
@@ -377,7 +379,7 @@ function imagem_produto_disponivel($imagem, $diretorio_uploads = null) {
         return true;
     }
 
-    $diretorio_uploads = $diretorio_uploads ?: __DIR__ . '/uploads';
+    $diretorio_uploads = $diretorio_uploads ?: dirname(__DIR__, 2) . '/public/uploads';
     return file_exists($diretorio_uploads . '/' . $imagem);
 }
 

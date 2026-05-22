@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once 'funcoes.php';
+require_once __DIR__ . '/app/core/funcoes.php';
 
 // REDIRECIONA SE JÁ ESTIVER LOGADO
 if (isset($_SESSION["usuario_id"])) {

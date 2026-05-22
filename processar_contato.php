@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'funcoes.php';
+require_once __DIR__ . '/app/core/funcoes.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Sanitizar inputs

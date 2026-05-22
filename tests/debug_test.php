@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 echo "Starting debug...<br>";
 
 try {
-    require_once 'funcoes.php';
+    require_once __DIR__ . '/app/core/funcoes.php';
     echo "funcoes.php loaded<br>";
 
     session_start();

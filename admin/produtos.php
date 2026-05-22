@@ -1,10 +1,10 @@
 <?php
 session_start();
-require_once '../funcoes.php';
+require_once dirname(__DIR__) . '/app/core/funcoes.php';
 proteger_pagina_admin();
 
 $titulo_pagina = 'Gerenciar Produtos';
-require_once '../includes/head.php';
+require_once dirname(__DIR__) . '/app/views/includes/head.php';
 
 // Processar ações
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -576,5 +576,5 @@ document.addEventListener('click', function(e) {
 </script>
 
 <?php
-require_once '../includes/footer.php';
+require_once dirname(__DIR__) . '/app/views/includes/footer.php';
 ?>
