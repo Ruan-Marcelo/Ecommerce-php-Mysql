@@ -90,8 +90,8 @@ $total_paginas = ceil($total_pedidos / $limite);
                       <div class="flex items-start gap-4 py-2 border-b border-outline/10 last:border-b-0">
                         <!-- Imagem do produto -->
                         <div class="flex-shrink-0">
-                          <?php if ($item['produto_imagem'] && file_exists('../uploads/' . $item['produto_imagem'])): ?>
-                            <img src="../uploads/<?php echo escapar($item['produto_imagem']); ?>" alt="<?php echo escapar($item['produto_nome']); ?>" class="w-16 h-16 object-contain rounded-lg">
+                          <?php if (imagem_produto_disponivel($item['produto_imagem'] ?? '')): ?>
+                            <img src="<?php echo escapar(imagem_produto_url($item['produto_imagem'])); ?>" alt="<?php echo escapar($item['produto_nome']); ?>" class="w-16 h-16 object-contain rounded-lg">
                           <?php else: ?>
                             <div class="w-16 h-16 bg-surface-container flex items-center justify-center rounded-lg">
                               <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>

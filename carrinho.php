@@ -207,10 +207,10 @@ if (isset($_SESSION['carrinho'])) {
 
         <!-- NAV DESKTOP -->
         <nav class="hidden lg:flex gap-10">
-          <a class="nav-link" href="index.html">Inicio</a>
+          <a class="nav-link" href="index.php">In&iacute;cio</a>
           <a class="nav-link active" href="produtos.php">Coleções</a>
           <a class="nav-link" href="acessorios.html">Acessórios</a>
-          <a class="nav-link" href="sobre.html">Nossa história</a>
+          <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
         </nav>
 
         <!-- LOGO -->
@@ -249,10 +249,10 @@ if (isset($_SESSION['carrinho'])) {
         </button>
       </div>
 
-      <a class="nav-link" href="index.html">Inicio</a>
+      <a class="nav-link" href="index.php">In&iacute;cio</a>
       <a class="nav-link" href="produtos.php">Coleções</a>
       <a class="nav-link" href="acessorios.html">Acessórios</a>
-      <a class="nav-link" href="sobre.html">Nossa história</a>
+      <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
     </div>
     <main
       class="flex-grow flex items-center justify-center py-section-gap px-gutter"
@@ -282,11 +282,17 @@ if (isset($_SESSION['carrinho'])) {
                   <div class="flex flex-col md:flex-row items-start gap-6 p-6 bg-surface rounded-lg border border-outline/20">
                     <!-- Imagem do produto -->
                     <div class="w-24 h-24 md:w-32 md:h-32 flex-shrink-0">
-                      <img
-                        src="<?php echo htmlspecialchars($item['imagem']); ?>"
-                        alt="<?php echo htmlspecialchars($item['nome']); ?>"
-                        class="w-full h-full object-cover rounded-lg"
-                      />
+                      <?php if (imagem_produto_disponivel($item['imagem'] ?? '')): ?>
+                        <img
+                          src="<?php echo escapar(imagem_produto_url($item['imagem'])); ?>"
+                          alt="<?php echo escapar($item['nome']); ?>"
+                          class="w-full h-full object-cover rounded-lg"
+                        />
+                      <?php else: ?>
+                        <div class="w-full h-full bg-surface-container flex items-center justify-center rounded-lg">
+                          <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
+                        </div>
+                      <?php endif; ?>
                     </div>
                     <!-- Detalhes do produto -->
                     <div class="flex-1 space-y-3">

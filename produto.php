@@ -187,10 +187,10 @@ if (!$produto) {
 
         <!-- NAV DESKTOP -->
         <nav class="hidden lg:flex gap-10">
-          <a class="nav-link" href="index.html">Inicio</a>
+          <a class="nav-link" href="index.php">In&iacute;cio</a>
           <a class="nav-link" href="produtos.php">Coleções</a>
           <a class="nav-link" href="acessorios.html">Acessórios</a>
-          <a class="nav-link" href="sobre.html">Nossa história</a>
+          <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
         </nav>
 
         <!-- LOGO -->
@@ -229,10 +229,10 @@ if (!$produto) {
         </button>
       </div>
 
-      <a class="nav-link" href="index.html">Inicio</a>
+      <a class="nav-link" href="index.php">In&iacute;cio</a>
       <a class="nav-link" href="produtos.php">Coleções</a>
       <a class="nav-link" href="acessorios.html">Acessórios</a>
-      <a class="nav-link" href="sobre.html">Nossa história</a>
+      <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
     </div>
     <main
       class="flex-grow flex items-center justify-center py-section-gap px-gutter"
@@ -240,11 +240,17 @@ if (!$produto) {
       <div class="max-w-container-max w-full flex flex-col md:flex-row gap-16 items-start">
         <!-- Imagem do produto -->
         <div class="w-full md:w-1/2">
-          <img
-            src="https://via.placeholder.com/600x600?text=<?php echo urlencode($produto['nome']); ?>"
-            alt="<?php echo htmlspecialchars($produto['nome']); ?>"
-            class="w-full h-[500px] object-cover rounded-lg"
-          />
+          <?php if (imagem_produto_disponivel($produto['imagem'] ?? '')): ?>
+            <img
+              src="<?php echo escapar(imagem_produto_url($produto['imagem'])); ?>"
+              alt="<?php echo escapar($produto['nome']); ?>"
+              class="w-full h-[500px] object-cover rounded-lg"
+            />
+          <?php else: ?>
+            <div class="w-full h-[500px] bg-surface-container flex items-center justify-center rounded-lg">
+              <span class="material-symbols-outlined text-on-surface-variant/60 text-6xl">inventory_2</span>
+            </div>
+          <?php endif; ?>
         </div>
         <!-- Detalhes do produto -->
         <div class="w-full md:w-1/2 space-y-8">

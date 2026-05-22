@@ -173,10 +173,10 @@ $produtos = obter_produtos();
 
         <!-- NAV DESKTOP -->
         <nav class="hidden lg:flex gap-10">
-          <a class="nav-link" href="index.html">Inicio</a>
+          <a class="nav-link" href="index.php">In&iacute;cio</a>
           <a class="nav-link active" href="produtos.php">Coleções</a>
           <a class="nav-link" href="acessorios.html">Acessórios</a>
-          <a class="nav-link" href="sobre.html">Nossa história</a>
+          <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
         </nav>
 
         <!-- LOGO -->
@@ -215,10 +215,10 @@ $produtos = obter_produtos();
         </button>
       </div>
 
-      <a class="nav-link" href="index.html">Inicio</a>
+      <a class="nav-link" href="index.php">In&iacute;cio</a>
       <a class="nav-link active" href="produtos.php">Coleções</a>
       <a class="nav-link" href="acessorios.html">Acessórios</a>
-      <a class="nav-link" href="sobre.html">Nossa história</a>
+      <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
     </div>
     <main
       class="flex-grow flex items-center justify-center py-section-gap px-gutter"
@@ -268,11 +268,17 @@ $produtos = obter_produtos();
                 <div
                   class="flex flex-col items-center gap-6 p-8 bg-surface rounded-lg border border-outline/20"
                 >
-                  <img
-                    src="https://via.placeholder.com/400x400?text=<?php echo urlencode($produto['nome']); ?>"
-                    alt="<?php echo htmlspecialchars($produto['nome']); ?>"
-                    class="w-full h-[300px] object-cover"
-                  />
+                  <?php if (imagem_produto_disponivel($produto['imagem'] ?? '')): ?>
+                    <img
+                      src="<?php echo escapar(imagem_produto_url($produto['imagem'])); ?>"
+                      alt="<?php echo escapar($produto['nome']); ?>"
+                      class="w-full h-[300px] object-cover"
+                    />
+                  <?php else: ?>
+                    <div class="w-full h-[300px] bg-surface-container flex items-center justify-center">
+                      <span class="material-symbols-outlined text-on-surface-variant/60 text-5xl">inventory_2</span>
+                    </div>
+                  <?php endif; ?>
                   <div class="text-center space-y-4">
                     <h3 class="font-headline-md text-headline-md text-primary">
                       <?php echo htmlspecialchars($produto['nome']); ?>
