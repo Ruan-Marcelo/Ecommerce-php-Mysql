@@ -21,7 +21,7 @@ $GLOBALS['lupiere_navbar_main_open'] = true;
     <nav class="hidden lg:flex gap-10">
       <a class="nav-link" href="<?php echo $base_path; ?>index.php">In&iacute;cio</a>
       <a class="nav-link" href="<?php echo $base_path; ?>produtos.php">Cole&ccedil;&otilde;es</a>
-      <a class="nav-link" href="<?php echo $base_path; ?>acessorios.html">Acess&oacute;rios</a>
+      <a class="nav-link" href="<?php echo $base_path; ?>acessorios.php">Acess&oacute;rios</a>
       <a class="nav-link" href="<?php echo $base_path; ?>sobre.php">Nossa hist&oacute;ria</a>
     </nav>
 
@@ -58,7 +58,7 @@ $GLOBALS['lupiere_navbar_main_open'] = true;
 
   <a class="nav-link" href="<?php echo $base_path; ?>index.php">In&iacute;cio</a>
   <a class="nav-link" href="<?php echo $base_path; ?>produtos.php">Cole&ccedil;&otilde;es</a>
-  <a class="nav-link" href="<?php echo $base_path; ?>acessorios.html">Acess&oacute;rios</a>
+  <a class="nav-link" href="<?php echo $base_path; ?>acessorios.php">Acess&oacute;rios</a>
   <a class="nav-link" href="<?php echo $base_path; ?>sobre.php">Nossa hist&oacute;ria</a>
 </div>
 

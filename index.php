@@ -14,7 +14,7 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&amp;family=Noto+Serif:wght@400&amp;display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="public/assets/css/style.css" />
     <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -160,10 +160,10 @@
 
         <!-- ICONES -->
         <div class="flex items-center gap-5 md:gap-8 text-[#1B3022]">
-          <a href="carrinho.html" class="icon-btn">
+          <a href="carrinho.php" class="icon-btn">
             <span class="material-symbols-outlined">shopping_bag</span>
           </a>
-          <a href="/login.html" class="icon-btn">
+          <a href="login.php" class="icon-btn">
             <span class="material-symbols-outlined">person</span>
           </a>
         </div>
@@ -359,7 +359,7 @@
             <img
               class="relative z-10 w-full max-w-md mx-auto opacity-90"
               data-alt="The Lupière brand symbol, a minimalist and powerful stylized wolf head icon. The design is geometric and clean, representing heritage, strength, and silent authority. It is rendered in a high-contrast white against a deep forest green background, embodying the luxury tailoring brand's essence."
-              src="logo.jpg"
+              src="public/assets/img/logo.jpg"
             />
             <div
               class="absolute -bottom-12 -right-12 w-64 h-64 border border-surface/10"
@@ -501,6 +501,6 @@
       </footer>
     </main>
 
-    <script src="main.js"></script>
+    <script src="public/assets/js/main.js"></script>
   </body>
 </html>

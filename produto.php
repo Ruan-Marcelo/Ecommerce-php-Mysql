@@ -189,7 +189,7 @@ if (!$produto) {
         <nav class="hidden lg:flex gap-10">
           <a class="nav-link" href="index.php">In&iacute;cio</a>
           <a class="nav-link" href="produtos.php">Coleções</a>
-          <a class="nav-link" href="acessorios.html">Acessórios</a>
+          <a class="nav-link" href="acessorios.php">Acessórios</a>
           <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
         </nav>
 
@@ -231,7 +231,7 @@ if (!$produto) {
 
       <a class="nav-link" href="index.php">In&iacute;cio</a>
       <a class="nav-link" href="produtos.php">Coleções</a>
-      <a class="nav-link" href="acessorios.html">Acessórios</a>
+      <a class="nav-link" href="acessorios.php">Acessórios</a>
       <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
     </div>
     <main

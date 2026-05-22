@@ -41,7 +41,7 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
       >
       <a
         class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
-        href="<?php echo $base_path; ?>acessorios.html"
+        href="<?php echo $base_path; ?>acessorios.php"
         >Acess&oacute;rios</a
       >
     </div>
@@ -112,6 +112,6 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
   </div>
 </footer>
 
-<script src="<?php echo $base_path; ?>main.js"></script>
+<script src="<?php echo $base_path; ?>public/assets/js/main.js"></script>
 </body>
 </html>

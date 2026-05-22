@@ -344,14 +344,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="text-center mb-12">
 
             <h1 class="title-font text-5xl md:text-6xl mb-4">
-
-                Welcome Back
-
+                Bem-vindo de volta
             </h1>
 
             <p class="uppercase tracking-[0.3em] text-xs text-[#1B3022]/50">
 
-                Access your bespoke world.
+                Acesse sua conta Lupiere.
 
             </p>
 
@@ -379,7 +377,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <label class="uppercase tracking-[0.2em] text-[11px] text-[#1B3022]/60">
 
-                        Email Address
+                        E-mail
 
                     </label>
 
@@ -401,14 +399,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                         <label class="uppercase tracking-[0.2em] text-[11px] text-[#1B3022]/60">
 
-                            Password
+                            Senha
 
                         </label>
 
                         <a href="#"
                            class="text-[10px] uppercase tracking-[0.2em] hover:underline">
 
-                            Forgot password?
+                            Esqueceu a senha?
 
                         </a>
 
@@ -464,7 +462,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     id="loginBtn"
                     class="w-full bg-primary text-white py-5 uppercase tracking-[0.25em] text-xs hover:opacity-90 active:scale-[0.99] transition-all duration-300">
 
-                    SIGN IN
+                    Entrar
 
                 </button>
 
@@ -483,7 +481,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <span class="bg-white px-4 uppercase tracking-[0.25em] text-[10px] text-[#1B3022]/40">
 
-                        OR CONTINUE WITH
+                        Ou continue com
 
                     </span>
 
@@ -577,7 +575,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="text-[10px] uppercase tracking-[0.25em] text-[#1B3022]/40 flex items-end">
 
-            © 2026 LUPIÈRE TAILORS
+            &copy; 2026 LUPI&Egrave;RE ALFAIATARIA
 
         </div>
 

@@ -392,8 +392,8 @@ $total_paginas = ceil($total_produtos / $limite);
                 <?php foreach ($produtos as $produto): ?>
                   <tr class="hover:bg-primary/5 transition-colors">
                     <td class="px-6 py-4 flex items-center">
-                      <?php if ($produto['imagem'] && file_exists('../uploads/' . $produto['imagem'])): ?>
-                        <img src="../uploads/<?php echo escapar($produto['imagem']); ?>" alt="<?php echo escapar($produto['nome']); ?>" class="w-12 h-12 object-contain rounded-lg border border-outline/10">
+                      <?php if ($produto['imagem'] && file_exists('../public/uploads/' . $produto['imagem'])): ?>
+                        <img src="../public/uploads/<?php echo escapar($produto['imagem']); ?>" alt="<?php echo escapar($produto['nome']); ?>" class="w-12 h-12 object-contain rounded-lg border border-outline/10">
                       <?php else: ?>
                         <div class="w-12 h-12 bg-surface-container flex items-center justify-center rounded-lg">
                           <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>

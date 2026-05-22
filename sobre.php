@@ -62,7 +62,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
         <img
           class="w-full h-full object-cover grayscale"
           data-alt="A close-up, high-fashion portrait of a dignified man with a sharp jawline and focused gaze, wearing a bespoke Lupiére charcoal wool overcoat. The lighting is dramatic, coming from the side to emphasize the rich texture of the fabric and the structural lines of the tailoring. The background is a minimalist, off-white studio setting, reflecting a sense of quiet authority and artisanal excellence."
-          src="joao.png"
+          src="public/assets/img/joao.png"
         />
       </div>
     </section>

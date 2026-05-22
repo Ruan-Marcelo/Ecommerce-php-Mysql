@@ -162,22 +162,22 @@
         <nav class="hidden md:flex items-center space-x-12">
           <a
             class="font-serif uppercase tracking-[0.2em] text-xs font-medium text-[#1B3022]/60 dark:text-[#EAEAEA]/60 hover:text-[#C5A059] transition-all duration-500"
-            href="index.html"
+            href="index.php"
             >Inicio</a
           >
           <a
             class="font-serif uppercase tracking-[0.2em] text-xs font-medium text-[#1B3022]/60 dark:text-[#EAEAEA]/60 hover:text-[#C5A059] transition-all duration-500"
-            href="produtos.html"
+            href="produtos.php"
             >Coleções</a
           >
           <a
             class="font-serif uppercase tracking-[0.2em] text-xs font-medium text-[#1B3022] dark:text-white border-b border-[#C5A059] pb-1"
-            href="acessorios.html"
+            href="acessorios.php"
             >Acessórios</a
           >
           <a
             class="font-serif uppercase tracking-[0.2em] text-xs font-medium text-[#1B3022]/60 dark:text-[#EAEAEA]/60 hover:text-[#C5A059] transition-all duration-500"
-            href="sobre.html"
+            href="sobre.php"
             >Nossa História</a
           >
         </nav>
@@ -185,7 +185,7 @@
           class="flex items-center space-x-6 text-[#1B3022] dark:text-[#EAEAEA]"
         >
           <a
-            href="carrinho.html"
+            href="carrinho.php"
             aria-label="Abrir carrinho"
             class="group cursor-pointer transition-all duration-300 hover:text-[#C5A059]"
           >
@@ -196,7 +196,7 @@
             </span>
           </a>
           <a
-            href="/login.html"
+            href="login.php"
             aria-label="Abrir perfil do usuário"
             class="group cursor-pointer transition-all duration-300 hover:text-[#C5A059]"
           >
@@ -221,12 +221,12 @@
         </button>
       </div>
 
-      <a class="mobile-link" href="index.html">Inicio</a>
-      <a class="mobile-link" href="produtos.html">Coleções</a>
-      <a class="mobile-link text-[#C5A059]" href="acessorios.html"
+      <a class="mobile-link" href="index.php">Inicio</a>
+      <a class="mobile-link" href="produtos.php">Coleções</a>
+      <a class="mobile-link text-[#C5A059]" href="acessorios.php"
         >Acessórios</a
       >
-      <a class="mobile-link" href="sobre.html">Nossa História</a>
+      <a class="mobile-link" href="sobre.php">Nossa História</a>
     </div>
 
     <!-- OVERLAY -->
@@ -292,7 +292,7 @@
             </p>
             <a
               class="font-label-caps text-label-caps uppercase border-b border-primary/20 pb-1 self-start hover:border-secondary hover:text-secondary transition-all duration-300"
-              href="acessorio-view.html"
+              href="acessorio-view.php"
               >View Details</a
             >
           </div>
@@ -320,7 +320,7 @@
             </p>
             <a
               class="font-label-caps text-label-caps uppercase border-b border-primary/20 pb-1 self-start hover:border-secondary hover:text-secondary transition-all duration-300"
-              href="acessorio-view.html"
+              href="acessorio-view.php"
               >View Details</a
             >
           </div>
@@ -348,7 +348,7 @@
             </p>
             <a
               class="font-label-caps text-label-caps uppercase border-b border-primary/20 pb-1 self-start hover:border-secondary hover:text-secondary transition-all duration-300"
-              href="acessorio-view.html"
+              href="acessorio-view.php"
               >View Details</a
             >
           </div>
@@ -376,7 +376,7 @@
             </p>
             <a
               class="font-label-caps text-label-caps uppercase border-b border-primary/20 pb-1 self-start hover:border-secondary hover:text-secondary transition-all duration-300"
-              href="acessorio-view.html"
+              href="acessorio-view.php"
               >View Details</a
             >
           </div>
@@ -404,7 +404,7 @@
             </p>
             <a
               class="font-label-caps text-label-caps uppercase border-b border-primary/20 pb-1 self-start hover:border-secondary hover:text-secondary transition-all duration-300"
-              href="acessorio-view.html"
+              href="acessorio-view.php"
               >View Details</a
             >
           </div>
@@ -432,7 +432,7 @@
             </p>
             <a
               class="font-label-caps text-label-caps uppercase border-b border-primary/20 pb-1 self-start hover:border-secondary hover:text-secondary transition-all duration-300"
-              href="acessorio-view.html"
+              href="acessorio-view.php"
               >View Details</a
             >
           </div>
@@ -558,6 +558,6 @@
       </div>
     </footer>
 
-    <script src="main.js"></script>
+    <script src="public/assets/js/main.js"></script>
   </body>
 </html>

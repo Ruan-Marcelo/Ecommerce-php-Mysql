@@ -447,7 +447,7 @@ function verItensPedido(pedidoId) {
                         const precoUnitario = Number(item.preco_unitario || 0);
                         const subtotal = quantidade * precoUnitario;
                         const imagemHtml = imagem
-                            ? `<img src="../uploads/${encodeURIComponent(imagem)}" alt="${nome}" class="w-16 h-16 object-contain rounded-lg border border-outline/10">`
+                            ? `<img src="../public/uploads/${encodeURIComponent(imagem)}" alt="${nome}" class="w-16 h-16 object-contain rounded-lg border border-outline/10">`
                             : `<div class="w-16 h-16 bg-surface-container flex items-center justify-center rounded-lg">
                                   <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
                                </div>`;

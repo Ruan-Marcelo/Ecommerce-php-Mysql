@@ -209,7 +209,7 @@ if (isset($_SESSION['carrinho'])) {
         <nav class="hidden lg:flex gap-10">
           <a class="nav-link" href="index.php">In&iacute;cio</a>
           <a class="nav-link active" href="produtos.php">Coleções</a>
-          <a class="nav-link" href="acessorios.html">Acessórios</a>
+          <a class="nav-link" href="acessorios.php">Acessórios</a>
           <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
         </nav>
 
@@ -251,7 +251,7 @@ if (isset($_SESSION['carrinho'])) {
 
       <a class="nav-link" href="index.php">In&iacute;cio</a>
       <a class="nav-link" href="produtos.php">Coleções</a>
-      <a class="nav-link" href="acessorios.html">Acessórios</a>
+      <a class="nav-link" href="acessorios.php">Acessórios</a>
       <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
     </div>
     <main
