@@ -1,6 +1,18 @@
 <?php
 require_once 'config.php';
 
+function executar_consulta_paginada($sql, $params, $limite, $offset) {
+    global $pdo;
+    $stmt = $pdo->prepare($sql . " LIMIT :limite OFFSET :offset");
+    foreach ($params as $index => $valor) {
+        $stmt->bindValue($index + 1, $valor);
+    }
+    $stmt->bindValue(':limite', (int) $limite, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', (int) $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+
 // Função para obter todas as categorias
 function obter_categorias() {
     global $pdo;
@@ -21,9 +33,7 @@ function obter_produtos($limite = null, $offset = null) {
     global $pdo;
     $sql = "SELECT p.*, c.nome as categoria_nome FROM produtos p LEFT JOIN categorias c ON p.categoria_id = c.id ORDER BY p.data_criacao DESC";
     if ($limite !== null && $offset !== null) {
-        $sql .= " LIMIT ? OFFSET ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$limite, $offset]);
+        return executar_consulta_paginada($sql, [], $limite, $offset);
     } else {
         $stmt = $pdo->query($sql);
     }
@@ -43,9 +53,7 @@ function obter_produtos_por_categoria($categoria_id, $limite = null, $offset = n
     global $pdo;
     $sql = "SELECT p.*, c.nome as categoria_nome FROM produtos p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.categoria_id = ? ORDER BY p.data_criacao DESC";
     if ($limite !== null && $offset !== null) {
-        $sql .= " LIMIT ? OFFSET ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$categoria_id, $limite, $offset]);
+        return executar_consulta_paginada($sql, [$categoria_id], $limite, $offset);
     } else {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$categoria_id]);
@@ -57,14 +65,11 @@ function obter_produtos_por_categoria($categoria_id, $limite = null, $offset = n
 function buscar_produtos($termo, $limite = null, $offset = null) {
     global $pdo;
     $sql = "SELECT p.*, c.nome as categoria_nome FROM produtos p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.nome LIKE ? OR p.descricao LIKE ? ORDER BY p.data_criacao DESC";
+    $busca = "%$termo%";
     if ($limite !== null && $offset !== null) {
-        $sql .= " LIMIT ? OFFSET ?";
-        $stmt = $pdo->prepare($sql);
-        $busca = "%$termo%";
-        $stmt->execute([$busca, $busca, $limite, $offset]);
+        return executar_consulta_paginada($sql, [$busca, $busca], $limite, $offset);
     } else {
         $stmt = $pdo->prepare($sql);
-        $busca = "%$termo%";
         $stmt->execute([$busca, $busca]);
     }
     return $stmt->fetchAll();
@@ -178,9 +183,7 @@ function obter_pedidos($limite = null, $offset = null) {
     global $pdo;
     $sql = "SELECT p.*, u.nome as usuario_nome FROM pedidos p LEFT JOIN usuarios u ON p.usuario_id = u.id ORDER BY p.data_pedido DESC";
     if ($limite !== null && $offset !== null) {
-        $sql .= " LIMIT ? OFFSET ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$limite, $offset]);
+        return executar_consulta_paginada($sql, [], $limite, $offset);
     } else {
         $stmt = $pdo->query($sql);
     }
@@ -213,9 +216,7 @@ function obter_pedidos_usuario($usuario_id, $limite = null, $offset = null) {
     global $pdo;
     $sql = "SELECT * FROM pedidos WHERE usuario_id = ? ORDER BY data_pedido DESC";
     if ($limite !== null && $offset !== null) {
-        $sql .= " LIMIT ? OFFSET ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$usuario_id, $limite, $offset]);
+        return executar_consulta_paginada($sql, [$usuario_id], $limite, $offset);
     } else {
         $stmt = $pdo->prepare($sql);
         $stmt->execute([$usuario_id]);
@@ -268,12 +269,17 @@ function finalizar_compra($usuario_id, $carrinho, $total, $endereco_entrega) {
 
         // Inserir itens do pedido
         foreach ($carrinho as $item) {
+            $produto_id = $item['produto_id'] ?? $item['id'] ?? null;
+            if (!$produto_id) {
+                throw new InvalidArgumentException('Item do carrinho sem produto_id');
+            }
+
             $stmt_item = $pdo->prepare("INSERT INTO itens_pedido (pedido_id, produto_id, quantidade, preco_unitario) VALUES (?, ?, ?, ?)");
-            $stmt_item->execute([$pedido_id, $item['id'], $item['quantidade'], $item['preco']]);
+            $stmt_item->execute([$pedido_id, $produto_id, $item['quantidade'], $item['preco']]);
 
             // Atualizar estoque
             $stmt_estoque = $pdo->prepare("UPDATE produtos SET estoque = estoque - ? WHERE id = ?");
-            $stmt_estoque->execute([$item['quantidade'], $item['id']]);
+            $stmt_estoque->execute([$item['quantidade'], $produto_id]);
         }
 
         $pdo->commit();
@@ -350,6 +356,31 @@ function upload_imagem($file, $pasta = 'uploads') {
 }
 
 // Função para verificar se usuário é admin
+function imagem_produto_url($imagem, $prefixo = '') {
+    if (empty($imagem)) {
+        return '';
+    }
+
+    if (filter_var($imagem, FILTER_VALIDATE_URL)) {
+        return $imagem;
+    }
+
+    return $prefixo . 'uploads/' . rawurlencode($imagem);
+}
+
+function imagem_produto_disponivel($imagem, $diretorio_uploads = null) {
+    if (empty($imagem)) {
+        return false;
+    }
+
+    if (filter_var($imagem, FILTER_VALIDATE_URL)) {
+        return true;
+    }
+
+    $diretorio_uploads = $diretorio_uploads ?: __DIR__ . '/uploads';
+    return file_exists($diretorio_uploads . '/' . $imagem);
+}
+
 function eh_admin($usuario_id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT admin FROM usuarios WHERE id = ?");

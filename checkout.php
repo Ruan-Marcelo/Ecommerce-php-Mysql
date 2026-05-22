@@ -10,7 +10,7 @@ if (empty($_SESSION['carrinho'])) {
     exit();
 }
 
-$titulo_pagina = 'Checkout';
+$titulo_pagina = 'Finalizar compra';
 require_once 'includes/header.php';
 require_once 'includes/navbar.php';
 
@@ -41,7 +41,7 @@ $total = $subtotal - $desconto;
     ?>
 
     <div class="bg-surface rounded-lg border border-outline/20 p-8">
-      <h2 class="font-headline-md text-headline-md mb-6">Checkout</h2>
+      <h2 class="font-headline-md text-headline-md mb-6">Finalizar compra</h2>
 
       <!-- Resumo do pedido -->
       <div class="mb-8">
@@ -51,8 +51,8 @@ $total = $subtotal - $desconto;
             <div class="flex items-start gap-4 py-3 border-b border-outline/10 last:border-b-0">
               <!-- Imagem -->
               <div class="flex-shrink-0">
-                <?php if ($item['imagem'] && file_exists('../uploads/' . $item['imagem'])): ?>
-                  <img src="../uploads/<?php echo escapar($item['imagem']); ?>" alt="<?php echo escapar($item['nome']); ?>" class="w-16 h-16 object-contain rounded-lg">
+                <?php if (imagem_produto_disponivel($item['imagem'] ?? '')): ?>
+                  <img src="<?php echo escapar(imagem_produto_url($item['imagem'])); ?>" alt="<?php echo escapar($item['nome']); ?>" class="w-16 h-16 object-contain rounded-lg">
                 <?php else: ?>
                   <div class="w-16 h-16 bg-surface-container flex items-center justify-center rounded-lg">
                     <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
@@ -115,7 +115,7 @@ $total = $subtotal - $desconto;
             </div>
 
             <div>
-              <label class="block font-label-caps text-label-caps mb-2">Email:</label>
+              <label class="block font-label-caps text-label-caps mb-2">E-mail:</label>
               <input
                 type="email"
                 name="email"

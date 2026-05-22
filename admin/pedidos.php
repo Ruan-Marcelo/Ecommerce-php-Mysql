@@ -63,9 +63,13 @@ $stmt_count->execute($params);
 $total_pedidos = $stmt_count->fetch()['total'];
 
 // Buscar pedidos
-$stmt = $pdo->prepare("SELECT p.*, u.nome as usuario_nome, u.email as usuario_email FROM pedidos p LEFT JOIN usuarios u ON p.usuario_id = u.id $where_clause ORDER BY p.data_pedido DESC LIMIT ? OFFSET ?");
-$params_paginacao = array_merge($params, [$limite, $offset]);
-$stmt->execute($params_paginacao);
+$stmt = $pdo->prepare("SELECT p.*, u.nome as usuario_nome, u.email as usuario_email FROM pedidos p LEFT JOIN usuarios u ON p.usuario_id = u.id $where_clause ORDER BY p.data_pedido DESC LIMIT :limite OFFSET :offset");
+foreach ($params as $index => $valor) {
+    $stmt->bindValue($index + 1, $valor);
+}
+$stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->execute();
 $pedidos = $stmt->fetchAll();
 
 $total_paginas = ceil($total_pedidos / $limite);
@@ -437,25 +441,30 @@ function verItensPedido(pedidoId) {
                 let content = '';
                 if (data.itens.length > 0) {
                     data.itens.forEach(item => {
+                        const nome = escaparHtml(item.produto_nome || 'Produto sem nome');
+                        const imagem = item.produto_imagem || '';
+                        const quantidade = Number(item.quantidade || 0);
+                        const precoUnitario = Number(item.preco_unitario || 0);
+                        const subtotal = quantidade * precoUnitario;
+                        const imagemHtml = imagem
+                            ? `<img src="../uploads/${encodeURIComponent(imagem)}" alt="${nome}" class="w-16 h-16 object-contain rounded-lg border border-outline/10">`
+                            : `<div class="w-16 h-16 bg-surface-container flex items-center justify-center rounded-lg">
+                                  <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
+                               </div>`;
+
                         content += `
                             <div class="border border-outline/20 rounded-lg p-4 flex items-start gap-4">
                                 <div class="flex-shrink-0">
-                                    <?php if ($item['produto_imagem'] && file_exists('../uploads/' . $item['produto_imagem'])): ?>
-                                        <img src="../uploads/<?php echo escapar($item['produto_imagem']); ?>" alt="<?php echo escapar($item['produto_nome']); ?>" class="w-16 h-16 object-contain rounded-lg border border-outline/10">
-                                    <?php else: ?>
-                                        <div class="w-16 h-16 bg-surface-container flex items-center justify-center rounded-lg">
-                                            <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
-                                        </div>
-                                    <?php endif; ?>
+                                    ${imagemHtml}
                                 </div>
                                 <div class="flex-1 space-y-1">
-                                    <p class="font-body-sm text-body-sm line-clamp-1"><?php echo escapar($item['produto_nome']); ?></p>
+                                    <p class="font-body-sm text-body-sm line-clamp-1">${nome}</p>
                                     <p class="text-xs text-on-surface-variant/60">
-                                        <?php echo $item['quantidade']; ?>x <?php echo formatar_moeda($item['preco_unitario']); ?>
+                                        ${quantidade}x ${formatarMoeda(precoUnitario)}
                                     </p>
                                 </div>
                                 <div class="flex-shrink-0 text-right">
-                                    <p class="font-body-sm text-body-sm"><?php echo formatar_moeda($item['quantidade'] * $item['preco_unitario']); ?></p>
+                                    <p class="font-body-sm text-body-sm">${formatarMoeda(subtotal)}</p>
                                 </div>
                             </div>
                         `;
@@ -472,6 +481,25 @@ function verItensPedido(pedidoId) {
             console.error('Erro:', error);
             document.getElementById('modal-itens-content').innerHTML = '<p class="text-center text-on-surface-variant/60 py-8">Erro de conexão</p>';
         });
+}
+
+function escaparHtml(valor) {
+    return String(valor).replace(/[&<>"']/g, function(caractere) {
+        return {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        }[caractere];
+    });
+}
+
+function formatarMoeda(valor) {
+    return Number(valor || 0).toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+    });
 }
 
 // Função para atualizar status do pedido
@@ -499,18 +527,18 @@ document.getElementById('form-atualizar-status').addEventListener('submit', func
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
-        body: 'action=atualizar_status&id=' + pedidoId + '&status=' + status
+        body: new URLSearchParams({
+            action: 'atualizar_status',
+            id: pedidoId,
+            status: status
+        })
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Fechar modal e recarregar página
-            document.getElementById('modal-status').classList.add('hidden');
-            // Recarregar a página para mostrar o status atualizado
-            window.location.reload();
-        } else {
-            alert(data.message || 'Erro ao atualizar status');
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Erro ao atualizar status');
         }
+        document.getElementById('modal-status').classList.add('hidden');
+        window.location.reload();
     })
     .catch(error => {
         console.error('Erro:', error);

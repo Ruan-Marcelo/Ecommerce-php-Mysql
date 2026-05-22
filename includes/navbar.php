@@ -1,68 +1,71 @@
-<!-- Sidebar -->
-<aside
-  class="fixed top-0 left-0 h-full w-64 bg-primary text-on-primary z-40 flex flex-col"
+<?php
+$script_dir = trim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
+$base_path = basename($script_dir) === 'admin' ? '../' : '';
+$conta_url = isset($_SESSION['usuario_id']) ? 'perfil.php' : 'login.php';
+$GLOBALS['lupiere_base_path'] = $base_path;
+$GLOBALS['lupiere_navbar_main_open'] = true;
+?>
+<!-- TopNavBar -->
+<header
+  class="fixed top-0 left-0 right-0 z-50 bg-[#FAF9F4]/95 backdrop-blur-md border-b border-[#1B3022]/10 h-20 flex items-center transition-all duration-300"
 >
-  <div class="flex items-center justify-center py-8">
+  <div
+    class="flex justify-between items-center w-full px-6 md:px-16 max-w-[1440px] mx-auto"
+  >
+    <!-- BOTAO MENU MOBILE -->
+    <button id="menuBtn" class="lg:hidden text-[#1B3022]">
+      <span class="material-symbols-outlined">menu</span>
+    </button>
+
+    <!-- NAV DESKTOP -->
+    <nav class="hidden lg:flex gap-10">
+      <a class="nav-link" href="<?php echo $base_path; ?>index.php">In&iacute;cio</a>
+      <a class="nav-link" href="<?php echo $base_path; ?>produtos.php">Cole&ccedil;&otilde;es</a>
+      <a class="nav-link" href="<?php echo $base_path; ?>acessorios.html">Acess&oacute;rios</a>
+      <a class="nav-link" href="<?php echo $base_path; ?>sobre.php">Nossa hist&oacute;ria</a>
+    </nav>
+
+    <!-- LOGO -->
     <div
-      class="text-xl font-headline-lg tracking-[0.4em] text-white"
+      class="text-xl md:text-2xl font-headline-lg tracking-[0.4em] text-[#1B3022]"
     >
-      LUPIÈRE
+      LUPI&Egrave;RE
+    </div>
+
+    <!-- ICONES -->
+    <div class="flex items-center gap-5 md:gap-8 text-[#1B3022]">
+      <a href="<?php echo $base_path; ?>carrinho.php" class="icon-btn">
+        <span class="material-symbols-outlined">shopping_bag</span>
+      </a>
+      <a href="<?php echo $base_path . $conta_url; ?>" class="icon-btn">
+        <span class="material-symbols-outlined">person</span>
+      </a>
     </div>
   </div>
-  <nav class="flex-1 flex-col pt-6 space-y-4">
-    <a
-      href="../index.php"
-      class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
-    >
-      <span class="material-symbols-outlined">home</span>
-      <span class="ml-3">Início</span>
-    </a>
-    <a
-      href="../produtos.php"
-      class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
-    >
-      <span class="material-symbols-outlined">inventory_2</span>
-      <span class="ml-3">Produtos</span>
-    </a>
-    <a
-      href="perfil.php"
-      class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors"
-    >
-      <span class="material-symbols-outlined">person</span>
-      <span class="ml-3">Perfil</span>
-    </a>
-    <a
-      href="../logout.php"
-      class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto"
-    >
-      <span class="material-symbols-outlined">logout</span>
-      <span class="ml-3">Sair</span>
-    </a>
-  </nav>
-</aside>
-<!-- Main Content -->
-<main
-  class="flex-grow ml-64 flex flex-col"
->
-  <!-- TopNavBar -->
-  <header
-    class="fixed top-0 left-64 right-0 z-50 bg-[#FAF9F4]/95 backdrop-blur-md border-b border-[#1B3022]/10 h-16 flex items-center"
-  >
-    <div
-      class="flex justify-between items-center w-full px-6 md:px-16 max-w-[1440px] mx-auto"
-    >
-      <!-- LOGO -->
-      <div
-        class="text-xl md:text-2xl font-headline-lg tracking-[0.4em] text-[#1B3022]"
-      >
-        <?php echo isset($titulo_pagina) ? $titulo_pagina : 'Página Inicial'; ?>
-      </div>
+</header>
 
-      <!-- ICONES -->
-      <div class="flex items-center gap-5 md:gap-8 text-[#1B3022]">
-        <a href="../perfil.php" class="icon-btn">
-          <span class="material-symbols-outlined">person</span>
-        </a>
-      </div>
-    </div>
-  </header>
+<!-- MENU MOBILE -->
+<div
+  id="mobileMenu"
+  class="fixed top-0 left-[-100%] w-72 h-full bg-[#FAF9F4] z-50 transition-all duration-300 shadow-xl p-8 flex flex-col gap-8"
+>
+  <div class="flex justify-between items-center">
+    <span class="font-label-caps text-sm tracking-widest">MENU</span>
+    <button id="closeMenu">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+
+  <a class="nav-link" href="<?php echo $base_path; ?>index.php">In&iacute;cio</a>
+  <a class="nav-link" href="<?php echo $base_path; ?>produtos.php">Cole&ccedil;&otilde;es</a>
+  <a class="nav-link" href="<?php echo $base_path; ?>acessorios.html">Acess&oacute;rios</a>
+  <a class="nav-link" href="<?php echo $base_path; ?>sobre.php">Nossa hist&oacute;ria</a>
+</div>
+
+<!-- OVERLAY -->
+<div
+  id="overlay"
+  class="fixed inset-0 bg-black/30 opacity-0 pointer-events-none transition-all duration-300 z-40"
+></div>
+
+<main class="flex-grow">

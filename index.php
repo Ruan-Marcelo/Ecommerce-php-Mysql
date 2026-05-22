@@ -145,10 +145,10 @@
 
         <!-- NAV DESKTOP -->
         <nav class="hidden lg:flex gap-10">
-          <a class="nav-link" href="index.html">Inicio</a>
-          <a class="nav-link" href="produtos.html">Coleções</a>
-          <a class="nav-link" href="acessorios.html">Acessórios</a>
-          <a class="nav-link" href="sobre.html">Nossa história</a>
+          <a class="nav-link" href="index.php">Inicio</a>
+          <a class="nav-link" href="produtos.php">Coleções</a>
+          <a class="nav-link" href="acessorios.php">Acessórios</a>
+          <a class="nav-link" href="sobre.php">Nossa história</a>
         </nav>
 
         <!-- LOGO -->
@@ -181,10 +181,10 @@
         </button>
       </div>
 
-      <a class="nav-link" href="index.html">Inicio</a>
-      <a class="nav-link" href="produtos.html">Coleções</a>
-      <a class="nav-link" href="acessorios.html">Acessórios</a>
-      <a class="nav-link" href="sobre.html">Nossa história</a>
+      <a class="nav-link" href="index.php">Inicio</a>
+      <a class="nav-link" href="produtos.php">Coleções</a>
+      <a class="nav-link" href="acessorios.php">Acessórios</a>
+      <a class="nav-link" href="sobre.php">Nossa história</a>
     </div>
 
     <!-- OVERLAY -->
@@ -218,7 +218,7 @@
               Peças feitas para quem impõe presença.
             </p>
             <a
-              href="produtos.html"
+              href="produtos.php"
               class="bg-primary-container text-surface px-12 py-5 font-label-caps text-label-caps uppercase tracking-[0.2em] hover:bg-on-primary-container transition-all duration-500 inline-block text-center"
             >
               Explorar Coleção
@@ -271,7 +271,7 @@
             </div>
             <a
               class="font-label-caps text-label-caps text-primary border-b border-primary/20 pb-1 hover:border-secondary transition-all"
-              href="produtos.html"
+              href="produtos.php"
               >Ver Tudo</a
             >
           </div>
