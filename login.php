@@ -5,7 +5,7 @@ require_once __DIR__ . '/app/core/funcoes.php';
 
 // REDIRECIONA SE JÁ ESTIVER LOGADO
 if (isset($_SESSION["usuario_id"])) {
-    header("Location: index.php");
+    header("Location: " . (!empty($_SESSION["admin"]) ? "admin/index.php" : "perfil.php"));
     exit();
 }
 
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["usuario_email"] = $usuario["email"];
             $_SESSION["admin"] = $usuario["admin"];
 
-            header("Location: index.php");
+            header("Location: " . (!empty($usuario["admin"]) ? "admin/index.php" : "perfil.php"));
             exit();
 
         } else {

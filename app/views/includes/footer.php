@@ -1,8 +1,88 @@
 <?php
-$base_path = $GLOBALS['lupiere_base_path'] ?? (basename(trim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/')) === 'admin' ? '../' : '');
+$script_dir = trim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
+$is_admin_area = basename($script_dir) === 'admin';
+$base_path = $GLOBALS['lupiere_base_path'] ?? ($is_admin_area ? '../' : '');
+$carrinho = $_SESSION['carrinho'] ?? [];
+$total_carrinho = 0;
+foreach ($carrinho as $item_carrinho) {
+    $total_carrinho += ($item_carrinho['preco'] ?? 0) * ($item_carrinho['quantidade'] ?? 0);
+}
+$carrinho_aberto = isset($_GET['carrinho']) && $_GET['carrinho'] === 'aberto';
 if (!empty($GLOBALS['lupiere_navbar_main_open'])):
 ?>
 </main>
+<?php endif; ?>
+
+<?php if (!$is_admin_area): ?>
+<div
+  id="cartDrawerOverlay"
+  class="fixed inset-0 bg-black/30 z-[60] transition-opacity <?php echo $carrinho_aberto ? '' : 'opacity-0 pointer-events-none'; ?>"
+></div>
+<aside
+  id="cartDrawer"
+  class="fixed top-0 right-0 z-[70] h-full w-full max-w-md bg-[#FAF9F4] shadow-2xl transition-transform duration-300 <?php echo $carrinho_aberto ? 'translate-x-0' : 'translate-x-full'; ?> flex flex-col"
+>
+  <div class="h-20 px-6 border-b border-[#1B3022]/10 flex items-center justify-between">
+    <div>
+      <p class="font-label-caps text-[11px] tracking-[0.2em] uppercase text-[#1B3022]/50">Carrinho</p>
+      <h3 class="font-headline-md text-[24px] text-[#1B3022]">Itens adicionados</h3>
+    </div>
+    <button type="button" id="closeCartDrawer" class="text-[#1B3022]">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+  </div>
+
+  <div class="flex-1 overflow-y-auto p-6 space-y-4">
+    <?php if (empty($carrinho)): ?>
+      <p class="text-[#1B3022]/60">Seu carrinho est&aacute; vazio.</p>
+    <?php else: ?>
+      <?php foreach ($carrinho as $item_carrinho): ?>
+        <div class="flex gap-4 border-b border-[#1B3022]/10 pb-4">
+          <div class="w-20 h-20 bg-surface-container flex items-center justify-center flex-shrink-0">
+            <?php if (function_exists('imagem_produto_disponivel') && imagem_produto_disponivel($item_carrinho['imagem'] ?? '')): ?>
+              <img
+                src="<?php echo escapar(imagem_produto_url($item_carrinho['imagem'])); ?>"
+                alt="<?php echo escapar($item_carrinho['nome'] ?? 'Produto'); ?>"
+                class="w-full h-full object-cover"
+              >
+            <?php else: ?>
+              <span class="material-symbols-outlined text-[#1B3022]/40">inventory_2</span>
+            <?php endif; ?>
+          </div>
+          <div class="flex-1 min-w-0">
+            <p class="font-body-md text-[#1B3022] line-clamp-2"><?php echo escapar($item_carrinho['nome'] ?? 'Produto'); ?></p>
+            <p class="text-sm text-[#1B3022]/60">
+              <?php echo (int) ($item_carrinho['quantidade'] ?? 0); ?>x <?php echo formatar_moeda($item_carrinho['preco'] ?? 0); ?>
+            </p>
+          </div>
+          <div class="text-right text-sm text-[#1B3022]">
+            <?php echo formatar_moeda(($item_carrinho['preco'] ?? 0) * ($item_carrinho['quantidade'] ?? 0)); ?>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
+  </div>
+
+  <div class="p-6 border-t border-[#1B3022]/10 space-y-4">
+    <div class="flex items-center justify-between text-[#1B3022]">
+      <span class="font-label-caps text-label-caps">Total</span>
+      <strong class="font-headline-md text-[24px]"><?php echo formatar_moeda($total_carrinho); ?></strong>
+    </div>
+    <a
+      href="<?php echo $base_path; ?>carrinho.php"
+      class="block w-full bg-primary-container text-white py-4 px-6 font-label-caps text-label-caps tracking-[0.2em] text-center hover:bg-primary transition-all duration-300"
+    >
+      Ir para o carrinho
+    </a>
+    <button
+      type="button"
+      id="continueShopping"
+      class="w-full border border-[#1B3022]/20 text-[#1B3022] py-4 px-6 font-label-caps text-label-caps tracking-[0.2em] hover:bg-[#1B3022]/5 transition-all duration-300"
+    >
+      Continuar comprando
+    </button>
+  </div>
+</aside>
 <?php endif; ?>
 
 <!-- Footer -->
@@ -113,5 +193,27 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
 </footer>
 
 <script src="<?php echo $base_path; ?>public/assets/js/main.js"></script>
+<script>
+  (function () {
+    const drawer = document.getElementById('cartDrawer');
+    const overlay = document.getElementById('cartDrawerOverlay');
+    const closeBtn = document.getElementById('closeCartDrawer');
+    const continueBtn = document.getElementById('continueShopping');
+
+    function closeDrawer() {
+      if (!drawer || !overlay) return;
+      drawer.classList.add('translate-x-full');
+      drawer.classList.remove('translate-x-0');
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      const url = new URL(window.location.href);
+      url.searchParams.delete('carrinho');
+      window.history.replaceState({}, '', url);
+    }
+
+    closeBtn?.addEventListener('click', closeDrawer);
+    continueBtn?.addEventListener('click', closeDrawer);
+    overlay?.addEventListener('click', closeDrawer);
+  })();
+</script>
 </body>
 </html>

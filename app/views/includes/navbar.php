@@ -1,7 +1,7 @@
 <?php
 $script_dir = trim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
 $base_path = basename($script_dir) === 'admin' ? '../' : '';
-$conta_url = isset($_SESSION['usuario_id']) ? 'perfil.php' : 'login.php';
+$conta_url = isset($_SESSION['usuario_id']) ? (!empty($_SESSION['admin']) ? 'admin/index.php' : 'perfil.php') : 'login.php';
 $GLOBALS['lupiere_base_path'] = $base_path;
 $GLOBALS['lupiere_navbar_main_open'] = true;
 ?>

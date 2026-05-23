@@ -73,6 +73,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                 <?php if (isset($_SESSION['usuario_id']) && $produto['estoque'] > 0): ?>
                   <form action="adicionar_carrinho.php" method="post">
                     <input type="hidden" name="produto_id" value="<?php echo $produto['id']; ?>">
+                    <input type="hidden" name="redirect" value="produtos.php">
                     <button
                       type="submit"
                       class="w-full bg-primary-container text-white py-3 px-4 font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary transition-all duration-300"

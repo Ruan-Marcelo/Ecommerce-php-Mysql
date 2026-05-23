@@ -402,7 +402,7 @@ function proteger_pagina() {
 // Função para proteger página admin (redireciona se não logado ou não admin)
 function proteger_pagina_admin() {
     if (!isset($_SESSION["usuario_id"])) {
-        header("Location: login.php");
+        header("Location: ../login.php");
         exit();
     }
     if (!eh_admin($_SESSION["usuario_id"])) {

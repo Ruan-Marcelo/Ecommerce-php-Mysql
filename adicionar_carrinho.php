@@ -64,8 +64,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ];
     }
 
-    // Redirecionar para o carrinho
-    header("Location: carrinho.php");
+    $redirect = $_POST['redirect'] ?? ($_SERVER['HTTP_REFERER'] ?? 'produtos.php');
+    $separator = str_contains($redirect, '?') ? '&' : '?';
+    header("Location: " . $redirect . $separator . "carrinho=aberto");
     exit();
 } else {
     // Se não for POST, redirecionar para a página de produtos
