@@ -145,6 +145,27 @@ $total = $subtotal - $desconto;
               placeholder="Ex: Deixe com o porteiro, prefere entrega em horário específico..."
             ></textarea>
           </div>
+
+          <div class="space-y-4 pt-4 border-t border-outline/20">
+            <h3 class="font-headline-sm text-headline-sm mb-4">Forma de pagamento</h3>
+            <div class="grid gap-4 md:grid-cols-3">
+              <label class="border border-outline/20 rounded-lg p-4 cursor-pointer hover:bg-surface-container-low">
+                <input type="radio" name="forma_pagamento" value="pix" checked class="mb-3">
+                <span class="block font-label-caps text-label-caps text-primary">Pix</span>
+                <span class="block text-sm text-on-surface-variant mt-2">Gera código copia e cola simulado.</span>
+              </label>
+              <label class="border border-outline/20 rounded-lg p-4 cursor-pointer hover:bg-surface-container-low">
+                <input type="radio" name="forma_pagamento" value="cartao" class="mb-3">
+                <span class="block font-label-caps text-label-caps text-primary">Cartão</span>
+                <span class="block text-sm text-on-surface-variant mt-2">Registra pagamento pendente para integração futura.</span>
+              </label>
+              <label class="border border-outline/20 rounded-lg p-4 cursor-pointer hover:bg-surface-container-low">
+                <input type="radio" name="forma_pagamento" value="boleto" class="mb-3">
+                <span class="block font-label-caps text-label-caps text-primary">Boleto</span>
+                <span class="block text-sm text-on-surface-variant mt-2">Registra boleto pendente de emissão.</span>
+              </label>
+            </div>
+          </div>
         </div>
 
         <div class="mt-8 pt-6 border-t border-outline/20">

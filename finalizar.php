@@ -20,6 +20,7 @@ $nome = trim($_POST['nome'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $endereco = trim($_POST['endereco'] ?? '');
 $observacoes = trim($_POST['observacoes'] ?? '');
+$forma_pagamento = $_POST['forma_pagamento'] ?? 'pix';
 
 $errors = [];
 
@@ -33,6 +34,10 @@ if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 
 if (empty($endereco)) {
     $errors[] = 'Endereço é obrigatório';
+}
+
+if (!in_array($forma_pagamento, ['pix', 'cartao', 'boleto'], true)) {
+    $errors[] = 'Forma de pagamento inválida';
 }
 
 if (!empty($errors)) {
@@ -58,7 +63,8 @@ $pedido_id = finalizar_compra(
     $_SESSION['usuario_id'],
     $_SESSION['carrinho'],
     $total,
-    $endereco . (empty($observacoes) ? '' : ' - Observações: ' . $observacoes)
+    $endereco . (empty($observacoes) ? '' : ' - Observações: ' . $observacoes),
+    $forma_pagamento
 );
 
 if ($pedido_id) {
@@ -67,7 +73,7 @@ if ($pedido_id) {
     unset($_SESSION['cupom_desconto']);
 
     $_SESSION['finalizar_sucesso'] = 'Pedido realizado com sucesso! Número do pedido: #'.$pedido_id;
-    header('Location: historico.php');
+    header('Location: pedido_confirmado.php?id=' . $pedido_id);
     exit();
 } else {
     $_SESSION['checkout_erro'] = 'Erro ao processar o pedido. Tente novamente.';

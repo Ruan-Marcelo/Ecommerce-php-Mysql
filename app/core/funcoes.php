@@ -209,6 +209,40 @@ function criar_tabelas_interacao_se_necessario() {
     ");
 }
 
+function garantir_colunas_pagamento_pedidos() {
+    global $pdo;
+    $colunas = [];
+    $stmt = $pdo->query("SHOW COLUMNS FROM pedidos");
+    foreach ($stmt->fetchAll() as $coluna) {
+        $colunas[] = $coluna['Field'];
+    }
+
+    if (!in_array('forma_pagamento', $colunas, true)) {
+        $pdo->exec("ALTER TABLE pedidos ADD forma_pagamento varchar(30) DEFAULT 'pix'");
+    }
+    if (!in_array('status_pagamento', $colunas, true)) {
+        $pdo->exec("ALTER TABLE pedidos ADD status_pagamento varchar(30) DEFAULT 'aguardando_pagamento'");
+    }
+    if (!in_array('pagamento_id', $colunas, true)) {
+        $pdo->exec("ALTER TABLE pedidos ADD pagamento_id varchar(80) DEFAULT NULL");
+    }
+    if (!in_array('pix_copia_cola', $colunas, true)) {
+        $pdo->exec("ALTER TABLE pedidos ADD pix_copia_cola text DEFAULT NULL");
+    }
+    if (!in_array('pix_qr_code', $colunas, true)) {
+        $pdo->exec("ALTER TABLE pedidos ADD pix_qr_code text DEFAULT NULL");
+    }
+    if (!in_array('data_pagamento', $colunas, true)) {
+        $pdo->exec("ALTER TABLE pedidos ADD data_pagamento timestamp NULL DEFAULT NULL");
+    }
+}
+
+function gerar_codigo_pix_simulado($pedido_id, $total) {
+    return '00020126360014BR.GOV.BCB.PIX0114lupiere.demo520400005303986540' .
+        number_format((float) $total, 2, '', '') .
+        '5802BR5920LUPIERE ALFAIATARIA6009SAO PAULO62100506PED' . str_pad((string) $pedido_id, 4, '0', STR_PAD_LEFT);
+}
+
 function obter_comentarios_produto($produto_id) {
     global $pdo;
     criar_tabelas_interacao_se_necessario();
@@ -596,14 +630,29 @@ function contar_pedidos() {
 }
 
 // Função para finalizar compra (criar pedido e itens)
-function finalizar_compra($usuario_id, $carrinho, $total, $endereco_entrega) {
+function finalizar_compra($usuario_id, $carrinho, $total, $endereco_entrega, $forma_pagamento = 'pix') {
     global $pdo;
+    garantir_colunas_pagamento_pedidos();
     $pdo->beginTransaction();
     try {
+        $formas = ['pix', 'cartao', 'boleto'];
+        if (!in_array($forma_pagamento, $formas, true)) {
+            $forma_pagamento = 'pix';
+        }
+
+        $status_pagamento = 'aguardando_pagamento';
+        $pagamento_id = strtoupper($forma_pagamento) . '-' . date('YmdHis') . '-' . random_int(1000, 9999);
+
         // Inserir pedido
-        $stmt = $pdo->prepare("INSERT INTO pedidos (usuario_id, total, endereco_entrega, status, data_pedido) VALUES (?, ?, ?, 'pendente', NOW())");
-        $stmt->execute([$usuario_id, $total, $endereco_entrega]);
+        $stmt = $pdo->prepare("INSERT INTO pedidos (usuario_id, total, endereco_entrega, status, forma_pagamento, status_pagamento, pagamento_id, data_pedido) VALUES (?, ?, ?, 'pendente', ?, ?, ?, NOW())");
+        $stmt->execute([$usuario_id, $total, $endereco_entrega, $forma_pagamento, $status_pagamento, $pagamento_id]);
         $pedido_id = $pdo->lastInsertId();
+
+        if ($forma_pagamento === 'pix') {
+            $pix = gerar_codigo_pix_simulado($pedido_id, $total);
+            $stmt_pix = $pdo->prepare("UPDATE pedidos SET pix_copia_cola = ?, pix_qr_code = ? WHERE id = ?");
+            $stmt_pix->execute([$pix, $pix, $pedido_id]);
+        }
 
         // Inserir itens do pedido
         foreach ($carrinho as $item) {
