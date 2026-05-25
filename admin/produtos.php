@@ -221,7 +221,8 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
           <h2 class="font-headline-md text-headline-md mb-4">Lista de Produtos</h2>
           <div class="flex justify-between items-center">
             <button
-              onclick="document.getElementById('produto-form').classList.toggle('hidden')"
+              type="button"
+              onclick="abrirNovoProduto()"
               class="bg-primary-container text-white px-4 py-2 font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary transition-all duration-300"
             >
               Adicionar Novo Produto
@@ -445,7 +446,14 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
                     </td>
                     <td class="px-6 py-4 text-font-body-md text-body-md text-right space-x-3">
                       <button
-                        onclick="editarProduto(<?php echo $produto['id']; ?>)"
+                        type="button"
+                        data-id="<?php echo (int) $produto['id']; ?>"
+                        data-nome="<?php echo escapar($produto['nome']); ?>"
+                        data-categoria-id="<?php echo (int) $produto['categoria_id']; ?>"
+                        data-descricao="<?php echo escapar($produto['descricao']); ?>"
+                        data-preco="<?php echo escapar($produto['preco']); ?>"
+                        data-estoque="<?php echo (int) $produto['estoque']; ?>"
+                        onclick="editarProduto(this)"
                         class="bg-primary-container text-white px-3 py-1 text-xs font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary transition-all duration-300"
                       >
                         Editar
@@ -518,13 +526,6 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
 </main>
 
 <script>
-const produtosAdmin = <?php
-echo json_encode(
-    array_column($produtos, null, 'id'),
-    JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
-);
-?>;
-
 function limparFormularioProduto() {
     document.querySelector('#produto-form form').reset();
     document.getElementById('produto-action').value = 'adicionar';
@@ -532,24 +533,32 @@ function limparFormularioProduto() {
     document.getElementById('produto-salvar').textContent = 'Salvar Produto';
 }
 
+function abrirNovoProduto() {
+    limparFormularioProduto();
+    document.getElementById('produto-form').classList.toggle('hidden');
+    if (!document.getElementById('produto-form').classList.contains('hidden')) {
+        document.getElementById('produto-nome').focus();
+    }
+}
+
 // Função para editar produto
-function editarProduto(id) {
-    const produto = produtosAdmin[id];
-    if (!produto) {
+function editarProduto(botao) {
+    if (!botao || !botao.dataset) {
         alert('Produto não encontrado na listagem atual.');
         return;
     }
 
     document.getElementById('produto-form').classList.remove('hidden');
     document.getElementById('produto-action').value = 'editar';
-    document.getElementById('produto-id').value = id;
-    document.getElementById('produto-nome').value = produto.nome || '';
-    document.getElementById('produto-categoria').value = produto.categoria_id || '';
-    document.getElementById('produto-descricao').value = produto.descricao || '';
-    document.getElementById('produto-preco').value = produto.preco || '';
-    document.getElementById('produto-estoque').value = produto.estoque || 0;
+    document.getElementById('produto-id').value = botao.dataset.id || '0';
+    document.getElementById('produto-nome').value = botao.dataset.nome || '';
+    document.getElementById('produto-categoria').value = botao.dataset.categoriaId || '';
+    document.getElementById('produto-descricao').value = botao.dataset.descricao || '';
+    document.getElementById('produto-preco').value = botao.dataset.preco || '';
+    document.getElementById('produto-estoque').value = botao.dataset.estoque || 0;
     document.getElementById('produto-nome').focus();
     document.getElementById('produto-salvar').textContent = 'Atualizar Produto';
+    document.getElementById('produto-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // Função para excluir produto
@@ -586,7 +595,7 @@ document.getElementById('produto-cancelar').addEventListener('click', function()
 // Fecha o formulário ao clicar fora (opcional)
 document.addEventListener('click', function(e) {
     const form = document.getElementById('produto-form');
-    const button = document.querySelector('button[onclick*="produto-form"]');
+    const button = document.querySelector('button[onclick*="abrirNovoProduto"]');
     if (!form.contains(e.target) && !button.contains(e.target) && !form.classList.contains('hidden')) {
         // Clicou fora do formulário e do botão de abrir
         form.classList.add('hidden');

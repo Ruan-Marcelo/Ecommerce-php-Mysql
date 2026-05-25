@@ -165,6 +165,170 @@ function banner_imagem_url($imagem, $prefixo = '') {
     return $prefixo . 'public/uploads/' . rawurlencode($imagem);
 }
 
+function criar_tabelas_interacao_se_necessario() {
+    global $pdo;
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS comentarios_produto (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            produto_id int(11) NOT NULL,
+            usuario_id int(11) DEFAULT NULL,
+            nome varchar(100) NOT NULL,
+            comentario text NOT NULL,
+            aprovado tinyint(1) DEFAULT 1,
+            data_criacao timestamp NOT NULL DEFAULT current_timestamp(),
+            PRIMARY KEY (id),
+            KEY produto_id (produto_id),
+            KEY usuario_id (usuario_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS avaliacoes_produto (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            produto_id int(11) NOT NULL,
+            usuario_id int(11) NOT NULL,
+            nota tinyint(1) NOT NULL,
+            data_criacao timestamp NOT NULL DEFAULT current_timestamp(),
+            data_atualizacao timestamp NULL DEFAULT NULL,
+            PRIMARY KEY (id),
+            UNIQUE KEY produto_usuario (produto_id, usuario_id),
+            KEY produto_id (produto_id),
+            KEY usuario_id (usuario_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS lista_desejos (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            usuario_id int(11) NOT NULL,
+            produto_id int(11) NOT NULL,
+            data_criacao timestamp NOT NULL DEFAULT current_timestamp(),
+            PRIMARY KEY (id),
+            UNIQUE KEY usuario_produto (usuario_id, produto_id),
+            KEY usuario_id (usuario_id),
+            KEY produto_id (produto_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+}
+
+function obter_comentarios_produto($produto_id) {
+    global $pdo;
+    criar_tabelas_interacao_se_necessario();
+    $stmt = $pdo->prepare("SELECT * FROM comentarios_produto WHERE produto_id = ? AND aprovado = 1 ORDER BY data_criacao DESC");
+    $stmt->execute([$produto_id]);
+    return $stmt->fetchAll();
+}
+
+function adicionar_comentario_produto($produto_id, $usuario_id, $nome, $comentario) {
+    global $pdo;
+    criar_tabelas_interacao_se_necessario();
+    $stmt = $pdo->prepare("INSERT INTO comentarios_produto (produto_id, usuario_id, nome, comentario) VALUES (?, ?, ?, ?)");
+    return $stmt->execute([$produto_id, $usuario_id ?: null, $nome, $comentario]);
+}
+
+function salvar_avaliacao_produto($produto_id, $usuario_id, $nota) {
+    global $pdo;
+    criar_tabelas_interacao_se_necessario();
+    $nota = max(1, min(5, (int) $nota));
+    $stmt = $pdo->prepare("
+        INSERT INTO avaliacoes_produto (produto_id, usuario_id, nota)
+        VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE nota = VALUES(nota), data_atualizacao = NOW()
+    ");
+    return $stmt->execute([$produto_id, $usuario_id, $nota]);
+}
+
+function obter_resumo_avaliacoes_produto($produto_id) {
+    global $pdo;
+    criar_tabelas_interacao_se_necessario();
+    $stmt = $pdo->prepare("SELECT COALESCE(AVG(nota), 0) AS media, COUNT(*) AS total FROM avaliacoes_produto WHERE produto_id = ?");
+    $stmt->execute([$produto_id]);
+    $resumo = $stmt->fetch();
+    return [
+        'media' => round((float) ($resumo['media'] ?? 0), 1),
+        'total' => (int) ($resumo['total'] ?? 0),
+    ];
+}
+
+function obter_avaliacao_usuario_produto($produto_id, $usuario_id) {
+    global $pdo;
+    criar_tabelas_interacao_se_necessario();
+    $stmt = $pdo->prepare("SELECT nota FROM avaliacoes_produto WHERE produto_id = ? AND usuario_id = ?");
+    $stmt->execute([$produto_id, $usuario_id]);
+    $avaliacao = $stmt->fetch();
+    return $avaliacao ? (int) $avaliacao['nota'] : 0;
+}
+
+function renderizar_estrelas($media) {
+    $media = (float) $media;
+    $cheias = (int) floor($media);
+    $html = '<span class="inline-flex items-center gap-0.5 text-secondary" aria-label="Avaliação ' . escapar(number_format($media, 1, ',', '.')) . ' de 5">';
+    for ($i = 1; $i <= 5; $i++) {
+        $html .= '<span class="material-symbols-outlined text-[18px]">' . ($i <= $cheias ? 'star' : 'star') . '</span>';
+    }
+    $html .= '</span>';
+    return $html;
+}
+
+function produto_na_lista_desejos($usuario_id, $produto_id) {
+    global $pdo;
+    criar_tabelas_interacao_se_necessario();
+    $stmt = $pdo->prepare("SELECT id FROM lista_desejos WHERE usuario_id = ? AND produto_id = ?");
+    $stmt->execute([$usuario_id, $produto_id]);
+    return $stmt->fetch() !== false;
+}
+
+function alternar_lista_desejos($usuario_id, $produto_id) {
+    global $pdo;
+    criar_tabelas_interacao_se_necessario();
+    if (produto_na_lista_desejos($usuario_id, $produto_id)) {
+        $stmt = $pdo->prepare("DELETE FROM lista_desejos WHERE usuario_id = ? AND produto_id = ?");
+        $stmt->execute([$usuario_id, $produto_id]);
+        return false;
+    }
+
+    $stmt = $pdo->prepare("INSERT INTO lista_desejos (usuario_id, produto_id) VALUES (?, ?)");
+    $stmt->execute([$usuario_id, $produto_id]);
+    return true;
+}
+
+function obter_lista_desejos_usuario($usuario_id) {
+    global $pdo;
+    criar_tabelas_interacao_se_necessario();
+    $stmt = $pdo->prepare("
+        SELECT p.*, c.nome AS categoria_nome
+        FROM lista_desejos l
+        INNER JOIN produtos p ON p.id = l.produto_id
+        LEFT JOIN categorias c ON c.id = p.categoria_id
+        WHERE l.usuario_id = ?
+        ORDER BY l.data_criacao DESC
+    ");
+    $stmt->execute([$usuario_id]);
+    return $stmt->fetchAll();
+}
+
+function obter_produtos_recomendados($limite = 4, $produto_id_excluir = null) {
+    global $pdo;
+    criar_tabelas_interacao_se_necessario();
+    $sql = "
+        SELECT p.*, c.nome AS categoria_nome, COALESCE(AVG(a.nota), 0) AS media_avaliacao
+        FROM produtos p
+        LEFT JOIN categorias c ON c.id = p.categoria_id
+        LEFT JOIN avaliacoes_produto a ON a.produto_id = p.id
+    ";
+    $params = [];
+    if ($produto_id_excluir) {
+        $sql .= " WHERE p.id <> ? ";
+        $params[] = $produto_id_excluir;
+    }
+    $sql .= " GROUP BY p.id ORDER BY media_avaliacao DESC, p.data_criacao DESC LIMIT ?";
+    $stmt = $pdo->prepare($sql);
+    foreach ($params as $index => $valor) {
+        $stmt->bindValue($index + 1, $valor);
+    }
+    $stmt->bindValue(count($params) + 1, (int) $limite, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
+}
+
 // Função para obter todos os produtos
 function obter_produtos($limite = null, $offset = null) {
     global $pdo;

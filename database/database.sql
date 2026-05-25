@@ -79,6 +79,43 @@ CREATE TABLE IF NOT EXISTS `banners` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS `comentarios_produto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `produto_id` int(11) NOT NULL,
+  `usuario_id` int(11) DEFAULT NULL,
+  `nome` varchar(100) NOT NULL,
+  `comentario` text NOT NULL,
+  `aprovado` tinyint(1) DEFAULT 1,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `produto_id` (`produto_id`),
+  KEY `usuario_id` (`usuario_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `avaliacoes_produto` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `produto_id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `nota` tinyint(1) NOT NULL,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `data_atualizacao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `produto_usuario` (`produto_id`,`usuario_id`),
+  KEY `produto_id` (`produto_id`),
+  KEY `usuario_id` (`usuario_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `lista_desejos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) NOT NULL,
+  `produto_id` int(11) NOT NULL,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `usuario_produto` (`usuario_id`,`produto_id`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `produto_id` (`produto_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Inserir algumas categorias de exemplo
 INSERT INTO `categorias` (`nome`, `descricao`) VALUES
 ('Roupas', 'Peças de vestuário'),

@@ -8,6 +8,7 @@ $senhas_normalizadas = normalizar_hashes_senhas_usuarios();
 $admin_ok = criar_ou_atualizar_admin_padrao($admin_email, $admin_senha);
 $categoria_acessorios = garantir_categoria_acessorios();
 garantir_banner_padrao();
+criar_tabelas_interacao_se_necessario();
 
 header('Content-Type: text/plain; charset=utf-8');
 
@@ -23,3 +24,4 @@ echo "Senha: {$admin_senha}" . PHP_EOL;
 echo "Senhas antigas convertidas para hash: {$senhas_normalizadas}" . PHP_EOL;
 echo "Categoria Acessórios: " . ($categoria_acessorios['nome'] ?? 'erro') . PHP_EOL;
 echo "Tabela de banners pronta." . PHP_EOL;
+echo "Tabelas de comentários, avaliações e lista de desejos prontas." . PHP_EOL;
