@@ -7,6 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: checkout.php');
     exit();
 }
+validar_csrf();
+limitar_requisicoes('finalizar_compra', 5, 300);
 
 // Verificar se carrinho está vazio
 if (empty($_SESSION['carrinho'])) {
@@ -68,6 +70,15 @@ $pedido_id = finalizar_compra(
 );
 
 if ($pedido_id) {
+    $pedido = obter_pedido_por_id($pedido_id);
+    $preferencia = criar_preferencia_mercado_pago($pedido, $_SESSION['carrinho']);
+    if (!empty($preferencia['sucesso']) && !empty($preferencia['checkout_url'])) {
+        atualizar_checkout_pagamento_pedido($pedido_id, 'mercado_pago', $preferencia['preference_id'], $preferencia['checkout_url']);
+        $_SESSION['checkout_pagamento_url'] = $preferencia['checkout_url'];
+    } elseif (mercado_pago_access_token() !== '') {
+        $_SESSION['checkout_erro'] = $preferencia['erro'] ?? 'Erro ao criar checkout real.';
+    }
+
     // Limpar carrinho e cupom
     limpar_carrinho();
     unset($_SESSION['cupom_desconto']);

@@ -43,6 +43,17 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
         </p>
       </header>
 
+      <?php if (!empty($pedido['checkout_url']) || !empty($_SESSION['checkout_pagamento_url'])): ?>
+        <?php $checkout_url = $pedido['checkout_url'] ?: $_SESSION['checkout_pagamento_url']; unset($_SESSION['checkout_pagamento_url']); ?>
+        <div class="border border-green-500/20 rounded-lg p-6 bg-green-500/10">
+          <h2 class="font-headline-md text-headline-md text-primary mb-4">Pagamento real disponível</h2>
+          <p class="text-on-surface-variant mb-4">Finalize o pagamento no ambiente seguro do Mercado Pago.</p>
+          <a href="<?php echo escapar($checkout_url); ?>" class="inline-block bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em]" rel="noopener noreferrer">
+            Ir para pagamento
+          </a>
+        </div>
+      <?php endif; ?>
+
       <?php if ($pedido['forma_pagamento'] === 'pix'): ?>
         <div class="border border-outline/20 rounded-lg p-6 bg-surface-container-low">
           <h2 class="font-headline-md text-headline-md text-primary mb-4">Pix copia e cola</h2>

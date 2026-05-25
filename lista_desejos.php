@@ -43,6 +43,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
               <div class="grid gap-3 mt-auto">
                 <a href="produto.php?id=<?php echo (int) $produto['id']; ?>" class="border border-outline/30 text-primary py-3 px-4 font-label-caps text-label-caps tracking-[0.2em] text-center">Ver detalhes</a>
                 <form action="toggle_desejo.php" method="post">
+                  <?php echo csrf_input(); ?>
                   <input type="hidden" name="produto_id" value="<?php echo (int) $produto['id']; ?>">
                   <input type="hidden" name="redirect" value="lista_desejos.php">
                   <button type="submit" class="w-full bg-red-500/20 text-red-600 py-3 px-4 font-label-caps text-label-caps tracking-[0.2em]">Remover</button>

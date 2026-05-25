@@ -10,6 +10,8 @@ if (!isset($_SESSION["usuario_id"])) {
 
 // Verificar se o formulário foi submetido
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    validar_csrf();
+    limitar_requisicoes('adicionar_carrinho', 40, 300);
     $produto_id = isset($_POST['produto_id']) ? intval($_POST['produto_id']) : 0;
     $quantidade = isset($_POST['quantidade']) ? intval($_POST['quantidade']) : 1;
 
@@ -66,8 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $redirect = $_POST['redirect'] ?? ($_SERVER['HTTP_REFERER'] ?? 'produtos.php');
     $separator = str_contains($redirect, '?') ? '&' : '?';
-    header("Location: " . $redirect . $separator . "carrinho=aberto");
-    exit();
+    redirect_seguro($redirect . $separator . "carrinho=aberto", 'produtos.php?carrinho=aberto');
 } else {
     // Se não for POST, redirecionar para a página de produtos
     header("Location: produtos.php");

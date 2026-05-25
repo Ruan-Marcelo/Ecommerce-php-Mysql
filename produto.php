@@ -15,6 +15,8 @@ if (!$produto) {
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    validar_csrf();
+    limitar_requisicoes('produto_' . $id, 20, 300);
     $acao = $_POST['acao'] ?? '';
     if ($acao === 'comentar') {
         $nome = isset($_SESSION['usuario_nome']) ? $_SESSION['usuario_nome'] : trim($_POST['nome'] ?? '');
@@ -131,6 +133,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
       <?php if (isset($_SESSION['usuario_id']) && $produto['estoque'] > 0): ?>
         <form action="adicionar_carrinho.php" method="post" class="space-y-5">
           <input type="hidden" name="produto_id" value="<?php echo $produto['id']; ?>">
+          <?php echo csrf_input(); ?>
           <input type="hidden" name="redirect" value="produto.php?id=<?php echo $produto['id']; ?>">
           <div class="flex items-center gap-4">
             <label for="quantidade" class="font-label-caps text-label-caps">Quantidade</label>
@@ -166,6 +169,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
 
       <?php if (isset($_SESSION['usuario_id'])): ?>
         <form action="toggle_desejo.php" method="post">
+          <?php echo csrf_input(); ?>
           <input type="hidden" name="produto_id" value="<?php echo (int) $produto['id']; ?>">
           <input type="hidden" name="redirect" value="produto.php?id=<?php echo (int) $produto['id']; ?>">
           <button type="submit" class="w-full border border-outline/30 text-primary py-4 px-6 font-label-caps text-label-caps tracking-[0.2em] hover:bg-surface-container-low transition-all duration-300">
@@ -211,6 +215,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
     <div class="bg-surface border border-outline/20 rounded-lg p-6">
       <h2 class="font-headline-md text-headline-md text-primary mb-6">Comentar</h2>
       <form action="produto.php?id=<?php echo (int) $produto['id']; ?>" method="post" class="space-y-4">
+        <?php echo csrf_input(); ?>
         <input type="hidden" name="acao" value="comentar">
         <?php if (!isset($_SESSION['usuario_id'])): ?>
           <input type="text" name="nome" placeholder="Seu nome" class="w-full form-input-bespoke py-3 text-primary" required>
@@ -226,6 +231,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
         <a href="login.php" class="border border-outline/30 text-primary py-3 px-5 font-label-caps text-label-caps tracking-[0.2em] inline-block">Entrar para avaliar</a>
       <?php else: ?>
         <form action="produto.php?id=<?php echo (int) $produto['id']; ?>" method="post" class="space-y-4">
+          <?php echo csrf_input(); ?>
           <input type="hidden" name="acao" value="avaliar">
           <div class="flex gap-3 flex-wrap">
             <?php for ($nota = 1; $nota <= 5; $nota++): ?>

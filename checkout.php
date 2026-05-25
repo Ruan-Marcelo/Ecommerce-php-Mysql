@@ -100,6 +100,7 @@ $total = $subtotal - $desconto;
 
       <!-- Formulario de entrega -->
       <form action="finalizar.php" method="POST" class="space-y-6">
+        <?php echo csrf_input(); ?>
         <div class="space-y-4">
           <h3 class="font-headline-sm text-headline-sm mb-4">Informações de entrega</h3>
 

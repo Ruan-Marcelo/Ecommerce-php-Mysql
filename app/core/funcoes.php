@@ -13,6 +13,47 @@ function executar_consulta_paginada($sql, $params, $limite, $offset) {
     return $stmt->fetchAll();
 }
 
+function csrf_token() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function csrf_input() {
+    return '<input type="hidden" name="csrf_token" value="' . escapar(csrf_token()) . '">';
+}
+
+function validar_csrf() {
+    $token = $_POST['csrf_token'] ?? '';
+    if (empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $token)) {
+        http_response_code(403);
+        die('Requisição inválida.');
+    }
+}
+
+function limitar_requisicoes($chave, $limite = 20, $janela_segundos = 60) {
+    $agora = time();
+    $id = 'rate_' . preg_replace('/[^a-zA-Z0-9_-]/', '_', $chave);
+    if (empty($_SESSION[$id]) || $_SESSION[$id]['expira'] < $agora) {
+        $_SESSION[$id] = ['total' => 0, 'expira' => $agora + $janela_segundos];
+    }
+    $_SESSION[$id]['total']++;
+    if ($_SESSION[$id]['total'] > $limite) {
+        http_response_code(429);
+        die('Muitas tentativas. Aguarde e tente novamente.');
+    }
+}
+
+function redirect_seguro($url, $fallback = 'index.php') {
+    $url = (string) $url;
+    if ($url === '' || preg_match('/^https?:\/\//i', $url) || str_contains($url, "\n") || str_contains($url, "\r")) {
+        $url = $fallback;
+    }
+    header('Location: ' . $url);
+    exit();
+}
+
 // Função para obter todas as categorias
 function obter_categorias() {
     global $pdo;
@@ -235,12 +276,77 @@ function garantir_colunas_pagamento_pedidos() {
     if (!in_array('data_pagamento', $colunas, true)) {
         $pdo->exec("ALTER TABLE pedidos ADD data_pagamento timestamp NULL DEFAULT NULL");
     }
+    if (!in_array('checkout_url', $colunas, true)) {
+        $pdo->exec("ALTER TABLE pedidos ADD checkout_url text DEFAULT NULL");
+    }
+    if (!in_array('gateway', $colunas, true)) {
+        $pdo->exec("ALTER TABLE pedidos ADD gateway varchar(40) DEFAULT 'interno'");
+    }
 }
 
 function gerar_codigo_pix_simulado($pedido_id, $total) {
     return '00020126360014BR.GOV.BCB.PIX0114lupiere.demo520400005303986540' .
         number_format((float) $total, 2, '', '') .
         '5802BR5920LUPIERE ALFAIATARIA6009SAO PAULO62100506PED' . str_pad((string) $pedido_id, 4, '0', STR_PAD_LEFT);
+}
+
+function mercado_pago_access_token() {
+    return getenv('MERCADO_PAGO_ACCESS_TOKEN') ?: '';
+}
+
+function criar_preferencia_mercado_pago($pedido, $itens) {
+    $token = mercado_pago_access_token();
+    if ($token === '' || !function_exists('curl_init')) {
+        return ['sucesso' => false, 'erro' => 'Mercado Pago não configurado. Defina MERCADO_PAGO_ACCESS_TOKEN no ambiente.'];
+    }
+
+    $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost') . rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\');
+    $payload = [
+        'items' => array_map(function ($item) {
+            return [
+                'title' => (string) ($item['nome'] ?? 'Produto LUPIERE'),
+                'quantity' => (int) $item['quantidade'],
+                'unit_price' => (float) $item['preco'],
+                'currency_id' => 'BRL',
+            ];
+        }, $itens),
+        'external_reference' => (string) $pedido['id'],
+        'back_urls' => [
+            'success' => $base_url . '/pedido_confirmado.php?id=' . $pedido['id'],
+            'failure' => $base_url . '/pedido_confirmado.php?id=' . $pedido['id'],
+            'pending' => $base_url . '/pedido_confirmado.php?id=' . $pedido['id'],
+        ],
+        'notification_url' => $base_url . '/webhook_mercadopago.php',
+        'statement_descriptor' => 'LUPIERE',
+    ];
+
+    $ch = curl_init('https://api.mercadopago.com/checkout/preferences');
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => [
+            'Authorization: Bearer ' . $token,
+            'Content-Type: application/json',
+        ],
+        CURLOPT_POSTFIELDS => json_encode($payload),
+        CURLOPT_TIMEOUT => 20,
+    ]);
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $erro = curl_error($ch);
+    curl_close($ch);
+
+    if ($response === false || $http_code < 200 || $http_code >= 300) {
+        error_log('Erro Mercado Pago: HTTP ' . $http_code . ' ' . $erro . ' ' . $response);
+        return ['sucesso' => false, 'erro' => 'Não foi possível criar o checkout de pagamento.'];
+    }
+
+    $dados = json_decode($response, true);
+    return [
+        'sucesso' => true,
+        'preference_id' => $dados['id'] ?? null,
+        'checkout_url' => $dados['init_point'] ?? ($dados['sandbox_init_point'] ?? null),
+    ];
 }
 
 function obter_comentarios_produto($produto_id) {
@@ -676,6 +782,24 @@ function finalizar_compra($usuario_id, $carrinho, $total, $endereco_entrega, $fo
         error_log("Erro ao finalizar compra: " . $e->getMessage());
         return false;
     }
+}
+
+function atualizar_checkout_pagamento_pedido($pedido_id, $gateway, $pagamento_id, $checkout_url) {
+    global $pdo;
+    garantir_colunas_pagamento_pedidos();
+    $stmt = $pdo->prepare("UPDATE pedidos SET gateway = ?, pagamento_id = ?, checkout_url = ? WHERE id = ?");
+    return $stmt->execute([$gateway, $pagamento_id, $checkout_url, $pedido_id]);
+}
+
+function atualizar_status_pagamento_pedido($pedido_id, $status_pagamento, $data_pagamento = null) {
+    global $pdo;
+    garantir_colunas_pagamento_pedidos();
+    if ($data_pagamento) {
+        $stmt = $pdo->prepare("UPDATE pedidos SET status_pagamento = ?, data_pagamento = ? WHERE id = ?");
+        return $stmt->execute([$status_pagamento, $data_pagamento, $pedido_id]);
+    }
+    $stmt = $pdo->prepare("UPDATE pedidos SET status_pagamento = ? WHERE id = ?");
+    return $stmt->execute([$status_pagamento, $pedido_id]);
 }
 
 // Função para limpar carrinho da sessão
