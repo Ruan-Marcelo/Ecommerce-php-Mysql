@@ -1,12 +1,14 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 require_once dirname(__DIR__) . '/app/core/funcoes.php';
 proteger_pagina_admin();
 
 $titulo_pagina = 'Gerenciar Administradores';
 global $pdo;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     $nome = trim($_POST['nome'] ?? '');
     $email = trim($_POST['email'] ?? '');
     $telefone = trim($_POST['telefone'] ?? '');
@@ -161,4 +163,4 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
   </div>
 </main>
 
-<?php require_once dirname(__DIR__) . '/app/views/includes/footer.php'; ?>
+
