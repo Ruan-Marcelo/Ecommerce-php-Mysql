@@ -259,10 +259,11 @@ function obter_avaliacao_usuario_produto($produto_id, $usuario_id) {
 
 function renderizar_estrelas($media) {
     $media = (float) $media;
-    $cheias = (int) floor($media);
+    $cheias = (int) round($media);
     $html = '<span class="inline-flex items-center gap-0.5 text-secondary" aria-label="Avaliação ' . escapar(number_format($media, 1, ',', '.')) . ' de 5">';
     for ($i = 1; $i <= 5; $i++) {
-        $html .= '<span class="material-symbols-outlined text-[18px]">' . ($i <= $cheias ? 'star' : 'star') . '</span>';
+        $classe = $i <= $cheias ? 'text-secondary' : 'text-outline/40';
+        $html .= '<span class="material-symbols-outlined text-[18px] ' . $classe . '">star</span>';
     }
     $html .= '</span>';
     return $html;

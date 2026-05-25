@@ -130,6 +130,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
     <?php else: ?>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <?php foreach ($produtos_destaque as $produto): ?>
+          <?php $resumo = obter_resumo_avaliacoes_produto($produto['id']); ?>
           <article class="bg-surface rounded-lg border border-outline/20 overflow-hidden flex flex-col">
             <a href="produto.php?id=<?php echo (int) $produto['id']; ?>" class="block bg-surface-container">
               <?php if (imagem_produto_disponivel($produto['imagem'] ?? '')): ?>
@@ -151,6 +152,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                 </a>
               </h3>
               <p class="text-on-surface-variant line-clamp-2"><?php echo escapar($produto['descricao']); ?></p>
+              <div class="flex items-center gap-2"><?php echo renderizar_estrelas($resumo['media']); ?><span class="text-sm text-on-surface-variant"><?php echo $resumo['total']; ?></span></div>
               <div class="mt-auto flex items-center justify-between gap-4">
                 <span class="font-headline-md text-[24px] text-primary"><?php echo formatar_moeda($produto['preco']); ?></span>
                 <a href="produto.php?id=<?php echo (int) $produto['id']; ?>" class="font-label-caps text-label-caps text-secondary uppercase">Detalhes</a>

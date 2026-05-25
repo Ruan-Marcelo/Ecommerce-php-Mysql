@@ -33,6 +33,10 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
     <?php else: ?>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <?php foreach ($produtos as $produto): ?>
+          <?php
+          $resumo = obter_resumo_avaliacoes_produto($produto['id']);
+          $na_lista = isset($_SESSION['usuario_id']) ? produto_na_lista_desejos($_SESSION['usuario_id'], $produto['id']) : false;
+          ?>
           <article class="bg-surface rounded-lg border border-outline/20 overflow-hidden flex flex-col min-h-full">
             <a href="produto.php?id=<?php echo (int) $produto['id']; ?>" class="block bg-surface-container">
               <?php if (imagem_produto_disponivel($produto['imagem'] ?? '')): ?>
@@ -58,6 +62,10 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                 <p class="font-body-md text-body-md text-on-surface-variant line-clamp-3">
                   <?php echo escapar($produto['descricao']); ?>
                 </p>
+                <div class="flex items-center gap-2">
+                  <?php echo renderizar_estrelas($resumo['media']); ?>
+                  <span class="text-sm text-on-surface-variant"><?php echo $resumo['total']; ?></span>
+                </div>
               </div>
 
               <div class="mt-auto flex items-center justify-between gap-4 text-primary">
@@ -97,6 +105,15 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                   </a>
                 <?php else: ?>
                   <span class="text-center text-red-600 font-label-caps py-3">Indispon&iacute;vel</span>
+                <?php endif; ?>
+                <?php if (isset($_SESSION['usuario_id'])): ?>
+                  <form action="toggle_desejo.php" method="post">
+                    <input type="hidden" name="produto_id" value="<?php echo (int) $produto['id']; ?>">
+                    <input type="hidden" name="redirect" value="acessorios.php">
+                    <button type="submit" class="w-full border border-outline/30 text-primary py-3 px-4 font-label-caps text-label-caps tracking-[0.2em] hover:bg-surface-container-low transition-all duration-300">
+                      <?php echo $na_lista ? 'Remover dos desejos' : 'Salvar nos desejos'; ?>
+                    </button>
+                  </form>
                 <?php endif; ?>
               </div>
             </div>

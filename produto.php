@@ -14,7 +14,35 @@ if (!$produto) {
     exit();
 }
 
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    $acao = $_POST['acao'] ?? '';
+    if ($acao === 'comentar') {
+        $nome = isset($_SESSION['usuario_nome']) ? $_SESSION['usuario_nome'] : trim($_POST['nome'] ?? '');
+        $comentario = trim($_POST['comentario'] ?? '');
+        if ($nome !== '' && $comentario !== '') {
+            adicionar_comentario_produto($id, $_SESSION['usuario_id'] ?? null, $nome, $comentario);
+            $_SESSION['produto_sucesso'] = 'Comentário publicado.';
+        } else {
+            $_SESSION['produto_erro'] = 'Informe nome e comentário.';
+        }
+    }
+    if ($acao === 'avaliar') {
+        if (!isset($_SESSION['usuario_id'])) {
+            $_SESSION['produto_erro'] = 'Entre na conta para avaliar.';
+        } else {
+            salvar_avaliacao_produto($id, $_SESSION['usuario_id'], (int) ($_POST['nota'] ?? 0));
+            $_SESSION['produto_sucesso'] = 'Avaliação salva.';
+        }
+    }
+    header('Location: produto.php?id=' . $id);
+    exit();
+}
+
 $titulo_pagina = $produto['nome'];
+$comentarios = obter_comentarios_produto($id);
+$resumo_avaliacoes = obter_resumo_avaliacoes_produto($id);
+$avaliacao_usuario = isset($_SESSION['usuario_id']) ? obter_avaliacao_usuario_produto($id, $_SESSION['usuario_id']) : 0;
+$na_lista_desejos = isset($_SESSION['usuario_id']) ? produto_na_lista_desejos($_SESSION['usuario_id'], $id) : false;
 $semelhantes = [];
 if (!empty($produto['categoria_id'])) {
     $semelhantes = array_values(array_filter(
@@ -67,7 +95,24 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
         <p class="font-headline-md text-[32px] text-primary">
           <?php echo formatar_moeda($produto['preco']); ?>
         </p>
+        <div class="mt-4 flex items-center gap-3">
+          <?php echo renderizar_estrelas($resumo_avaliacoes['media']); ?>
+          <span class="text-sm text-on-surface-variant">
+            <?php echo $resumo_avaliacoes['media']; ?> / 5 (<?php echo $resumo_avaliacoes['total']; ?>)
+          </span>
+        </div>
       </div>
+
+      <?php
+      if (isset($_SESSION['produto_sucesso'])) {
+          echo mensagem_sucesso($_SESSION['produto_sucesso']);
+          unset($_SESSION['produto_sucesso']);
+      }
+      if (isset($_SESSION['produto_erro'])) {
+          echo mensagem_erro($_SESSION['produto_erro']);
+          unset($_SESSION['produto_erro']);
+      }
+      ?>
 
       <div class="flex flex-wrap gap-3">
         <?php if ($produto['estoque'] > 0): ?>
@@ -118,6 +163,16 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
           Produto indispon&iacute;vel
         </p>
       <?php endif; ?>
+
+      <?php if (isset($_SESSION['usuario_id'])): ?>
+        <form action="toggle_desejo.php" method="post">
+          <input type="hidden" name="produto_id" value="<?php echo (int) $produto['id']; ?>">
+          <input type="hidden" name="redirect" value="produto.php?id=<?php echo (int) $produto['id']; ?>">
+          <button type="submit" class="w-full border border-outline/30 text-primary py-4 px-6 font-label-caps text-label-caps tracking-[0.2em] hover:bg-surface-container-low transition-all duration-300">
+            <?php echo $na_lista_desejos ? 'Remover da lista de desejos' : 'Adicionar à lista de desejos'; ?>
+          </button>
+        </form>
+      <?php endif; ?>
     </div>
   </div>
 </section>
@@ -137,15 +192,54 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
     <div>
       <h2 class="font-headline-md text-headline-md text-primary mb-4">Coment&aacute;rios</h2>
       <div class="space-y-4">
-        <div class="border border-outline/20 p-4">
-          <p class="text-primary font-semibold">Cliente LUPI&Egrave;RE</p>
-          <p class="text-on-surface-variant text-sm">Acabamento excelente e entrega dentro do esperado.</p>
-        </div>
-        <div class="border border-outline/20 p-4">
-          <p class="text-primary font-semibold">Compra verificada</p>
-          <p class="text-on-surface-variant text-sm">Produto com boa apresenta&ccedil;&atilde;o e caimento sofisticado.</p>
-        </div>
+        <?php if (empty($comentarios)): ?>
+          <p class="text-on-surface-variant text-sm">Nenhum comentário ainda.</p>
+        <?php endif; ?>
+        <?php foreach ($comentarios as $comentario): ?>
+          <div class="border border-outline/20 p-4">
+            <p class="text-primary font-semibold"><?php echo escapar($comentario['nome']); ?></p>
+            <p class="text-on-surface-variant text-sm"><?php echo nl2br(escapar($comentario['comentario'])); ?></p>
+          </div>
+        <?php endforeach; ?>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 px-gutter border-t border-outline/10">
+  <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+    <div class="bg-surface border border-outline/20 rounded-lg p-6">
+      <h2 class="font-headline-md text-headline-md text-primary mb-6">Comentar</h2>
+      <form action="produto.php?id=<?php echo (int) $produto['id']; ?>" method="post" class="space-y-4">
+        <input type="hidden" name="acao" value="comentar">
+        <?php if (!isset($_SESSION['usuario_id'])): ?>
+          <input type="text" name="nome" placeholder="Seu nome" class="w-full form-input-bespoke py-3 text-primary" required>
+        <?php endif; ?>
+        <textarea name="comentario" rows="4" placeholder="Escreva seu comentário" class="w-full form-input-bespoke py-3 text-primary" required></textarea>
+        <button type="submit" class="bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em]">Publicar comentário</button>
+      </form>
+    </div>
+
+    <div class="bg-surface border border-outline/20 rounded-lg p-6">
+      <h2 class="font-headline-md text-headline-md text-primary mb-6">Avaliar produto</h2>
+      <?php if (!isset($_SESSION['usuario_id'])): ?>
+        <a href="login.php" class="border border-outline/30 text-primary py-3 px-5 font-label-caps text-label-caps tracking-[0.2em] inline-block">Entrar para avaliar</a>
+      <?php else: ?>
+        <form action="produto.php?id=<?php echo (int) $produto['id']; ?>" method="post" class="space-y-4">
+          <input type="hidden" name="acao" value="avaliar">
+          <div class="flex gap-3 flex-wrap">
+            <?php for ($nota = 1; $nota <= 5; $nota++): ?>
+              <label class="cursor-pointer">
+                <input type="radio" name="nota" value="<?php echo $nota; ?>" class="sr-only" <?php echo $avaliacao_usuario === $nota ? 'checked' : ''; ?> required>
+                <span class="inline-flex items-center gap-1 border border-outline/20 px-3 py-2 hover:bg-surface-container">
+                  <?php echo $nota; ?> <span class="material-symbols-outlined text-secondary text-[18px]">star</span>
+                </span>
+              </label>
+            <?php endfor; ?>
+          </div>
+          <button type="submit" class="bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em]">Salvar avaliação</button>
+        </form>
+      <?php endif; ?>
     </div>
   </div>
 </section>
