@@ -50,6 +50,8 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   `pagamento_id` varchar(80) DEFAULT NULL,
   `pix_copia_cola` text DEFAULT NULL,
   `pix_qr_code` text DEFAULT NULL,
+  `checkout_url` text DEFAULT NULL,
+  `gateway` varchar(40) DEFAULT 'interno',
   `data_pagamento` timestamp NULL DEFAULT NULL,
   `data_pedido` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
