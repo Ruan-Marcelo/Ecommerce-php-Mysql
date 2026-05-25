@@ -14,6 +14,41 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
 <?php endif; ?>
 
 <?php if (!$is_admin_area): ?>
+<?php $produtos_recomendados_footer = function_exists('obter_produtos_recomendados') ? obter_produtos_recomendados(4) : []; ?>
+<?php if (!empty($produtos_recomendados_footer)): ?>
+<section class="bg-surface-container-low py-16 px-gutter border-t border-[#1B3022]/10">
+  <div class="max-w-[1440px] mx-auto">
+    <div class="flex items-end justify-between gap-4 mb-8">
+      <div>
+        <p class="font-label-caps text-label-caps text-secondary uppercase mb-3">Recomendações</p>
+        <h2 class="font-headline-md text-headline-md text-primary">Você também pode gostar</h2>
+      </div>
+      <a href="<?php echo $base_path; ?>produtos.php" class="font-label-caps text-label-caps text-primary border-b border-primary/20 pb-1">Ver produtos</a>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <?php foreach ($produtos_recomendados_footer as $produto_rec): ?>
+        <?php $resumo_rec = obter_resumo_avaliacoes_produto($produto_rec['id']); ?>
+        <a href="<?php echo $base_path; ?>produto.php?id=<?php echo (int) $produto_rec['id']; ?>" class="bg-surface border border-outline/20 overflow-hidden rounded-lg">
+          <div class="h-44 bg-surface-container overflow-hidden">
+            <?php if (imagem_produto_disponivel($produto_rec['imagem'] ?? '')): ?>
+              <img src="<?php echo escapar(imagem_produto_url($produto_rec['imagem'], $base_path)); ?>" alt="<?php echo escapar($produto_rec['nome']); ?>" class="w-full h-full object-cover">
+            <?php else: ?>
+              <div class="w-full h-full flex items-center justify-center">
+                <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
+              </div>
+            <?php endif; ?>
+          </div>
+          <div class="p-4">
+            <h3 class="font-headline-md text-[20px] text-primary line-clamp-1"><?php echo escapar($produto_rec['nome']); ?></h3>
+            <div class="mt-2"><?php echo renderizar_estrelas($resumo_rec['media']); ?></div>
+            <p class="mt-2 text-primary"><?php echo formatar_moeda($produto_rec['preco']); ?></p>
+          </div>
+        </a>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
 <div
   id="cartDrawerOverlay"
   class="fixed inset-0 bg-black/30 z-[60] transition-opacity <?php echo $carrinho_aberto ? '' : 'opacity-0 pointer-events-none'; ?>"
@@ -133,12 +168,12 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
       </h4>
       <a
         class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
-        href="<?php echo $base_path; ?>contato.php"
+        href="<?php echo $base_path; ?>frete-envio.php"
         >Envio &amp; Devolu&ccedil;&otilde;es</a
       >
       <a
         class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
-        href="<?php echo $base_path; ?>contato.php"
+        href="<?php echo $base_path; ?>privacidade.php"
         >Pol&iacute;tica de Privacidade</a
       >
     </div>
@@ -180,12 +215,12 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
     <div class="flex gap-8">
       <a
         class="font-label-caps text-[10px] tracking-[0.2em] text-[#1B3022]/40 uppercase hover:text-[#1B3022] transition-colors"
-        href="<?php echo $base_path; ?>contato.php"
+        href="<?php echo $base_path; ?>termos.php"
         >Termos</a
       >
       <a
         class="font-label-caps text-[10px] tracking-[0.2em] text-[#1B3022]/40 uppercase hover:text-[#1B3022] transition-colors"
-        href="<?php echo $base_path; ?>contato.php"
+        href="<?php echo $base_path; ?>cookies.php"
         >Cookies</a
       >
     </div>

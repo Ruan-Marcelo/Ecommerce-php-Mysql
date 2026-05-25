@@ -41,6 +41,11 @@ $GLOBALS['lupiere_navbar_main_open'] = true;
         <span class="material-symbols-outlined">person</span>
       </a>
       <?php if (isset($_SESSION['usuario_id'])): ?>
+        <a href="<?php echo $base_path; ?>lista_desejos.php" class="icon-btn" aria-label="Lista de desejos">
+          <span class="material-symbols-outlined">favorite</span>
+        </a>
+      <?php endif; ?>
+      <?php if (isset($_SESSION['usuario_id'])): ?>
         <a href="<?php echo $base_path; ?>logout.php" class="icon-btn" aria-label="Sair da conta">
           <span class="material-symbols-outlined">logout</span>
         </a>
@@ -65,6 +70,9 @@ $GLOBALS['lupiere_navbar_main_open'] = true;
   <a class="nav-link" href="<?php echo $base_path; ?>produtos.php">Cole&ccedil;&otilde;es</a>
   <a class="nav-link" href="<?php echo $base_path; ?>acessorios.php">Acess&oacute;rios</a>
   <a class="nav-link" href="<?php echo $base_path; ?>sobre.php">Nossa hist&oacute;ria</a>
+  <?php if (isset($_SESSION['usuario_id'])): ?>
+    <a class="nav-link" href="<?php echo $base_path; ?>lista_desejos.php">Desejos</a>
+  <?php endif; ?>
   <?php if (isset($_SESSION['usuario_id'])): ?>
     <a class="nav-link" href="<?php echo $base_path; ?>logout.php">Sair</a>
   <?php endif; ?>
