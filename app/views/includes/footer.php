@@ -49,6 +49,35 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
   </div>
 </section>
 <?php endif; ?>
+<?php if (!isset($_COOKIE['lupiere_cookies_aceitos'])): ?>
+<div
+  id="cookieConsent"
+  class="fixed bottom-0 left-0 right-0 z-[90] bg-primary text-white border-t border-white/10 px-6 py-4 shadow-2xl"
+>
+  <div class="max-w-[1440px] mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <p class="text-sm md:text-base text-white/85 max-w-3xl">
+      Usamos cookies para manter login, carrinho, prefer&ecirc;ncias e melhorar sua experi&ecirc;ncia na LUPI&Egrave;RE.
+      Saiba mais em <a href="<?php echo $base_path; ?>cookies.php" class="underline hover:text-secondary-fixed-dim">Pol&iacute;tica de cookies</a>.
+    </p>
+    <div class="flex gap-3">
+      <button
+        type="button"
+        id="rejectCookies"
+        class="border border-white/30 px-4 py-3 font-label-caps text-label-caps tracking-[0.2em] text-white hover:bg-white/10 transition-all"
+      >
+        Recusar
+      </button>
+      <button
+        type="button"
+        id="acceptCookies"
+        class="bg-white text-primary px-4 py-3 font-label-caps text-label-caps tracking-[0.2em] hover:bg-secondary-fixed transition-all"
+      >
+        Aceitar
+      </button>
+    </div>
+  </div>
+</div>
+<?php endif; ?>
 <div
   id="cartDrawerOverlay"
   class="fixed inset-0 bg-black/30 z-[60] transition-opacity <?php echo $carrinho_aberto ? '' : 'opacity-0 pointer-events-none'; ?>"
@@ -250,5 +279,26 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
     overlay?.addEventListener('click', closeDrawer);
   })();
 </script>
+<?php if (!$is_admin_area && !isset($_COOKIE['lupiere_cookies_aceitos'])): ?>
+<script>
+  (function () {
+    const banner = document.getElementById('cookieConsent');
+    const maxAge = 60 * 60 * 24 * 365;
+
+    function salvarConsentimento(valor) {
+      document.cookie = 'lupiere_cookies_aceitos=' + valor + '; max-age=' + maxAge + '; path=/; SameSite=Lax';
+      banner?.remove();
+    }
+
+    document.getElementById('acceptCookies')?.addEventListener('click', function () {
+      salvarConsentimento('1');
+    });
+
+    document.getElementById('rejectCookies')?.addEventListener('click', function () {
+      salvarConsentimento('0');
+    });
+  })();
+</script>
+<?php endif; ?>
 </body>
 </html>
