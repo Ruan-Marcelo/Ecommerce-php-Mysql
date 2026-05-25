@@ -20,6 +20,27 @@ function obter_categorias() {
     return $stmt->fetchAll();
 }
 
+function obter_categorias_com_capa() {
+    global $pdo;
+    $stmt = $pdo->query("
+        SELECT
+            c.*,
+            COUNT(p.id) AS total_produtos,
+            (
+                SELECT p2.imagem
+                FROM produtos p2
+                WHERE p2.categoria_id = c.id AND p2.imagem IS NOT NULL AND p2.imagem <> ''
+                ORDER BY p2.data_criacao DESC
+                LIMIT 1
+            ) AS imagem_capa
+        FROM categorias c
+        LEFT JOIN produtos p ON p.categoria_id = c.id
+        GROUP BY c.id
+        ORDER BY c.nome
+    ");
+    return $stmt->fetchAll();
+}
+
 // Função para obter categoria por ID
 function obter_categoria_por_id($id) {
     global $pdo;
@@ -50,6 +71,98 @@ function garantir_categoria_acessorios() {
     $stmt = $pdo->prepare("INSERT INTO categorias (nome, descricao, data_criacao) VALUES (?, ?, NOW())");
     $stmt->execute(['Acessórios', 'Acessórios de alfaiataria e complementos de estilo']);
     return obter_categoria_por_id($pdo->lastInsertId());
+}
+
+function criar_tabela_banners_se_necessario() {
+    global $pdo;
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS banners (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            titulo varchar(180) NOT NULL,
+            subtitulo text,
+            imagem varchar(255) NOT NULL,
+            link_url varchar(255) DEFAULT 'produtos.php',
+            texto_botao varchar(80) DEFAULT 'Explorar coleção',
+            ativo tinyint(1) DEFAULT 1,
+            ordem int(11) DEFAULT 0,
+            data_criacao timestamp NOT NULL DEFAULT current_timestamp(),
+            PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+}
+
+function garantir_banner_padrao() {
+    global $pdo;
+    criar_tabela_banners_se_necessario();
+    $total = (int) $pdo->query("SELECT COUNT(*) FROM banners")->fetchColumn();
+    if ($total > 0) {
+        return;
+    }
+
+    $stmt = $pdo->prepare("INSERT INTO banners (titulo, subtitulo, imagem, link_url, texto_botao, ativo, ordem) VALUES (?, ?, ?, ?, ?, 1, 0)");
+    $stmt->execute([
+        'Elegância com Personalidade',
+        'Peças feitas para quem impõe presença.',
+        'public/assets/img/logo.jpg',
+        'produtos.php',
+        'Explorar coleção'
+    ]);
+}
+
+function obter_banner_home() {
+    global $pdo;
+    criar_tabela_banners_se_necessario();
+    $stmt = $pdo->query("SELECT * FROM banners WHERE ativo = 1 ORDER BY ordem ASC, id DESC LIMIT 1");
+    return $stmt->fetch();
+}
+
+function obter_banners_admin() {
+    global $pdo;
+    criar_tabela_banners_se_necessario();
+    $stmt = $pdo->query("SELECT * FROM banners ORDER BY ordem ASC, id DESC");
+    return $stmt->fetchAll();
+}
+
+function adicionar_banner($titulo, $subtitulo, $imagem, $link_url, $texto_botao, $ativo, $ordem) {
+    global $pdo;
+    criar_tabela_banners_se_necessario();
+    $stmt = $pdo->prepare("INSERT INTO banners (titulo, subtitulo, imagem, link_url, texto_botao, ativo, ordem) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    return $stmt->execute([$titulo, $subtitulo, $imagem, $link_url, $texto_botao, $ativo, $ordem]);
+}
+
+function atualizar_banner($id, $titulo, $subtitulo, $imagem, $link_url, $texto_botao, $ativo, $ordem) {
+    global $pdo;
+    criar_tabela_banners_se_necessario();
+    if ($imagem !== '') {
+        $stmt = $pdo->prepare("UPDATE banners SET titulo = ?, subtitulo = ?, imagem = ?, link_url = ?, texto_botao = ?, ativo = ?, ordem = ? WHERE id = ?");
+        return $stmt->execute([$titulo, $subtitulo, $imagem, $link_url, $texto_botao, $ativo, $ordem, $id]);
+    }
+
+    $stmt = $pdo->prepare("UPDATE banners SET titulo = ?, subtitulo = ?, link_url = ?, texto_botao = ?, ativo = ?, ordem = ? WHERE id = ?");
+    return $stmt->execute([$titulo, $subtitulo, $link_url, $texto_botao, $ativo, $ordem, $id]);
+}
+
+function excluir_banner($id) {
+    global $pdo;
+    criar_tabela_banners_se_necessario();
+    $stmt = $pdo->prepare("DELETE FROM banners WHERE id = ?");
+    return $stmt->execute([$id]);
+}
+
+function banner_imagem_url($imagem, $prefixo = '') {
+    if (empty($imagem)) {
+        return '';
+    }
+
+    if (filter_var($imagem, FILTER_VALIDATE_URL)) {
+        return $imagem;
+    }
+
+    if (strpos($imagem, 'public/') === 0) {
+        return $prefixo . $imagem;
+    }
+
+    return $prefixo . 'public/uploads/' . rawurlencode($imagem);
 }
 
 // Função para obter todos os produtos

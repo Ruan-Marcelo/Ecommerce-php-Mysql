@@ -64,6 +64,10 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
       <span class="material-symbols-outlined">list_alt</span>
       <span class="ml-3">Pedidos</span>
     </a>
+    <a href="banners.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors">
+      <span class="material-symbols-outlined">image</span>
+      <span class="ml-3">Banners</span>
+    </a>
     <a href="administradores.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors">
       <span class="material-symbols-outlined">admin_panel_settings</span>
       <span class="ml-3">Administradores</span>
@@ -162,5 +166,4 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
     </div>
   </div>
 </main>
-
 

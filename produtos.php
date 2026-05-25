@@ -3,7 +3,9 @@ session_start();
 require_once __DIR__ . '/app/core/funcoes.php';
 
 $titulo_pagina = 'Produtos';
-$produtos = obter_produtos();
+$categoria_id = isset($_GET['categoria']) ? (int) $_GET['categoria'] : 0;
+$categoria_atual = $categoria_id > 0 ? obter_categoria_por_id($categoria_id) : null;
+$produtos = $categoria_atual ? obter_produtos_por_categoria($categoria_id) : obter_produtos();
 
 require_once __DIR__ . '/app/views/includes/header.php';
 require_once __DIR__ . '/app/views/includes/navbar.php';
@@ -14,12 +16,22 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
     <header class="mb-12 flex flex-col md:flex-row md:items-end md:justify-between gap-4">
       <div>
         <p class="font-label-caps text-label-caps text-secondary uppercase mb-4">Cole&ccedil;&otilde;es</p>
-        <h1 class="font-headline-lg text-headline-lg text-primary">Produtos</h1>
+        <h1 class="font-headline-lg text-headline-lg text-primary">
+          <?php echo $categoria_atual ? escapar($categoria_atual['nome']) : 'Produtos'; ?>
+        </h1>
       </div>
       <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
-        Explore nossa sele&ccedil;&atilde;o de pe&ccedil;as com estoque atualizado.
+        <?php echo $categoria_atual ? escapar($categoria_atual['descricao'] ?: 'Produtos filtrados por categoria.') : 'Explore nossa sele&ccedil;&atilde;o de pe&ccedil;as com estoque atualizado.'; ?>
       </p>
     </header>
+
+    <?php if ($categoria_atual): ?>
+      <div class="mb-8">
+        <a href="produtos.php" class="font-label-caps text-label-caps text-primary border-b border-primary/20 pb-1 hover:text-secondary hover:border-secondary transition-all">
+          Ver todas as categorias
+        </a>
+      </div>
+    <?php endif; ?>
 
     <?php if (empty($produtos)): ?>
       <p class="text-center text-on-surface-variant">Nenhum produto encontrado.</p>

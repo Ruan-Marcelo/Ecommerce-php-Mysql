@@ -65,6 +65,20 @@ CREATE TABLE IF NOT EXISTS `itens_pedido` (
   CONSTRAINT `itens_pedido_ibfk_2` FOREIGN KEY (`produto_id`) REFERENCES `produtos` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Tabela de banners da página inicial
+CREATE TABLE IF NOT EXISTS `banners` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(180) NOT NULL,
+  `subtitulo` text,
+  `imagem` varchar(255) NOT NULL,
+  `link_url` varchar(255) DEFAULT 'produtos.php',
+  `texto_botao` varchar(80) DEFAULT 'Explorar coleção',
+  `ativo` tinyint(1) DEFAULT 1,
+  `ordem` int(11) DEFAULT 0,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Inserir algumas categorias de exemplo
 INSERT INTO `categorias` (`nome`, `descricao`) VALUES
 ('Roupas', 'Peças de vestuário'),
