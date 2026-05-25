@@ -3,12 +3,12 @@ require_once __DIR__ . '/config.php';
 
 function executar_consulta_paginada($sql, $params, $limite, $offset) {
     global $pdo;
-    $stmt = $pdo->prepare($sql . " LIMIT :limite OFFSET :offset");
-    foreach ($params as $index => $valor) {
+    $stmt = $pdo->prepare($sql . " LIMIT ? OFFSET ?");
+    foreach (array_values($params) as $index => $valor) {
         $stmt->bindValue($index + 1, $valor);
     }
-    $stmt->bindValue(':limite', (int) $limite, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', (int) $offset, PDO::PARAM_INT);
+    $stmt->bindValue(count($params) + 1, (int) $limite, PDO::PARAM_INT);
+    $stmt->bindValue(count($params) + 2, (int) $offset, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll();
 }
@@ -26,6 +26,30 @@ function obter_categoria_por_id($id) {
     $stmt = $pdo->prepare("SELECT * FROM categorias WHERE id = ?");
     $stmt->execute([$id]);
     return $stmt->fetch();
+}
+
+function obter_categoria_por_nome($nome) {
+    global $pdo;
+    $stmt = $pdo->prepare("SELECT * FROM categorias WHERE LOWER(nome) = LOWER(?) LIMIT 1");
+    $stmt->execute([$nome]);
+    return $stmt->fetch();
+}
+
+function garantir_categoria_acessorios() {
+    global $pdo;
+    $categoria = obter_categoria_por_nome('Acessórios');
+    if ($categoria) {
+        return $categoria;
+    }
+
+    $categoria = obter_categoria_por_nome('Acessorios');
+    if ($categoria) {
+        return $categoria;
+    }
+
+    $stmt = $pdo->prepare("INSERT INTO categorias (nome, descricao, data_criacao) VALUES (?, ?, NOW())");
+    $stmt->execute(['Acessórios', 'Acessórios de alfaiataria e complementos de estilo']);
+    return obter_categoria_por_id($pdo->lastInsertId());
 }
 
 // Função para obter todos os produtos
@@ -97,6 +121,42 @@ function criar_usuario($nome, $email, $senha, $telefone = '', $admin = 0) {
     $hash = password_hash($senha, PASSWORD_DEFAULT);
     $stmt = $pdo->prepare("INSERT INTO usuarios (nome, email, senha, telefone, admin, data_criacao) VALUES (?, ?, ?, ?, ?, NOW())");
     return $stmt->execute([$nome, $email, $hash, $telefone, $admin]);
+}
+
+function senha_possui_hash($senha) {
+    $info = password_get_info((string) $senha);
+    return !empty($info['algo']);
+}
+
+function normalizar_hashes_senhas_usuarios() {
+    global $pdo;
+    $stmt = $pdo->query("SELECT id, senha FROM usuarios");
+    $usuarios = $stmt->fetchAll();
+    $atualizados = 0;
+
+    foreach ($usuarios as $usuario) {
+        if (!senha_possui_hash($usuario['senha'])) {
+            $hash = password_hash($usuario['senha'], PASSWORD_DEFAULT);
+            $update = $pdo->prepare("UPDATE usuarios SET senha = ? WHERE id = ?");
+            $update->execute([$hash, $usuario['id']]);
+            $atualizados++;
+        }
+    }
+
+    return $atualizados;
+}
+
+function criar_ou_atualizar_admin_padrao($email = 'admin@lupiere.com', $senha = 'Admin@123') {
+    global $pdo;
+    $hash = password_hash($senha, PASSWORD_DEFAULT);
+    $usuario = obter_usuario_por_email($email);
+
+    if ($usuario) {
+        $stmt = $pdo->prepare("UPDATE usuarios SET nome = ?, senha = ?, admin = 1 WHERE id = ?");
+        return $stmt->execute(['Administrador Lupiere', $hash, $usuario['id']]);
+    }
+
+    return criar_usuario('Administrador Lupiere', $email, $senha, '', 1);
 }
 
 // Função para atualizar usuário

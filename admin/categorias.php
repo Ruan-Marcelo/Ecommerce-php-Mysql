@@ -4,7 +4,6 @@ require_once dirname(__DIR__) . '/app/core/funcoes.php';
 proteger_pagina_admin();
 
 $titulo_pagina = 'Gerenciar Categorias';
-require_once dirname(__DIR__) . '/app/views/includes/head.php';
 
 // Processar ações
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -127,6 +126,7 @@ if (!empty($busca)) {
 }
 
 $total_paginas = ceil($total_categorias / $limite);
+require_once dirname(__DIR__) . '/app/views/includes/head.php';
 ?>
 <!-- Admin Sidebar -->
 <aside
@@ -167,6 +167,13 @@ $total_paginas = ceil($total_categorias / $limite);
     >
       <span class="material-symbols-outlined">list_alt</span>
       <span class="ml-3">Pedidos</span>
+    </a>
+    <a
+      href="administradores.php"
+      class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
+    >
+      <span class="material-symbols-outlined">admin_panel_settings</span>
+      <span class="ml-3">Administradores</span>
     </a>
     <a
       href="../logout.php"
@@ -426,23 +433,35 @@ $total_paginas = ceil($total_categorias / $limite);
 </main>
 
 <script>
+const categoriasAdmin = <?php
+echo json_encode(
+    array_column($categorias, null, 'id'),
+    JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+);
+?>;
+
+function limparFormularioCategoria() {
+    document.querySelector('#categoria-form form').reset();
+    document.getElementById('categoria-action').value = 'adicionar';
+    document.getElementById('categoria-id').value = '0';
+    document.getElementById('categoria-salvar').textContent = 'Salvar Categoria';
+}
+
 // Função para editar categoria
 function editarCategoria(id) {
-    // Buscar os dados da categoria via AJAX (simplificado)
-    // Por enquanto, vamos apenas abrir o formulário e deixar o usuário preencher manualmente
+    const categoria = categoriasAdmin[id];
+    if (!categoria) {
+        alert('Categoria não encontrada na listagem atual.');
+        return;
+    }
+
     document.getElementById('categoria-form').classList.remove('hidden');
     document.getElementById('categoria-action').value = 'editar';
     document.getElementById('categoria-id').value = id;
-
-    // Limpar formulário
-    document.getElementById('categoria-form').reset();
+    document.getElementById('categoria-nome').value = categoria.nome || '';
+    document.getElementById('categoria-descricao').value = categoria.descricao || '';
     document.getElementById('categoria-nome').focus();
-
-    // Alterar texto do botão
     document.getElementById('categoria-salvar').textContent = 'Atualizar Categoria';
-
-    // Nota: Em uma implementação completa, buscaríamos os dados da categoria via AJAX
-    // e preencheríamos o formulário automaticamente
 }
 
 // Função para excluir categoria
@@ -473,10 +492,7 @@ function excluirCategoria(id) {
 // Função para cancelar edição
 document.getElementById('categoria-cancelar').addEventListener('click', function() {
     document.getElementById('categoria-form').classList.add('hidden');
-    document.getElementById('categoria-action').value = 'adicionar';
-    document.getElementById('categoria-id').value = '0';
-    document.getElementById('categoria-form').reset();
-    document.getElementById('categoria-salvar').textContent = 'Salvar Categoria';
+    limparFormularioCategoria();
 });
 
 // Fecha o formulário ao clicar fora (opcional)
@@ -486,14 +502,7 @@ document.addEventListener('click', function(e) {
     if (!form.contains(e.target) && !button.contains(e.target) && !form.classList.contains('hidden')) {
         // Clicou fora do formulário e do botão de abrir
         form.classList.add('hidden');
-        document.getElementById('categoria-action').value = 'adicionar';
-        document.getElementById('categoria-id').value = '0';
-        document.getElementById('categoria-form').reset();
-        document.getElementById('categoria-salvar').textContent = 'Salvar Categoria';
+        limparFormularioCategoria();
     }
 });
 </script>
-
-<?php
-require_once dirname(__DIR__) . '/app/views/includes/footer.php';
-?>

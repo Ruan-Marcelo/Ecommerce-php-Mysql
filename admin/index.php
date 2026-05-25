@@ -47,6 +47,13 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
       <span class="ml-3">Pedidos</span>
     </a>
     <a
+      href="administradores.php"
+      class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
+    >
+      <span class="material-symbols-outlined">admin_panel_settings</span>
+      <span class="ml-3">Administradores</span>
+    </a>
+    <a
       href="../logout.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto"
     >
@@ -178,7 +185,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
             ?>
               <div class="flex justify-between items-start py-3 border-b border-outline/10 last:border-b-0">
                 <div class="flex-1 space-y-1">
-                  <p class="font-body-sm text-body-sm">#<?php echo $pedero['id']; ?></p>
+                  <p class="font-body-sm text-body-sm">#<?php echo $pedido['id']; ?></p>
                   <p class="text-xs text-on-surface-variant/60">
                     <?php
                     $data = new DateTime($pedido['data_pedido']);
@@ -228,6 +235,3 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
     </div>
   </div>
 </main>
-<?php
-require_once dirname(__DIR__) . '/app/views/includes/footer.php';
-?>

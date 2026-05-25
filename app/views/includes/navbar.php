@@ -40,6 +40,11 @@ $GLOBALS['lupiere_navbar_main_open'] = true;
       <a href="<?php echo $base_path . $conta_url; ?>" class="icon-btn">
         <span class="material-symbols-outlined">person</span>
       </a>
+      <?php if (isset($_SESSION['usuario_id'])): ?>
+        <a href="<?php echo $base_path; ?>logout.php" class="icon-btn" aria-label="Sair da conta">
+          <span class="material-symbols-outlined">logout</span>
+        </a>
+      <?php endif; ?>
     </div>
   </div>
 </header>
@@ -60,6 +65,9 @@ $GLOBALS['lupiere_navbar_main_open'] = true;
   <a class="nav-link" href="<?php echo $base_path; ?>produtos.php">Cole&ccedil;&otilde;es</a>
   <a class="nav-link" href="<?php echo $base_path; ?>acessorios.php">Acess&oacute;rios</a>
   <a class="nav-link" href="<?php echo $base_path; ?>sobre.php">Nossa hist&oacute;ria</a>
+  <?php if (isset($_SESSION['usuario_id'])): ?>
+    <a class="nav-link" href="<?php echo $base_path; ?>logout.php">Sair</a>
+  <?php endif; ?>
 </div>
 
 <!-- OVERLAY -->

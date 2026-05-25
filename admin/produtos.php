@@ -4,7 +4,6 @@ require_once dirname(__DIR__) . '/app/core/funcoes.php';
 proteger_pagina_admin();
 
 $titulo_pagina = 'Gerenciar Produtos';
-require_once dirname(__DIR__) . '/app/views/includes/head.php';
 
 // Processar ações
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -110,6 +109,7 @@ if (!empty($busca)) {
 }
 
 $total_paginas = ceil($total_produtos / $limite);
+require_once dirname(__DIR__) . '/app/views/includes/head.php';
 ?>
 <!-- Admin Sidebar -->
 <aside
@@ -150,6 +150,13 @@ $total_paginas = ceil($total_produtos / $limite);
     >
       <span class="material-symbols-outlined">list_alt</span>
       <span class="ml-3">Pedidos</span>
+    </a>
+    <a
+      href="administradores.php"
+      class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
+    >
+      <span class="material-symbols-outlined">admin_panel_settings</span>
+      <span class="ml-3">Administradores</span>
     </a>
     <a
       href="../logout.php"
@@ -504,26 +511,38 @@ $total_paginas = ceil($total_produtos / $limite);
 </main>
 
 <script>
+const produtosAdmin = <?php
+echo json_encode(
+    array_column($produtos, null, 'id'),
+    JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP
+);
+?>;
+
+function limparFormularioProduto() {
+    document.querySelector('#produto-form form').reset();
+    document.getElementById('produto-action').value = 'adicionar';
+    document.getElementById('produto-id').value = '0';
+    document.getElementById('produto-salvar').textContent = 'Salvar Produto';
+}
+
 // Função para editar produto
 function editarProduto(id) {
-    // Buscar os dados do produto via AJAX (simplificado - em produção usaríamos AJAX real)
-    // Por enquanto, vamos apenas abrir o formulário e deixar o usuário preencher manualmente
-    // Em uma implementação real, faríamos uma requisição para obter os dados do produto
+    const produto = produtosAdmin[id];
+    if (!produto) {
+        alert('Produto não encontrado na listagem atual.');
+        return;
+    }
 
-    // Abrir o formulário
     document.getElementById('produto-form').classList.remove('hidden');
     document.getElementById('produto-action').value = 'editar';
     document.getElementById('produto-id').value = id;
-
-    // Limpar formulário e focar no primeiro campo
-    document.getElementById('produto-form').reset();
+    document.getElementById('produto-nome').value = produto.nome || '';
+    document.getElementById('produto-categoria').value = produto.categoria_id || '';
+    document.getElementById('produto-descricao').value = produto.descricao || '';
+    document.getElementById('produto-preco').value = produto.preco || '';
+    document.getElementById('produto-estoque').value = produto.estoque || 0;
     document.getElementById('produto-nome').focus();
-
-    // Alterar texto do botão
     document.getElementById('produto-salvar').textContent = 'Atualizar Produto';
-
-    // Nota: Em uma implementação completa, buscaríamos os dados do produto via AJAX
-    // e preencheríamos o formulário automaticamente
 }
 
 // Função para excluir produto
@@ -554,10 +573,7 @@ function excluirProduto(id) {
 // Função para cancelar edição
 document.getElementById('produto-cancelar').addEventListener('click', function() {
     document.getElementById('produto-form').classList.add('hidden');
-    document.getElementById('produto-action').value = 'adicionar';
-    document.getElementById('produto-id').value = '0';
-    document.getElementById('produto-form').reset();
-    document.getElementById('produto-salvar').textContent = 'Salvar Produto';
+    limparFormularioProduto();
 });
 
 // Fecha o formulário ao clicar fora (opcional)
@@ -567,14 +583,7 @@ document.addEventListener('click', function(e) {
     if (!form.contains(e.target) && !button.contains(e.target) && !form.classList.contains('hidden')) {
         // Clicou fora do formulário e do botão de abrir
         form.classList.add('hidden');
-        document.getElementById('produto-action').value = 'adicionar';
-        document.getElementById('produto-id').value = '0';
-        document.getElementById('produto-form').reset();
-        document.getElementById('produto-salvar').textContent = 'Salvar Produto';
+        limparFormularioProduto();
     }
 });
 </script>
-
-<?php
-require_once dirname(__DIR__) . '/app/views/includes/footer.php';
-?>

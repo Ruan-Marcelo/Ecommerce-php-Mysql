@@ -4,7 +4,6 @@ require_once dirname(__DIR__) . '/app/core/funcoes.php';
 proteger_pagina_admin();
 
 $titulo_pagina = 'Gerenciar Pedidos';
-require_once dirname(__DIR__) . '/app/views/includes/head.php';
 global $pdo;
 
 // Processar ações (atualizar status do pedido)
@@ -63,16 +62,17 @@ $stmt_count->execute($params);
 $total_pedidos = $stmt_count->fetch()['total'];
 
 // Buscar pedidos
-$stmt = $pdo->prepare("SELECT p.*, u.nome as usuario_nome, u.email as usuario_email FROM pedidos p LEFT JOIN usuarios u ON p.usuario_id = u.id $where_clause ORDER BY p.data_pedido DESC LIMIT :limite OFFSET :offset");
+$stmt = $pdo->prepare("SELECT p.*, u.nome as usuario_nome, u.email as usuario_email FROM pedidos p LEFT JOIN usuarios u ON p.usuario_id = u.id $where_clause ORDER BY p.data_pedido DESC LIMIT ? OFFSET ?");
 foreach ($params as $index => $valor) {
     $stmt->bindValue($index + 1, $valor);
 }
-$stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
-$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+$stmt->bindValue(count($params) + 1, $limite, PDO::PARAM_INT);
+$stmt->bindValue(count($params) + 2, $offset, PDO::PARAM_INT);
 $stmt->execute();
 $pedidos = $stmt->fetchAll();
 
 $total_paginas = ceil($total_pedidos / $limite);
+require_once dirname(__DIR__) . '/app/views/includes/head.php';
 ?>
 <!-- Admin Sidebar -->
 <aside
@@ -113,6 +113,13 @@ $total_paginas = ceil($total_pedidos / $limite);
     >
       <span class="material-symbols-outlined">list_alt</span>
       <span class="ml-3">Pedidos</span>
+    </a>
+    <a
+      href="administradores.php"
+      class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
+    >
+      <span class="material-symbols-outlined">admin_panel_settings</span>
+      <span class="ml-3">Administradores</span>
     </a>
     <a
       href="../logout.php"
@@ -379,7 +386,7 @@ $total_paginas = ceil($total_pedidos / $limite);
 <div id="modal-status" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 hidden">
   <div class="bg-surface rounded-lg border border-outline/20 p-6 max-w-md w-full mx-4">
     <div class="flex justify-between items-start mb-4">
-      <h3 class="font-headline-sm text-headline-sm">Atualizar Status do Pedido #<span id="modal-status-pedido-id"></span></h3>
+      <h3 class="font-headline-sm text-headline-sm">Atualizar Status do Pedido #<span id="modal-status-pedido-label"></span></h3>
       <button
         onclick="document.getElementById('modal-status').classList.add('hidden')"
         class="text-xs text-on-surface-variant/60 hover:text-primary"
@@ -505,6 +512,7 @@ function formatarMoeda(valor) {
 // Função para atualizar status do pedido
 function atualizarStatusPedido(pedidoId) {
     document.getElementById('modal-status-pedido-id').value = pedidoId;
+    document.getElementById('modal-status-pedido-label').textContent = pedidoId;
     document.getElementById('modal-status-select').value = ''; // Resetar seleção
     document.getElementById('modal-status').classList.remove('hidden');
 }
@@ -569,7 +577,3 @@ window.addEventListener('click', function(e) {
     }
 });
 </script>
-
-<?php
-require_once dirname(__DIR__) . '/app/views/includes/footer.php';
-?>

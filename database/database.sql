@@ -71,6 +71,10 @@ INSERT INTO `categorias` (`nome`, `descricao`) VALUES
 ('Acessórios', 'Complementos para o visual'),
 ('Calçados', 'Sapatos e tênis');
 
--- Inserir um usuário admin de exemplo (senha: admin123)
+-- Inserir um usuário admin de exemplo.
+-- Para criar/atualizar o admin padrão com senha hasheada, execute:
+-- php database/setup_admin.php
+-- Email padrão: admin@lupiere.com
+-- Senha padrão: Admin@123
 INSERT INTO `usuarios` (`nome`, `email`, `senha`, `admin`) VALUES
-('Admin Lupiere', 'admin@lupiere.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1);
+('Administrador Lupiere', 'admin@lupiere.com', '$2y$10$Si0N0uK.nRI8tHHIFweB.OdLSEVdEfG4OEYX7FS0GkuTpeeV.olj2', 1);

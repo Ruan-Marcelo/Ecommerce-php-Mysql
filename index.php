@@ -1,3 +1,7 @@
+<?php
+session_start();
+$conta_url = isset($_SESSION['usuario_id']) ? (!empty($_SESSION['admin']) ? 'admin/index.php' : 'perfil.php') : 'login.php';
+?>
 <!doctype html>
 
 <html lang="pt-BR">
@@ -163,9 +167,14 @@
           <a href="carrinho.php" class="icon-btn">
             <span class="material-symbols-outlined">shopping_bag</span>
           </a>
-          <a href="login.php" class="icon-btn">
+          <a href="<?php echo $conta_url; ?>" class="icon-btn" aria-label="Abrir conta">
             <span class="material-symbols-outlined">person</span>
           </a>
+          <?php if (isset($_SESSION['usuario_id'])): ?>
+            <a href="logout.php" class="icon-btn" aria-label="Sair da conta">
+              <span class="material-symbols-outlined">logout</span>
+            </a>
+          <?php endif; ?>
         </div>
       </div>
     </header>
@@ -185,6 +194,9 @@
       <a class="nav-link" href="produtos.php">Coleções</a>
       <a class="nav-link" href="acessorios.php">Acessórios</a>
       <a class="nav-link" href="sobre.php">Nossa história</a>
+      <?php if (isset($_SESSION['usuario_id'])): ?>
+        <a class="nav-link" href="logout.php">Sair</a>
+      <?php endif; ?>
     </div>
 
     <!-- OVERLAY -->
