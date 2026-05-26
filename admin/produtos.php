@@ -5,7 +5,7 @@ proteger_pagina_admin();
 
 $titulo_pagina = 'Gerenciar Produtos';
 
-// Processar ações
+// Processar aÃ§Ãµes
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         switch ($_POST['action']) {
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Excluir produto
                 $id = intval($_POST['id'] ?? 0);
                 if ($id > 0 && excluir_produto($id)) {
-                    $_SESSION['admin_sucesso'] = 'Produto excluído com sucesso!';
+                    $_SESSION['admin_sucesso'] = 'Produto excluÃ­do com sucesso!';
                 } else {
                     $_SESSION['admin_erro'] = 'Erro ao excluir produto.';
                 }
@@ -90,11 +90,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Buscar produtos com paginação e busca
+// Buscar produtos com paginaÃ§Ã£o e busca
 $busca = isset($_GET['busca']) ? trim($_GET['busca']) : '';
 $categoria_id = isset($_GET['categoria']) ? intval($_GET['categoria']) : 0;
 $pagina = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
-$limite = 10; // Produtos por página no admin
+$limite = 10; // Produtos por pÃ¡gina no admin
 $offset = ($pagina - 1) * $limite;
 
 if (!empty($busca)) {
@@ -119,7 +119,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
     <div
       class="text-xl font-headline-lg tracking-[0.4em] text-white"
     >
-      LUPIÈRE ADMIN
+      LUPIÃˆRE ADMIN
     </div>
   </div>
   <nav class="flex-1 flex-col pt-6 space-y-4">
@@ -127,49 +127,49 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
       href="index.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">dashboard</span>
+      <span class="notranslate material-symbols-outlined" translate="no">dashboard</span>
       <span class="ml-3">Dashboard</span>
     </a>
     <a
       href="produtos.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors"
     >
-      <span class="material-symbols-outlined">inventory_2</span>
+      <span class="notranslate material-symbols-outlined" translate="no">inventory_2</span>
       <span class="ml-3">Produtos</span>
     </a>
     <a
       href="categorias.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">category</span>
+      <span class="notranslate material-symbols-outlined" translate="no">category</span>
       <span class="ml-3">Categorias</span>
     </a>
     <a
       href="pedidos.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">list_alt</span>
+      <span class="notranslate material-symbols-outlined" translate="no">list_alt</span>
       <span class="ml-3">Pedidos</span>
     </a>
     <a
       href="banners.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">image</span>
+      <span class="notranslate material-symbols-outlined" translate="no">image</span>
       <span class="ml-3">Banners</span>
     </a>
     <a
       href="administradores.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">admin_panel_settings</span>
+      <span class="notranslate material-symbols-outlined" translate="no">admin_panel_settings</span>
       <span class="ml-3">Administradores</span>
     </a>
     <a
       href="../logout.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto"
     >
-      <span class="material-symbols-outlined">logout</span>
+      <span class="notranslate material-symbols-outlined" translate="no">logout</span>
       <span class="ml-3">Sair</span>
     </a>
   </nav>
@@ -195,7 +195,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
       <!-- ICONES -->
       <div class="flex items-center gap-5 md:gap-8 text-[#1B3022]">
         <a href="produtos.php?acao=adicionar" class="icon-btn">
-          <span class="material-symbols-outlined">add</span>
+          <span class="notranslate material-symbols-outlined" translate="no">add</span>
         </a>
       </div>
     </div>
@@ -230,7 +230,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
           </div>
         </div>
 
-        <!-- Formulário de produto (adicionar/editar) -->
+        <!-- FormulÃ¡rio de produto (adicionar/editar) -->
         <div id="produto-form" class="mb-8 hidden bg-surface rounded-lg border border-outline/20 p-6">
           <h3 class="font-headline-sm text-headline-sm mb-4">Dados do Produto</h3>
           <form action="produtos.php" method="POST" enctype="multipart/form-data" class="space-y-6">
@@ -268,7 +268,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               </div>
 
               <div class="md:col-span-2">
-                <label class="block font-label-caps text-label-caps mb-2">Descrição:</label>
+                <label class="block font-label-caps text-label-caps mb-2">DescriÃ§Ã£o:</label>
                 <textarea
                   name="descricao"
                   id="produto-descricao"
@@ -279,7 +279,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               </div>
 
               <div>
-                <label class="block font-label-caps text-label-caps mb-2">Preço:</label>
+                <label class="block font-label-caps text-label-caps mb-2">PreÃ§o:</label>
                 <input
                   type="number"
                   name="preco"
@@ -312,7 +312,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
                   class="w-full form-input-bespoke py-3 text-body-md font-body-md text-primary"
                   accept="image/*"
                 >
-                <p class="text-xs text-on-surface-variant/60 mt-1">Formatos permitidos: JPG, PNG, GIF, WEBP (máx 5MB)</p>
+                <p class="text-xs text-on-surface-variant/60 mt-1">Formatos permitidos: JPG, PNG, GIF, WEBP (mÃ¡x 5MB)</p>
               </div>
             </div>
 
@@ -396,10 +396,10 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Imagem</th>
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Nome</th>
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Categoria</th>
-                <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Preço</th>
+                <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">PreÃ§o</th>
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Estoque</th>
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Data</th>
-                <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Ações</th>
+                <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">AÃ§Ãµes</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-outline/20">
@@ -411,7 +411,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
                         <img src="../public/uploads/<?php echo escapar($produto['imagem']); ?>" alt="<?php echo escapar($produto['nome']); ?>" class="w-12 h-12 object-contain rounded-lg border border-outline/10">
                       <?php else: ?>
                         <div class="w-12 h-12 bg-surface-container flex items-center justify-center rounded-lg">
-                          <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
+                          <span class="notranslate material-symbols-outlined text-on-surface-variant/60" translate="no">inventory_2</span>
                         </div>
                       <?php endif; ?>
                     </td>
@@ -478,7 +478,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
           </table>
         </div>
 
-        <!-- Paginação -->
+        <!-- PaginaÃ§Ã£o -->
         <?php if ($total_paginas > 1): ?>
           <div class="mt-6">
             <nav class="flex flex-wrap justify-center gap-2">
@@ -492,7 +492,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               <?php endif; ?>
 
               <?php
-              // Mostrar números das páginas (máximo 5 visibles)
+              // Mostrar nÃºmeros das pÃ¡ginas (mÃ¡ximo 5 visibles)
               $inicio_pagina = max(1, $pagina - 2);
               $fim_pagina = min($total_paginas, $inicio_pagina + 4);
               if ($fim_pagina - $inicio_pagina < 4) {
@@ -514,7 +514,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
                   href="produtos.php?<?php echo http_build_query(array_merge($_GET, ['pagina' => $pagina + 1])); ?>"
                   class="px-4 py-2 bg-primary-container text-white font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary transition-all duration-300"
                 >
-                  Próxima
+                  PrÃ³xima
                 </a>
               <?php endif; ?>
             </nav>
@@ -541,10 +541,10 @@ function abrirNovoProduto() {
     }
 }
 
-// Função para editar produto
+// FunÃ§Ã£o para editar produto
 function editarProduto(botao) {
     if (!botao || !botao.dataset) {
-        alert('Produto não encontrado na listagem atual.');
+        alert('Produto nÃ£o encontrado na listagem atual.');
         return;
     }
 
@@ -561,10 +561,10 @@ function editarProduto(botao) {
     document.getElementById('produto-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// Função para excluir produto
+// FunÃ§Ã£o para excluir produto
 function excluirProduto(id) {
-    if (confirm('Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.')) {
-        // Criar formulário temporário para submit
+    if (confirm('Tem certeza que deseja excluir este produto? Esta aÃ§Ã£o nÃ£o pode ser desfeita.')) {
+        // Criar formulÃ¡rio temporÃ¡rio para submit
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = 'produtos.php';
@@ -586,18 +586,18 @@ function excluirProduto(id) {
     }
 }
 
-// Função para cancelar edição
+// FunÃ§Ã£o para cancelar ediÃ§Ã£o
 document.getElementById('produto-cancelar').addEventListener('click', function() {
     document.getElementById('produto-form').classList.add('hidden');
     limparFormularioProduto();
 });
 
-// Fecha o formulário ao clicar fora (opcional)
+// Fecha o formulÃ¡rio ao clicar fora (opcional)
 document.addEventListener('click', function(e) {
     const form = document.getElementById('produto-form');
     const button = document.querySelector('button[onclick*="abrirNovoProduto"]');
     if (!form.contains(e.target) && !button.contains(e.target) && !form.classList.contains('hidden')) {
-        // Clicou fora do formulário e do botão de abrir
+        // Clicou fora do formulÃ¡rio e do botÃ£o de abrir
         form.classList.add('hidden');
         limparFormularioProduto();
     }

@@ -20,8 +20,8 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
   <div class="max-w-[1440px] mx-auto">
     <div class="flex items-end justify-between gap-4 mb-8">
       <div>
-        <p class="font-label-caps text-label-caps text-secondary uppercase mb-3">Recomendações</p>
-        <h2 class="font-headline-md text-headline-md text-primary">Você também pode gostar</h2>
+        <p class="font-label-caps text-label-caps text-secondary uppercase mb-3">RecomendaÃ§Ãµes</p>
+        <h2 class="font-headline-md text-headline-md text-primary">VocÃª tambÃ©m pode gostar</h2>
       </div>
       <a href="<?php echo $base_path; ?>produtos.php" class="font-label-caps text-label-caps text-primary border-b border-primary/20 pb-1">Ver produtos</a>
     </div>
@@ -34,7 +34,7 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
               <img src="<?php echo escapar(imagem_produto_url($produto_rec['imagem'], $base_path)); ?>" alt="<?php echo escapar($produto_rec['nome']); ?>" class="w-full h-full object-cover">
             <?php else: ?>
               <div class="w-full h-full flex items-center justify-center">
-                <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
+                <span class="notranslate material-symbols-outlined text-on-surface-variant/60" translate="no">inventory_2</span>
               </div>
             <?php endif; ?>
           </div>
@@ -92,7 +92,7 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
       <h3 class="font-headline-md text-[24px] text-[#1B3022]">Itens adicionados</h3>
     </div>
     <button type="button" id="closeCartDrawer" class="text-[#1B3022]">
-      <span class="material-symbols-outlined">close</span>
+      <span class="notranslate material-symbols-outlined" translate="no">close</span>
     </button>
   </div>
 
@@ -110,7 +110,7 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
                 class="w-full h-full object-cover"
               >
             <?php else: ?>
-              <span class="material-symbols-outlined text-[#1B3022]/40">inventory_2</span>
+              <span class="notranslate material-symbols-outlined text-[#1B3022]/40" translate="no">inventory_2</span>
             <?php endif; ?>
           </div>
           <div class="flex-1 min-w-0">
@@ -223,12 +223,12 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
           target="_blank"
           rel="noopener noreferrer"
         >
-          <span class="material-symbols-outlined text-[20px]">
+          <span class="notranslate material-symbols-outlined text-[20px]" translate="no">
             photo_camera
           </span>
         </a>
         <a class="text-[#1B3022]/60 hover:text-[#1B3022]" href="mailto:info@lupiere.com" target="_blank" rel="noopener noreferrer">
-          <span class="material-symbols-outlined text-[20px]">mail</span>
+          <span class="notranslate material-symbols-outlined text-[20px]" translate="no">mail</span>
         </a>
       </div>
     </div>

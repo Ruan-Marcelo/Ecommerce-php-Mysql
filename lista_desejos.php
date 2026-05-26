@@ -13,13 +13,13 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
 <section class="pt-32 pb-24 px-gutter">
   <div class="max-w-[1440px] mx-auto">
     <header class="mb-12">
-      <p class="font-label-caps text-label-caps text-secondary uppercase mb-4">Sua seleção</p>
+      <p class="font-label-caps text-label-caps text-secondary uppercase mb-4">Sua seleÃ§Ã£o</p>
       <h1 class="font-headline-lg text-headline-lg text-primary">Lista de desejos</h1>
     </header>
 
     <?php if (empty($produtos)): ?>
       <div class="border border-outline/20 rounded-lg p-10 text-center bg-surface">
-        <span class="material-symbols-outlined text-5xl text-on-surface-variant/60 mb-4">favorite</span>
+        <span class="notranslate material-symbols-outlined text-5xl text-on-surface-variant/60 mb-4" translate="no">favorite</span>
         <p class="text-on-surface-variant">Nenhum produto salvo ainda.</p>
       </div>
     <?php else: ?>
@@ -32,7 +32,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                 <img src="<?php echo escapar(imagem_produto_url($produto['imagem'])); ?>" alt="<?php echo escapar($produto['nome']); ?>" class="w-full h-[300px] object-cover">
               <?php else: ?>
                 <div class="w-full h-[300px] flex items-center justify-center bg-surface-container">
-                  <span class="material-symbols-outlined text-on-surface-variant/60 text-5xl">inventory_2</span>
+                  <span class="notranslate material-symbols-outlined text-on-surface-variant/60 text-5xl" translate="no">inventory_2</span>
                 </div>
               <?php endif; ?>
             </a>

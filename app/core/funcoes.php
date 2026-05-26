@@ -28,7 +28,7 @@ function validar_csrf() {
     $token = $_POST['csrf_token'] ?? '';
     if (empty($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $token)) {
         http_response_code(403);
-        die('Requisição inválida.');
+        die('RequisiÃ§Ã£o invÃ¡lida.');
     }
 }
 
@@ -54,7 +54,7 @@ function redirect_seguro($url, $fallback = 'index.php') {
     exit();
 }
 
-// Função para obter todas as categorias
+// FunÃ§Ã£o para obter todas as categorias
 function obter_categorias() {
     global $pdo;
     $stmt = $pdo->query("SELECT * FROM categorias ORDER BY nome");
@@ -82,7 +82,7 @@ function obter_categorias_com_capa() {
     return $stmt->fetchAll();
 }
 
-// Função para obter categoria por ID
+// FunÃ§Ã£o para obter categoria por ID
 function obter_categoria_por_id($id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM categorias WHERE id = ?");
@@ -99,7 +99,7 @@ function obter_categoria_por_nome($nome) {
 
 function garantir_categoria_acessorios() {
     global $pdo;
-    $categoria = obter_categoria_por_nome('Acessórios');
+    $categoria = obter_categoria_por_nome('AcessÃ³rios');
     if ($categoria) {
         return $categoria;
     }
@@ -110,7 +110,7 @@ function garantir_categoria_acessorios() {
     }
 
     $stmt = $pdo->prepare("INSERT INTO categorias (nome, descricao, data_criacao) VALUES (?, ?, NOW())");
-    $stmt->execute(['Acessórios', 'Acessórios de alfaiataria e complementos de estilo']);
+    $stmt->execute(['AcessÃ³rios', 'AcessÃ³rios de alfaiataria e complementos de estilo']);
     return obter_categoria_por_id($pdo->lastInsertId());
 }
 
@@ -123,7 +123,7 @@ function criar_tabela_banners_se_necessario() {
             subtitulo text,
             imagem varchar(255) NOT NULL,
             link_url varchar(255) DEFAULT 'produtos.php',
-            texto_botao varchar(80) DEFAULT 'Explorar coleção',
+            texto_botao varchar(80) DEFAULT 'Explorar coleÃ§Ã£o',
             ativo tinyint(1) DEFAULT 1,
             ordem int(11) DEFAULT 0,
             data_criacao timestamp NOT NULL DEFAULT current_timestamp(),
@@ -142,11 +142,11 @@ function garantir_banner_padrao() {
 
     $stmt = $pdo->prepare("INSERT INTO banners (titulo, subtitulo, imagem, link_url, texto_botao, ativo, ordem) VALUES (?, ?, ?, ?, ?, 1, 0)");
     $stmt->execute([
-        'Elegância com Personalidade',
-        'Peças feitas para quem impõe presença.',
+        'ElegÃ¢ncia com Personalidade',
+        'PeÃ§as feitas para quem impÃµe presenÃ§a.',
         'public/assets/img/logo.jpg',
         'produtos.php',
-        'Explorar coleção'
+        'Explorar coleÃ§Ã£o'
     ]);
 }
 
@@ -754,7 +754,7 @@ function mercado_pago_access_token() {
 function criar_preferencia_mercado_pago($pedido, $itens) {
     $token = mercado_pago_access_token();
     if ($token === '' || !function_exists('curl_init')) {
-        return ['sucesso' => false, 'erro' => 'Mercado Pago não configurado. Defina MERCADO_PAGO_ACCESS_TOKEN no ambiente.'];
+        return ['sucesso' => false, 'erro' => 'Mercado Pago nÃ£o configurado. Defina MERCADO_PAGO_ACCESS_TOKEN no ambiente.'];
     }
 
     $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost') . rtrim(dirname($_SERVER['SCRIPT_NAME'] ?? ''), '/\\');
@@ -795,7 +795,7 @@ function criar_preferencia_mercado_pago($pedido, $itens) {
 
     if ($response === false || $http_code < 200 || $http_code >= 300) {
         error_log('Erro Mercado Pago: HTTP ' . $http_code . ' ' . $erro . ' ' . $response);
-        return ['sucesso' => false, 'erro' => 'Não foi possível criar o checkout de pagamento.'];
+        return ['sucesso' => false, 'erro' => 'NÃ£o foi possÃ­vel criar o checkout de pagamento.'];
     }
 
     $dados = json_decode($response, true);
@@ -857,10 +857,10 @@ function obter_avaliacao_usuario_produto($produto_id, $usuario_id) {
 function renderizar_estrelas($media) {
     $media = (float) $media;
     $cheias = (int) round($media);
-    $html = '<span class="inline-flex items-center gap-0.5 text-secondary" aria-label="Avaliação ' . escapar(number_format($media, 1, ',', '.')) . ' de 5">';
+    $html = '<span class="inline-flex items-center gap-0.5 text-secondary" aria-label="AvaliaÃ§Ã£o ' . escapar(number_format($media, 1, ',', '.')) . ' de 5">';
     for ($i = 1; $i <= 5; $i++) {
         $classe = $i <= $cheias ? 'text-secondary' : 'text-outline/40';
-        $html .= '<span class="material-symbols-outlined text-[18px] ' . $classe . '">star</span>';
+        $html .= '<span class="notranslate material-symbols-outlined text-[18px] ' . $classe . '" translate="no">star</span>';
     }
     $html .= '</span>';
     return $html;
@@ -927,7 +927,7 @@ function obter_produtos_recomendados($limite = 4, $produto_id_excluir = null) {
     return $stmt->fetchAll();
 }
 
-// Função para obter todos os produtos
+// FunÃ§Ã£o para obter todos os produtos
 function obter_produtos($limite = null, $offset = null) {
     global $pdo;
     $sql = "SELECT p.*, c.nome as categoria_nome FROM produtos p LEFT JOIN categorias c ON p.categoria_id = c.id ORDER BY p.data_criacao DESC";
@@ -939,7 +939,7 @@ function obter_produtos($limite = null, $offset = null) {
     return $stmt->fetchAll();
 }
 
-// Função para obter produto por ID
+// FunÃ§Ã£o para obter produto por ID
 function obter_produto_por_id($id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT p.*, c.nome as categoria_nome FROM produtos p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.id = ?");
@@ -947,7 +947,7 @@ function obter_produto_por_id($id) {
     return $stmt->fetch();
 }
 
-// Função para obter produtos por categoria
+// FunÃ§Ã£o para obter produtos por categoria
 function obter_produtos_por_categoria($categoria_id, $limite = null, $offset = null) {
     global $pdo;
     $sql = "SELECT p.*, c.nome as categoria_nome FROM produtos p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.categoria_id = ? ORDER BY p.data_criacao DESC";
@@ -960,7 +960,7 @@ function obter_produtos_por_categoria($categoria_id, $limite = null, $offset = n
     return $stmt->fetchAll();
 }
 
-// Função para buscar produtos por termo
+// FunÃ§Ã£o para buscar produtos por termo
 function buscar_produtos($termo, $limite = null, $offset = null) {
     global $pdo;
     $sql = "SELECT p.*, c.nome as categoria_nome FROM produtos p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.nome LIKE ? OR p.descricao LIKE ? ORDER BY p.data_criacao DESC";
@@ -974,7 +974,7 @@ function buscar_produtos($termo, $limite = null, $offset = null) {
     return $stmt->fetchAll();
 }
 
-// Função para obter usuário por ID
+// FunÃ§Ã£o para obter usuÃ¡rio por ID
 function obter_usuario_por_id($id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE id = ?");
@@ -982,7 +982,7 @@ function obter_usuario_por_id($id) {
     return $stmt->fetch();
 }
 
-// Função para obter usuário por email
+// FunÃ§Ã£o para obter usuÃ¡rio por email
 function obter_usuario_por_email($email) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
@@ -990,7 +990,7 @@ function obter_usuario_por_email($email) {
     return $stmt->fetch();
 }
 
-// Função para criar novo usuário
+// FunÃ§Ã£o para criar novo usuÃ¡rio
 function criar_usuario($nome, $email, $senha, $telefone = '', $admin = 0) {
     global $pdo;
     $hash = password_hash($senha, PASSWORD_DEFAULT);
@@ -1034,7 +1034,7 @@ function criar_ou_atualizar_admin_padrao($email = 'admin@lupiere.com', $senha = 
     return criar_usuario('Administrador Lupiere', $email, $senha, '', 1);
 }
 
-// Função para atualizar usuário
+// FunÃ§Ã£o para atualizar usuÃ¡rio
 function atualizar_usuario($id, $nome, $email, $telefone, $senha = null) {
     global $pdo;
     if ($senha) {
@@ -1047,7 +1047,7 @@ function atualizar_usuario($id, $nome, $email, $telefone, $senha = null) {
     }
 }
 
-// Função para verificar se email já existe
+// FunÃ§Ã£o para verificar se email jÃ¡ existe
 function email_existe($email, $except_id = null) {
     global $pdo;
     if ($except_id) {
@@ -1060,7 +1060,7 @@ function email_existe($email, $except_id = null) {
     return $stmt->fetch() !== false;
 }
 
-// Função para obter contagem total de produtos
+// FunÃ§Ã£o para obter contagem total de produtos
 function contar_produtos() {
     global $pdo;
     $stmt = $pdo->query("SELECT COUNT(*) as total FROM produtos");
@@ -1068,7 +1068,7 @@ function contar_produtos() {
     return $result['total'];
 }
 
-// Função para obter contagem total de produtos por categoria
+// FunÃ§Ã£o para obter contagem total de produtos por categoria
 function contar_produtos_por_categoria($categoria_id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM produtos WHERE categoria_id = ?");
@@ -1077,7 +1077,7 @@ function contar_produtos_por_categoria($categoria_id) {
     return $result['total'];
 }
 
-// Função para obter contagem total de produtos na busca
+// FunÃ§Ã£o para obter contagem total de produtos na busca
 function contar_produtos_busca($termo) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM produtos WHERE nome LIKE ? OR descricao LIKE ?");
@@ -1087,14 +1087,14 @@ function contar_produtos_busca($termo) {
     return $result['total'];
 }
 
-// Função para adicionar produto (admin)
+// FunÃ§Ã£o para adicionar produto (admin)
 function adicionar_produto($nome, $descricao, $preco, $estoque, $categoria_id, $imagem = null) {
     global $pdo;
     $stmt = $pdo->prepare("INSERT INTO produtos (nome, descricao, preco, estoque, categoria_id, imagem, data_criacao) VALUES (?, ?, ?, ?, ?, ?, NOW())");
     return $stmt->execute([$nome, $descricao, $preco, $estoque, $categoria_id, $imagem]);
 }
 
-// Função para atualizar produto (admin)
+// FunÃ§Ã£o para atualizar produto (admin)
 function atualizar_produto($id, $nome, $descricao, $preco, $estoque, $categoria_id, $imagem = null) {
     global $pdo;
     if ($imagem) {
@@ -1106,14 +1106,14 @@ function atualizar_produto($id, $nome, $descricao, $preco, $estoque, $categoria_
     }
 }
 
-// Função para excluir produto (admin)
+// FunÃ§Ã£o para excluir produto (admin)
 function excluir_produto($id) {
     global $pdo;
     $stmt = $pdo->prepare("DELETE FROM produtos WHERE id = ?");
     return $stmt->execute([$id]);
 }
 
-// Função para obter todos os pedidos (admin)
+// FunÃ§Ã£o para obter todos os pedidos (admin)
 function obter_pedidos($limite = null, $offset = null) {
     global $pdo;
     $sql = "SELECT p.*, u.nome as usuario_nome FROM pedidos p LEFT JOIN usuarios u ON p.usuario_id = u.id ORDER BY p.data_pedido DESC";
@@ -1125,7 +1125,7 @@ function obter_pedidos($limite = null, $offset = null) {
     return $stmt->fetchAll();
 }
 
-// Função para obter pedido por ID com itens
+// FunÃ§Ã£o para obter pedido por ID com itens
 function obter_pedido_por_id($id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT p.*, u.nome as usuario_nome, u.email as usuario_email FROM pedidos p LEFT JOIN usuarios u ON p.usuario_id = u.id WHERE p.id = ?");
@@ -1138,7 +1138,7 @@ function obter_pedido_por_id($id) {
     return $pedido;
 }
 
-// Função para obter itens de um pedido
+// FunÃ§Ã£o para obter itens de um pedido
 function obter_itens_pedido($pedido_id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT i.*, p.nome as produto_nome, p.imagem as produto_imagem FROM itens_pedido i LEFT JOIN produtos p ON i.produto_id = p.id WHERE i.pedido_id = ?");
@@ -1146,7 +1146,7 @@ function obter_itens_pedido($pedido_id) {
     return $stmt->fetchAll();
 }
 
-// Função para obter pedidos do usuário
+// FunÃ§Ã£o para obter pedidos do usuÃ¡rio
 function obter_pedidos_usuario($usuario_id, $limite = null, $offset = null) {
     global $pdo;
     $sql = "SELECT * FROM pedidos WHERE usuario_id = ? ORDER BY data_pedido DESC";
@@ -1159,7 +1159,7 @@ function obter_pedidos_usuario($usuario_id, $limite = null, $offset = null) {
     return $stmt->fetchAll();
 }
 
-// Função para contar pedidos do usuário
+// FunÃ§Ã£o para contar pedidos do usuÃ¡rio
 function contar_pedidos_usuario($usuario_id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM pedidos WHERE usuario_id = ?");
@@ -1168,7 +1168,7 @@ function contar_pedidos_usuario($usuario_id) {
     return $result['total'];
 }
 
-// Função para contar categorias
+// FunÃ§Ã£o para contar categorias
 function contar_categorias() {
     global $pdo;
     $stmt = $pdo->query("SELECT COUNT(*) as total FROM categorias");
@@ -1176,7 +1176,7 @@ function contar_categorias() {
     return $result['total'];
 }
 
-// Função para contar usuários
+// FunÃ§Ã£o para contar usuÃ¡rios
 function contar_usuarios() {
     global $pdo;
     $stmt = $pdo->query("SELECT COUNT(*) as total FROM usuarios");
@@ -1184,7 +1184,7 @@ function contar_usuarios() {
     return $result['total'];
 }
 
-// Função para contar pedidos (admin)
+// FunÃ§Ã£o para contar pedidos (admin)
 function contar_pedidos() {
     global $pdo;
     $stmt = $pdo->query("SELECT COUNT(*) as total FROM pedidos");
@@ -1192,7 +1192,7 @@ function contar_pedidos() {
     return $result['total'];
 }
 
-// Função para finalizar compra (criar pedido e itens)
+// FunÃ§Ã£o para finalizar compra (criar pedido e itens)
 function finalizar_compra($usuario_id, $carrinho, $total, $endereco_entrega, $forma_pagamento = 'pix') {
     global $pdo;
     garantir_colunas_pagamento_pedidos();
@@ -1259,12 +1259,12 @@ function atualizar_status_pagamento_pedido($pedido_id, $status_pagamento, $data_
     return $stmt->execute([$status_pagamento, $pedido_id]);
 }
 
-// Função para limpar carrinho da sessão
+// FunÃ§Ã£o para limpar carrinho da sessÃ£o
 function limpar_carrinho() {
     unset($_SESSION['carrinho']);
 }
 
-// Função para obter total do carrinho
+// FunÃ§Ã£o para obter total do carrinho
 function obter_total_carrinho() {
     $total = 0;
     if (!empty($_SESSION['carrinho'])) {
@@ -1275,7 +1275,7 @@ function obter_total_carrinho() {
     return $total;
 }
 
-// Função para obter quantidade total de itens no carrinho
+// FunÃ§Ã£o para obter quantidade total de itens no carrinho
 function obter_quantidade_carrinho() {
     $quantidade = 0;
     if (!empty($_SESSION['carrinho'])) {
@@ -1286,11 +1286,11 @@ function obter_quantidade_carrinho() {
     return $quantidade;
 }
 
-// Função para fazer upload de imagem
+// FunÃ§Ã£o para fazer upload de imagem
 function upload_imagem($file, $pasta = null) {
     $pasta = $pasta ?: dirname(__DIR__, 2) . '/public/uploads';
 
-    // Verificar se há erro no upload
+    // Verificar se hÃ¡ erro no upload
     if ($file['error'] !== UPLOAD_ERR_OK) {
         return ['erro' => 'Erro no upload do arquivo'];
     }
@@ -1298,21 +1298,21 @@ function upload_imagem($file, $pasta = null) {
     // Verificar tipo de arquivo
     $tipos_permitidos = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
     if (!in_array($file['type'], $tipos_permitidos)) {
-        return ['erro' => 'Tipo de arquivo não permitido. Use JPG, PNG, GIF ou WEBP'];
+        return ['erro' => 'Tipo de arquivo nÃ£o permitido. Use JPG, PNG, GIF ou WEBP'];
     }
 
-    // Verificar tamanho (5MB máximo)
+    // Verificar tamanho (5MB mÃ¡ximo)
     $tamanho_maximo = 5 * 1024 * 1024; // 5MB
     if ($file['size'] > $tamanho_maximo) {
-        return ['erro' => 'Arquivo muito grande. Tamanho máximo: 5MB'];
+        return ['erro' => 'Arquivo muito grande. Tamanho mÃ¡ximo: 5MB'];
     }
 
-    // Gerar nome único para o arquivo
+    // Gerar nome Ãºnico para o arquivo
     $extensao = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     $nome_arquivo = uniqid('img_', true) . '.' . $extensao;
     $caminho_destino = rtrim($pasta, '/\\') . '/' . $nome_arquivo;
 
-    // Criar pasta se não existir
+    // Criar pasta se nÃ£o existir
     if (!is_dir($pasta)) {
         mkdir($pasta, 0755, true);
     }
@@ -1325,7 +1325,7 @@ function upload_imagem($file, $pasta = null) {
     }
 }
 
-// Função para verificar se usuário é admin
+// FunÃ§Ã£o para verificar se usuÃ¡rio Ã© admin
 function imagem_produto_url($imagem, $prefixo = '') {
     if (empty($imagem)) {
         return '';
@@ -1359,7 +1359,7 @@ function eh_admin($usuario_id) {
     return $usuario && $usuario['admin'] == 1;
 }
 
-// Função para proteger página (redireciona se não logado)
+// FunÃ§Ã£o para proteger pÃ¡gina (redireciona se nÃ£o logado)
 function proteger_pagina() {
     if (!isset($_SESSION["usuario_id"])) {
         header("Location: login.php");
@@ -1367,7 +1367,7 @@ function proteger_pagina() {
     }
 }
 
-// Função para proteger página admin (redireciona se não logado ou não admin)
+// FunÃ§Ã£o para proteger pÃ¡gina admin (redireciona se nÃ£o logado ou nÃ£o admin)
 function proteger_pagina_admin() {
     if (!isset($_SESSION["usuario_id"])) {
         header("Location: ../login.php");
@@ -1379,27 +1379,27 @@ function proteger_pagina_admin() {
     }
 }
 
-// Função para exibir mensagem de sucesso
+// FunÃ§Ã£o para exibir mensagem de sucesso
 function mensagem_sucesso($texto) {
     return '<div class="mb-4 p-4 bg-green-500/20 text-green-600 rounded-lg">' . $texto . '</div>';
 }
 
-// Função para exibir mensagem de erro
+// FunÃ§Ã£o para exibir mensagem de erro
 function mensagem_erro($texto) {
     return '<div class="mb-4 p-4 bg-red-500/20 text-red-600 rounded-lg">' . $texto . '</div>';
 }
 
-// Função para sanitizar saída (escape HTML)
+// FunÃ§Ã£o para sanitizar saÃ­da (escape HTML)
 function escapar($texto) {
     return htmlspecialchars($texto, ENT_QUOTES, 'UTF-8');
 }
 
-// Função para formatar moeda
+// FunÃ§Ã£o para formatar moeda
 function formatar_moeda($valor) {
     return 'R$ ' . number_format($valor, 2, ',', '.');
 }
 
-// Função para gerar slug (para URLs amigáveis)
+// FunÃ§Ã£o para gerar slug (para URLs amigÃ¡veis)
 function gerar_slug($texto) {
     $slug = strtolower(trim($texto));
     $slug = preg_replace('/[^a-z0-9-]/', '-', $slug);

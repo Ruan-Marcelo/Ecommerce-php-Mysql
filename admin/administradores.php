@@ -20,13 +20,13 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     if (!$admin_atual || !password_verify($senha_admin_atual, $admin_atual['senha'])) {
         $_SESSION['admin_erro'] = 'Senha do administrador logado incorreta.';
     } elseif ($nome === '' || $email === '' || $senha_novo_admin === '') {
-        $_SESSION['admin_erro'] = 'Nome, e-mail e senha do novo administrador são obrigatórios.';
+        $_SESSION['admin_erro'] = 'Nome, e-mail e senha do novo administrador sÃ£o obrigatÃ³rios.';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $_SESSION['admin_erro'] = 'Informe um e-mail válido.';
+        $_SESSION['admin_erro'] = 'Informe um e-mail vÃ¡lido.';
     } elseif ($senha_novo_admin !== $confirmar_senha) {
-        $_SESSION['admin_erro'] = 'A senha e a confirmação do novo administrador não coincidem.';
+        $_SESSION['admin_erro'] = 'A senha e a confirmaÃ§Ã£o do novo administrador nÃ£o coincidem.';
     } elseif (email_existe($email)) {
-        $_SESSION['admin_erro'] = 'Este e-mail já está cadastrado.';
+        $_SESSION['admin_erro'] = 'Este e-mail jÃ¡ estÃ¡ cadastrado.';
     } elseif (criar_usuario($nome, $email, $senha_novo_admin, $telefone, 1)) {
         $_SESSION['admin_sucesso'] = 'Administrador cadastrado com sucesso.';
     } else {
@@ -49,31 +49,31 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
   </div>
   <nav class="flex-1 flex-col pt-6 space-y-4">
     <a href="index.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors">
-      <span class="material-symbols-outlined">dashboard</span>
+      <span class="notranslate material-symbols-outlined" translate="no">dashboard</span>
       <span class="ml-3">Dashboard</span>
     </a>
     <a href="produtos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors">
-      <span class="material-symbols-outlined">inventory_2</span>
+      <span class="notranslate material-symbols-outlined" translate="no">inventory_2</span>
       <span class="ml-3">Produtos</span>
     </a>
     <a href="categorias.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors">
-      <span class="material-symbols-outlined">category</span>
+      <span class="notranslate material-symbols-outlined" translate="no">category</span>
       <span class="ml-3">Categorias</span>
     </a>
     <a href="pedidos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors">
-      <span class="material-symbols-outlined">list_alt</span>
+      <span class="notranslate material-symbols-outlined" translate="no">list_alt</span>
       <span class="ml-3">Pedidos</span>
     </a>
     <a href="banners.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors">
-      <span class="material-symbols-outlined">image</span>
+      <span class="notranslate material-symbols-outlined" translate="no">image</span>
       <span class="ml-3">Banners</span>
     </a>
     <a href="administradores.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors">
-      <span class="material-symbols-outlined">admin_panel_settings</span>
+      <span class="notranslate material-symbols-outlined" translate="no">admin_panel_settings</span>
       <span class="ml-3">Administradores</span>
     </a>
     <a href="../logout.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto">
-      <span class="material-symbols-outlined">logout</span>
+      <span class="notranslate material-symbols-outlined" translate="no">logout</span>
       <span class="ml-3">Sair</span>
     </a>
   </nav>

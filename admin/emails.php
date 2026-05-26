@@ -124,14 +124,14 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
     <div class="text-xl font-headline-lg tracking-[0.4em] text-white">LUPIERE ADMIN</div>
   </div>
   <nav class="flex-1 flex-col pt-6 space-y-4">
-    <a href="index.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">dashboard</span><span class="ml-3">Dashboard</span></a>
-    <a href="produtos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">inventory_2</span><span class="ml-3">Produtos</span></a>
-    <a href="categorias.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">category</span><span class="ml-3">Categorias</span></a>
-    <a href="pedidos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">list_alt</span><span class="ml-3">Pedidos</span></a>
-    <a href="banners.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">image</span><span class="ml-3">Banners</span></a>
-    <a href="emails.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors"><span class="material-symbols-outlined">mail</span><span class="ml-3">E-mails</span></a>
-    <a href="administradores.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">admin_panel_settings</span><span class="ml-3">Administradores</span></a>
-    <a href="../logout.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto"><span class="material-symbols-outlined">logout</span><span class="ml-3">Sair</span></a>
+    <a href="index.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">dashboard</span><span class="ml-3">Dashboard</span></a>
+    <a href="produtos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">inventory_2</span><span class="ml-3">Produtos</span></a>
+    <a href="categorias.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">category</span><span class="ml-3">Categorias</span></a>
+    <a href="pedidos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">list_alt</span><span class="ml-3">Pedidos</span></a>
+    <a href="banners.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">image</span><span class="ml-3">Banners</span></a>
+    <a href="emails.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">mail</span><span class="ml-3">E-mails</span></a>
+    <a href="administradores.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">admin_panel_settings</span><span class="ml-3">Administradores</span></a>
+    <a href="../logout.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto"><span class="notranslate material-symbols-outlined" translate="no">logout</span><span class="ml-3">Sair</span></a>
   </nav>
 </aside>
 

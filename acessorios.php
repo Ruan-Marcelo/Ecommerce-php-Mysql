@@ -2,7 +2,7 @@
 session_start();
 require_once __DIR__ . '/app/core/funcoes.php';
 
-$titulo_pagina = 'Acessórios';
+$titulo_pagina = 'AcessÃ³rios';
 $categoria_acessorios = garantir_categoria_acessorios();
 $produtos = $categoria_acessorios ? obter_produtos_por_categoria((int) $categoria_acessorios['id']) : [];
 
@@ -24,7 +24,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
 
     <?php if (empty($produtos)): ?>
       <div class="bg-surface rounded-lg border border-outline/20 p-10 text-center">
-        <span class="material-symbols-outlined text-on-surface-variant/50 text-5xl mb-4">inventory_2</span>
+        <span class="notranslate material-symbols-outlined text-on-surface-variant/50 text-5xl mb-4" translate="no">inventory_2</span>
         <p class="font-headline-md text-[24px] text-primary mb-2">Nenhum acess&oacute;rio cadastrado.</p>
         <p class="text-on-surface-variant">
           Cadastre produtos no admin e selecione a categoria Acess&oacute;rios para que apare&ccedil;am aqui.
@@ -47,7 +47,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                 />
               <?php else: ?>
                 <div class="w-full h-[320px] bg-surface-container flex items-center justify-center">
-                  <span class="material-symbols-outlined text-on-surface-variant/60 text-5xl">inventory_2</span>
+                  <span class="notranslate material-symbols-outlined text-on-surface-variant/60 text-5xl" translate="no">inventory_2</span>
                 </div>
               <?php endif; ?>
             </a>

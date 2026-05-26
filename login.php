@@ -3,7 +3,7 @@ session_start();
 
 require_once __DIR__ . '/app/core/funcoes.php';
 
-// REDIRECIONA SE JÁ ESTIVER LOGADO
+// REDIRECIONA SE JÃ ESTIVER LOGADO
 if (isset($_SESSION["usuario_id"])) {
     header("Location: " . (!empty($_SESSION["admin"]) ? "admin/index.php" : "perfil.php"));
     exit();
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         } else {
 
-            $erro = "Email ou senha inválidos.";
+            $erro = "Email ou senha invÃ¡lidos.";
 
         }
 
@@ -55,9 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>LUPIÈRE | Login</title>
+    <title>LUPIÃˆRE | Login</title>
 
-    <meta name="description" content="Acesse sua conta Lupière. Elegância, sofisticação e alfaiataria premium." />
+    <meta name="description" content="Acesse sua conta LupiÃ¨re. ElegÃ¢ncia, sofisticaÃ§Ã£o e alfaiataria premium." />
 
     <link rel="icon" href="favicon.ico" />
 
@@ -115,7 +115,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .material-symbols-outlined {
 
-            font-variation-settings:
+            
+        font-family: 'Material Symbols Outlined' !important;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+font-variation-settings:
             'FILL' 0,
             'wght' 300,
             'GRAD' 0,
@@ -227,7 +239,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <!-- MOBILE BTN -->
         <button id="menuBtn" class="lg:hidden">
 
-            <span class="material-symbols-outlined">
+            <span class="notranslate material-symbols-outlined" translate="no">
                 menu
             </span>
 
@@ -241,15 +253,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </a>
 
             <a href="produtos.php" class="nav-link">
-                Coleções
+                ColeÃ§Ãµes
             </a>
 
             <a href="acessorios.php" class="nav-link">
-                Acessórios
+                AcessÃ³rios
             </a>
 
             <a href="sobre.php" class="nav-link">
-                Nossa história
+                Nossa histÃ³ria
             </a>
 
         </nav>
@@ -258,7 +270,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <a href="index.php"
            class="text-xl md:text-2xl title-font tracking-[0.4em] uppercase">
 
-            LUPIÈRE
+            LUPIÃˆRE
 
         </a>
 
@@ -267,7 +279,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <a href="carrinho.php" class="icon-btn">
 
-                <span class="material-symbols-outlined">
+                <span class="notranslate material-symbols-outlined" translate="no">
                     shopping_bag
                 </span>
 
@@ -275,7 +287,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <a href="login.php" class="icon-btn">
 
-                <span class="material-symbols-outlined">
+                <span class="notranslate material-symbols-outlined" translate="no">
                     person
                 </span>
 
@@ -299,7 +311,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <button id="closeMenu">
 
-            <span class="material-symbols-outlined">
+            <span class="notranslate material-symbols-outlined" translate="no">
                 close
             </span>
 
@@ -312,15 +324,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </a>
 
     <a href="produtos.php" class="nav-link">
-        Coleções
+        ColeÃ§Ãµes
     </a>
 
     <a href="acessorios.php" class="nav-link">
-        Acessórios
+        AcessÃ³rios
     </a>
 
     <a href="sobre.php" class="nav-link">
-        Nossa história
+        Nossa histÃ³ria
     </a>
 
 </div>
@@ -331,7 +343,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- WATERMARK -->
     <div class="wolf-watermark">
 
-        <span class="material-symbols-outlined text-[35rem]">
+        <span class="notranslate material-symbols-outlined text-[35rem]" translate="no">
             auto_awesome
         </span>
 
@@ -420,7 +432,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             name="password"
                             required
                             autocomplete="current-password"
-                            placeholder="••••••••"
+                            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                             class="custom-input w-full bg-transparent border-0 border-b border-[#1B3022]/20 py-4 pr-10 focus:border-secondary transition-all placeholder:text-[#1B3022]/30"
                         />
 
@@ -429,7 +441,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             id="togglePassword"
                             class="absolute right-0 top-1/2 -translate-y-1/2 text-[#1B3022]/50 hover:text-[#1B3022] transition">
 
-                            <span class="material-symbols-outlined">
+                            <span class="notranslate material-symbols-outlined" translate="no">
 
                                 visibility
 
@@ -532,7 +544,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <p class="text-sm text-[#1B3022]/60">
 
-                    Não possui uma conta?
+                    NÃ£o possui uma conta?
 
                     <a href="registrar.php"
                        class="font-semibold hover:underline ml-1">
@@ -560,14 +572,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <div class="title-font text-2xl tracking-[0.3em] uppercase mb-5">
 
-                LUPIÈRE
+                LUPIÃˆRE
 
             </div>
 
             <p class="text-[#1B3022]/60 max-w-sm leading-relaxed">
 
-                Elevando a alfaiataria clássica para o homem contemporâneo.
-                Sofisticação, tradição e personalidade.
+                Elevando a alfaiataria clÃ¡ssica para o homem contemporÃ¢neo.
+                SofisticaÃ§Ã£o, tradiÃ§Ã£o e personalidade.
 
             </p>
 
@@ -614,7 +626,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             password.type = 'text';
 
             togglePassword.innerHTML = `
-                <span class="material-symbols-outlined">
+                <span class="notranslate material-symbols-outlined" translate="no">
                     visibility_off
                 </span>
             `;
@@ -624,7 +636,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             password.type = 'password';
 
             togglePassword.innerHTML = `
-                <span class="material-symbols-outlined">
+                <span class="notranslate material-symbols-outlined" translate="no">
                     visibility
                 </span>
             `;

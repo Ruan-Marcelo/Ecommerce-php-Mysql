@@ -52,7 +52,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                 />
               <?php else: ?>
                 <div class="w-full h-[300px] bg-surface-container flex items-center justify-center">
-                  <span class="material-symbols-outlined text-on-surface-variant/60 text-5xl">inventory_2</span>
+                  <span class="notranslate material-symbols-outlined text-on-surface-variant/60 text-5xl" translate="no">inventory_2</span>
                 </div>
               <?php endif; ?>
             </a>

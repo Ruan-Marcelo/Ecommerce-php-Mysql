@@ -66,14 +66,14 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
           href="admin/index.php"
           class="block bg-primary-container text-white p-6 hover:bg-primary transition-colors"
         >
-          <span class="material-symbols-outlined mb-4">admin_panel_settings</span>
+          <span class="notranslate material-symbols-outlined mb-4" translate="no">admin_panel_settings</span>
           <h2 class="font-headline-md text-[24px] mb-2">Painel administrativo</h2>
           <p class="text-white/75">Acessar dashboard, produtos, categorias e pedidos.</p>
         </a>
       <?php endif; ?>
 
       <a href="historico.php" class="block border border-outline/20 p-6 text-primary hover:bg-surface-container-low transition-colors">
-        <span class="material-symbols-outlined mb-4">receipt_long</span>
+        <span class="notranslate material-symbols-outlined mb-4" translate="no">receipt_long</span>
         <p class="font-label-caps text-label-caps">Hist&oacute;rico de pedidos</p>
       </a>
     </aside>

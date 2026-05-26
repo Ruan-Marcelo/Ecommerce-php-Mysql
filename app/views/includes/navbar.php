@@ -14,7 +14,7 @@ $GLOBALS['lupiere_navbar_main_open'] = true;
   >
     <!-- BOTAO MENU MOBILE -->
     <button id="menuBtn" class="lg:hidden text-[#1B3022]">
-      <span class="material-symbols-outlined">menu</span>
+      <span class="notranslate material-symbols-outlined" translate="no">menu</span>
     </button>
 
     <!-- NAV DESKTOP -->
@@ -35,19 +35,19 @@ $GLOBALS['lupiere_navbar_main_open'] = true;
     <!-- ICONES -->
     <div class="flex items-center gap-5 md:gap-8 text-[#1B3022]">
       <a href="<?php echo $base_path; ?>carrinho.php" class="icon-btn">
-        <span class="material-symbols-outlined">shopping_bag</span>
+        <span class="notranslate material-symbols-outlined" translate="no">shopping_bag</span>
       </a>
       <a href="<?php echo $base_path . $conta_url; ?>" class="icon-btn">
-        <span class="material-symbols-outlined">person</span>
+        <span class="notranslate material-symbols-outlined" translate="no">person</span>
       </a>
       <?php if (isset($_SESSION['usuario_id'])): ?>
         <a href="<?php echo $base_path; ?>lista_desejos.php" class="icon-btn" aria-label="Lista de desejos">
-          <span class="material-symbols-outlined">favorite</span>
+          <span class="notranslate material-symbols-outlined" translate="no">favorite</span>
         </a>
       <?php endif; ?>
       <?php if (isset($_SESSION['usuario_id'])): ?>
         <a href="<?php echo $base_path; ?>logout.php" class="icon-btn" aria-label="Sair da conta">
-          <span class="material-symbols-outlined">logout</span>
+          <span class="notranslate material-symbols-outlined" translate="no">logout</span>
         </a>
       <?php endif; ?>
     </div>
@@ -62,7 +62,7 @@ $GLOBALS['lupiere_navbar_main_open'] = true;
   <div class="flex justify-between items-center">
     <span class="font-label-caps text-sm tracking-widest">MENU</span>
     <button id="closeMenu">
-      <span class="material-symbols-outlined">close</span>
+      <span class="notranslate material-symbols-outlined" translate="no">close</span>
     </button>
   </div>
 

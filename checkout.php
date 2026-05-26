@@ -1,11 +1,11 @@
 <?php
 session_start();
 require_once __DIR__ . '/app/core/funcoes.php';
-proteger_pagina(); // Redireciona se não estiver logado
+proteger_pagina(); // Redireciona se nÃ£o estiver logado
 
-// Verificar se carrinho está vazio
+// Verificar se carrinho estÃ¡ vazio
 if (empty($_SESSION['carrinho'])) {
-    $_SESSION['carrinho_erro'] = 'Seu carrinho está vazio';
+    $_SESSION['carrinho_erro'] = 'Seu carrinho estÃ¡ vazio';
     header('Location: carrinho.php');
     exit();
 }
@@ -55,12 +55,12 @@ $total = $subtotal - $desconto;
                   <img src="<?php echo escapar(imagem_produto_url($item['imagem'])); ?>" alt="<?php echo escapar($item['nome']); ?>" class="w-16 h-16 object-contain rounded-lg">
                 <?php else: ?>
                   <div class="w-16 h-16 bg-surface-container flex items-center justify-center rounded-lg">
-                    <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
+                    <span class="notranslate material-symbols-outlined text-on-surface-variant/60" translate="no">inventory_2</span>
                   </div>
                 <?php endif; ?>
               </div>
 
-              <!-- Informações -->
+              <!-- InformaÃ§Ãµes -->
               <div class="flex-1 space-y-1">
                 <p class="font-body-sm text-body-sm line-clamp-1"><?php echo escapar($item['nome']); ?></p>
                 <p class="text-xs text-on-surface-variant/60">
@@ -68,7 +68,7 @@ $total = $subtotal - $desconto;
                 </p>
               </div>
 
-              <!-- Preço total do item -->
+              <!-- PreÃ§o total do item -->
               <div class="flex-shrink-0 text-right">
                 <p class="font-body-sm text-body-sm"><?php echo formatar_moeda($item['preco'] * $item['quantidade']); ?></p>
               </div>
@@ -102,7 +102,7 @@ $total = $subtotal - $desconto;
       <form action="finalizar.php" method="POST" class="space-y-6">
         <?php echo csrf_input(); ?>
         <div class="space-y-4">
-          <h3 class="font-headline-sm text-headline-sm mb-4">Informações de entrega</h3>
+          <h3 class="font-headline-sm text-headline-sm mb-4">InformaÃ§Ãµes de entrega</h3>
 
           <div class="grid gap-4 md:grid-cols-2">
             <div>
@@ -126,24 +126,24 @@ $total = $subtotal - $desconto;
             </div>
 
             <div class="md:col-span-2">
-              <label class="block font-label-caps text-label-caps mb-2">Endereço completo:</label>
+              <label class="block font-label-caps text-label-caps mb-2">EndereÃ§o completo:</label>
               <textarea
                 name="endereco"
                 class="w-full form-input-bespoke py-3 text-body-md font-body-md text-primary"
                 rows="3"
-                placeholder="Rua, número, complemento, bairro, cidade, estado, CEP"
+                placeholder="Rua, nÃºmero, complemento, bairro, cidade, estado, CEP"
                 required
               ></textarea>
             </div>
           </div>
 
           <div class="mt-4 pt-4 border-t border-outline/20">
-            <label class="block font-label-caps text-label-caps mb-2">Observações (opcional):</label>
+            <label class="block font-label-caps text-label-caps mb-2">ObservaÃ§Ãµes (opcional):</label>
             <textarea
               name="observacoes"
               class="w-full form-input-bespoke py-3 text-body-md font-body-md text-primary"
               rows="2"
-              placeholder="Ex: Deixe com o porteiro, prefere entrega em horário específico..."
+              placeholder="Ex: Deixe com o porteiro, prefere entrega em horÃ¡rio especÃ­fico..."
             ></textarea>
           </div>
 
@@ -153,17 +153,17 @@ $total = $subtotal - $desconto;
               <label class="border border-outline/20 rounded-lg p-4 cursor-pointer hover:bg-surface-container-low">
                 <input type="radio" name="forma_pagamento" value="pix" checked class="mb-3">
                 <span class="block font-label-caps text-label-caps text-primary">Pix</span>
-                <span class="block text-sm text-on-surface-variant mt-2">Gera código copia e cola simulado.</span>
+                <span class="block text-sm text-on-surface-variant mt-2">Gera cÃ³digo copia e cola simulado.</span>
               </label>
               <label class="border border-outline/20 rounded-lg p-4 cursor-pointer hover:bg-surface-container-low">
                 <input type="radio" name="forma_pagamento" value="cartao" class="mb-3">
-                <span class="block font-label-caps text-label-caps text-primary">Cartão</span>
-                <span class="block text-sm text-on-surface-variant mt-2">Registra pagamento pendente para integração futura.</span>
+                <span class="block font-label-caps text-label-caps text-primary">CartÃ£o</span>
+                <span class="block text-sm text-on-surface-variant mt-2">Registra pagamento pendente para integraÃ§Ã£o futura.</span>
               </label>
               <label class="border border-outline/20 rounded-lg p-4 cursor-pointer hover:bg-surface-container-low">
                 <input type="radio" name="forma_pagamento" value="boleto" class="mb-3">
                 <span class="block font-label-caps text-label-caps text-primary">Boleto</span>
-                <span class="block text-sm text-on-surface-variant mt-2">Registra boleto pendente de emissão.</span>
+                <span class="block text-sm text-on-surface-variant mt-2">Registra boleto pendente de emissÃ£o.</span>
               </label>
             </div>
           </div>

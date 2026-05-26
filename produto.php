@@ -23,9 +23,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $comentario = trim($_POST['comentario'] ?? '');
         if ($nome !== '' && $comentario !== '') {
             adicionar_comentario_produto($id, $_SESSION['usuario_id'] ?? null, $nome, $comentario);
-            $_SESSION['produto_sucesso'] = 'Comentário publicado.';
+            $_SESSION['produto_sucesso'] = 'ComentÃ¡rio publicado.';
         } else {
-            $_SESSION['produto_erro'] = 'Informe nome e comentário.';
+            $_SESSION['produto_erro'] = 'Informe nome e comentÃ¡rio.';
         }
     }
     if ($acao === 'avaliar') {
@@ -33,7 +33,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
             $_SESSION['produto_erro'] = 'Entre na conta para avaliar.';
         } else {
             salvar_avaliacao_produto($id, $_SESSION['usuario_id'], (int) ($_POST['nota'] ?? 0));
-            $_SESSION['produto_sucesso'] = 'Avaliação salva.';
+            $_SESSION['produto_sucesso'] = 'AvaliaÃ§Ã£o salva.';
         }
     }
     header('Location: produto.php?id=' . $id);
@@ -72,7 +72,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
           <img src="<?php echo escapar($imagem_principal); ?>" alt="<?php echo escapar($produto['nome']); ?>" class="w-full h-full object-cover">
         <?php else: ?>
           <div class="w-full h-full flex items-center justify-center">
-            <span class="material-symbols-outlined text-on-surface-variant/60 text-6xl">inventory_2</span>
+            <span class="notranslate material-symbols-outlined text-on-surface-variant/60 text-6xl" translate="no">inventory_2</span>
           </div>
         <?php endif; ?>
       </div>
@@ -173,7 +173,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
           <input type="hidden" name="produto_id" value="<?php echo (int) $produto['id']; ?>">
           <input type="hidden" name="redirect" value="produto.php?id=<?php echo (int) $produto['id']; ?>">
           <button type="submit" class="w-full border border-outline/30 text-primary py-4 px-6 font-label-caps text-label-caps tracking-[0.2em] hover:bg-surface-container-low transition-all duration-300">
-            <?php echo $na_lista_desejos ? 'Remover da lista de desejos' : 'Adicionar à lista de desejos'; ?>
+            <?php echo $na_lista_desejos ? 'Remover da lista de desejos' : 'Adicionar Ã  lista de desejos'; ?>
           </button>
         </form>
       <?php endif; ?>
@@ -197,7 +197,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
       <h2 class="font-headline-md text-headline-md text-primary mb-4">Coment&aacute;rios</h2>
       <div class="space-y-4">
         <?php if (empty($comentarios)): ?>
-          <p class="text-on-surface-variant text-sm">Nenhum comentário ainda.</p>
+          <p class="text-on-surface-variant text-sm">Nenhum comentÃ¡rio ainda.</p>
         <?php endif; ?>
         <?php foreach ($comentarios as $comentario): ?>
           <div class="border border-outline/20 p-4">
@@ -220,8 +220,8 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
         <?php if (!isset($_SESSION['usuario_id'])): ?>
           <input type="text" name="nome" placeholder="Seu nome" class="w-full form-input-bespoke py-3 text-primary" required>
         <?php endif; ?>
-        <textarea name="comentario" rows="4" placeholder="Escreva seu comentário" class="w-full form-input-bespoke py-3 text-primary" required></textarea>
-        <button type="submit" class="bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em]">Publicar comentário</button>
+        <textarea name="comentario" rows="4" placeholder="Escreva seu comentÃ¡rio" class="w-full form-input-bespoke py-3 text-primary" required></textarea>
+        <button type="submit" class="bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em]">Publicar comentÃ¡rio</button>
       </form>
     </div>
 
@@ -238,12 +238,12 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
               <label class="cursor-pointer">
                 <input type="radio" name="nota" value="<?php echo $nota; ?>" class="sr-only" <?php echo $avaliacao_usuario === $nota ? 'checked' : ''; ?> required>
                 <span class="inline-flex items-center gap-1 border border-outline/20 px-3 py-2 hover:bg-surface-container">
-                  <?php echo $nota; ?> <span class="material-symbols-outlined text-secondary text-[18px]">star</span>
+                  <?php echo $nota; ?> <span class="notranslate material-symbols-outlined text-secondary text-[18px]" translate="no">star</span>
                 </span>
               </label>
             <?php endfor; ?>
           </div>
-          <button type="submit" class="bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em]">Salvar avaliação</button>
+          <button type="submit" class="bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em]">Salvar avaliaÃ§Ã£o</button>
         </form>
       <?php endif; ?>
     </div>
@@ -262,7 +262,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                 <img src="<?php echo escapar(imagem_produto_url($similar['imagem'])); ?>" alt="<?php echo escapar($similar['nome']); ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
               <?php else: ?>
                 <div class="w-full h-full flex items-center justify-center">
-                  <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
+                  <span class="notranslate material-symbols-outlined text-on-surface-variant/60" translate="no">inventory_2</span>
                 </div>
               <?php endif; ?>
             </div>

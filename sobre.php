@@ -11,19 +11,19 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
         <h1
           class="font-headline-display text-headline-display text-primary mb-8"
         >
-          A linhagem do líder solitário.
+          A linhagem do lÃ­der solitÃ¡rio.
         </h1>
         <p
           class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto"
         >
-          O patrimônio não se encontra no passado, mas na qualidade duradoura
-          do presente. Explore a autoridade discreta de Lupiére.
+          O patrimÃ´nio nÃ£o se encontra no passado, mas na qualidade duradoura
+          do presente. Explore a autoridade discreta de LupiÃ©re.
         </p>
       </div>
       <div class="absolute inset-0 z-0 opacity-20">
         <img
           class="w-full h-full object-cover"
-          data-alt="A cinematic, high-contrast black and white photograph of a dense, misty forest at dawn, evoking a sense of mystery and quiet strength. The lighting is soft and ethereal, capturing the intricate textures of pine needles and damp earth. This visual anchor establishes the Lupiére brand's connection to nature and the primal symbol of the wolf, maintaining a sophisticated, minimalist luxury aesthetic with deep shadows and luminous highlights."
+          data-alt="A cinematic, high-contrast black and white photograph of a dense, misty forest at dawn, evoking a sense of mystery and quiet strength. The lighting is soft and ethereal, capturing the intricate textures of pine needles and damp earth. This visual anchor establishes the LupiÃ©re brand's connection to nature and the primal symbol of the wolf, maintaining a sophisticated, minimalist luxury aesthetic with deep shadows and luminous highlights."
           src="https://lh3.googleusercontent.com/aida-public/AB6AXuCY9wO359J-LFSdNeQYW1No78xzZqKDN59tQ4ySD1TC5WoQhiaQixTMN5oxvWGmyPMr8ogsTB4MS0Xi9ujSfMxGq3VEFdypexcKaXvhlLNZcSj7nQWIS3pkiY7zSw2xDo4sFmoWj610Z0aAqWe5RpeOwktebP-_6aBWYh-2EuE_yGSG3-S-XRWERu109WsIWYcwg1SIKcEqsM7Kit_raEeNi2iwYy7c918f2zZ_vgJqxatDLSPyg-8Nsrdw098Zpq_QITbEfrBAzgKL"
         />
       </div>
@@ -43,17 +43,17 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
         <p
           class="font-body-md text-body-md text-on-surface-variant leading-relaxed"
         >
-          No terreno acidentado dos picos do norte, o lobo — O Lobo — ergue-se
-          como um símbolo de liderança solitária e foco inabalável. Esse
-          espírito foi o catalisador para a Lupiére. Fundada no princípio de
-          que o verdadeiro estilo exige a coragem de se destacar, nosso ateliê
-          cria peças que servem como armadura para o pioneiro moderno.
+          No terreno acidentado dos picos do norte, o lobo â€” O Lobo â€” ergue-se
+          como um sÃ­mbolo de lideranÃ§a solitÃ¡ria e foco inabalÃ¡vel. Esse
+          espÃ­rito foi o catalisador para a LupiÃ©re. Fundada no princÃ­pio de
+          que o verdadeiro estilo exige a coragem de se destacar, nosso ateliÃª
+          cria peÃ§as que servem como armadura para o pioneiro moderno.
         </p>
         <p
           class="font-body-md text-body-md text-on-surface-variant leading-relaxed italic"
         >
-          "A força do lobo está na matilha, mas a força da matilha está no
-          líder que veste o manto da responsabilidade com silenciosa graça."
+          "A forÃ§a do lobo estÃ¡ na matilha, mas a forÃ§a da matilha estÃ¡ no
+          lÃ­der que veste o manto da responsabilidade com silenciosa graÃ§a."
         </p>
       </div>
       <div
@@ -61,7 +61,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
       >
         <img
           class="w-full h-full object-cover grayscale"
-          data-alt="A close-up, high-fashion portrait of a dignified man with a sharp jawline and focused gaze, wearing a bespoke Lupiére charcoal wool overcoat. The lighting is dramatic, coming from the side to emphasize the rich texture of the fabric and the structural lines of the tailoring. The background is a minimalist, off-white studio setting, reflecting a sense of quiet authority and artisanal excellence."
+          data-alt="A close-up, high-fashion portrait of a dignified man with a sharp jawline and focused gaze, wearing a bespoke LupiÃ©re charcoal wool overcoat. The lighting is dramatic, coming from the side to emphasize the rich texture of the fabric and the structural lines of the tailoring. The background is a minimalist, off-white studio setting, reflecting a sense of quiet authority and artisanal excellence."
           src="public/assets/img/joao.png"
         />
       </div>
@@ -88,7 +88,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
           >
             <img
               class="absolute inset-0 w-full h-full object-cover opacity-10 group-hover:opacity-20 transition-opacity"
-              data-alt="Exquisite detail of high-quality raw wool and silk fibers being meticulously inspected by a master craftsman. The lighting is bright and clean, highlighting the natural variations in color and the fine, luxurious texture of the materials. The composition is tight and focused, emphasizing the Lupiére commitment to using only the finest sustainable textiles for its bespoke garments."
+              data-alt="Exquisite detail of high-quality raw wool and silk fibers being meticulously inspected by a master craftsman. The lighting is bright and clean, highlighting the natural variations in color and the fine, luxurious texture of the materials. The composition is tight and focused, emphasizing the LupiÃ©re commitment to using only the finest sustainable textiles for its bespoke garments."
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuBFruqldXI62mxb5wC0oHkLe5RSYM_tcyvqbk9VnNEPBFL-a5wpbpgJEbFRxXFahgVRh3vED5HzzgQui6ezSVcovnwiQsAmMdxk9b5HvW0tgGMXqRWqsm4IY89plavzJl8YnJVjmVv09dQ4TaS4Htp8qC8GCieVesK1GSXImXPxY4UNa6tWANErXnaIAJGm0QtX-lJOivO3T0maOe9rqVtYL5jKu8LeLIffa6R5RXWJPMDjipp0GxFJMRtRGD0DtKeix3kl8K7Y2jGB"
             />
             <div class="relative z-10">
@@ -118,8 +118,8 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
           >
             <div>
               <span
-                class="material-symbols-outlined text-secondary-fixed text-4xl mb-4"
-                >eco</span
+                class="notranslate material-symbols-outlined text-secondary-fixed text-4xl mb-4"
+                 translate="no">eco</span
               >
               <p
                 class="font-label-caps text-label-caps uppercase tracking-widest"
@@ -137,7 +137,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                 A Lifetime Guarantee
               </h3>
               <p class="font-body-md text-body-md text-on-surface-variant">
-                A Lupiére garment is not for a season, but for a lifetime. We
+                A LupiÃ©re garment is not for a season, but for a lifetime. We
                 offer complimentary repairs and resizing for every piece we
                 have ever created, honoring the relationship between the
                 wearer and the craft.
@@ -155,11 +155,11 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
       <blockquote
         class="font-headline-display text-headline-md md:text-headline-lg max-w-3xl italic text-primary"
       >
-        "O estilo é a silhueta do caráter de alguém, definida pelas escolhas
-        feitas nas sombras do ateliê."
+        "O estilo Ã© a silhueta do carÃ¡ter de alguÃ©m, definida pelas escolhas
+        feitas nas sombras do ateliÃª."
       </blockquote>
       <p class="font-label-caps text-label-caps text-on-surface-variant mt-8">
-        — MARCUS LUPI, FOUNDER
+        â€” MARCUS LUPI, FOUNDER
       </p>
     </section>
     <!-- Legacy Section -->
@@ -170,7 +170,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
         <div class="w-full md:w-1/2">
           <img
             class="w-full h-auto shadow-sm"
-            data-alt="An elegant, atmospheric shot of an archive room within a heritage fashion house. Rows of leather-bound books and vintage tailoring patterns are organized on dark wood shelves. The lighting is warm and moody, focusing on a single open ledger with hand-drawn sketches of suits. The style is sophisticated and authoritative, reflecting the deep-rooted history and 'Bespoke Excellence' of the Lupiére brand."
+            data-alt="An elegant, atmospheric shot of an archive room within a heritage fashion house. Rows of leather-bound books and vintage tailoring patterns are organized on dark wood shelves. The lighting is warm and moody, focusing on a single open ledger with hand-drawn sketches of suits. The style is sophisticated and authoritative, reflecting the deep-rooted history and 'Bespoke Excellence' of the LupiÃ©re brand."
             src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZHeuTDs2CZRXRDvxAfArx83uzdetr_IQ_f44Cgrkjr5g-ghPatGw2SY4WbdgtRPqOoLJ6mx4LBm7u3wxKhH-qzETSLhPplTjOpLteN6Uw0PDg4Aj4SMlRre6ZGdpV-AqrbrMEPQ96K2IENP-QF7BNph5omkA9JxykO8Eu7r3dK1SMUVuRu6azbfcRERzD6r0WFl_690A9_mPb66n5NYC6YknYJasvnSlKUj2vmFmCYUUdKKUbnDv6kp5A3w2nEAkSh4id9Pj5B9hT"
           />
         </div>
@@ -179,7 +179,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
             O Arquivo
           </h2>
           <p class="font-body-md text-body-md text-on-surface-variant">
-                Our heritage is preserved in the Lupiére Archive—a collection of
+                Our heritage is preserved in the LupiÃ©re Archiveâ€”a collection of
                 patterns, textiles, and stories dating back to our first stitch in
                 1994. It serves as our compass, ensuring that even as we innovate
                 with technical fabrics and modern silhouettes, the soul of the

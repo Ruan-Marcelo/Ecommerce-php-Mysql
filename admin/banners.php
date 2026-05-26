@@ -12,7 +12,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     $subtitulo = trim($_POST['subtitulo'] ?? '');
     $imagem_url = trim($_POST['imagem_url'] ?? '');
     $link_url = trim($_POST['link_url'] ?? 'produtos.php');
-    $texto_botao = trim($_POST['texto_botao'] ?? 'Explorar coleção');
+    $texto_botao = trim($_POST['texto_botao'] ?? 'Explorar coleÃ§Ã£o');
     $ativo = isset($_POST['ativo']) ? 1 : 0;
     $ordem = (int) ($_POST['ordem'] ?? 0);
     $imagem = $imagem_url;
@@ -29,12 +29,12 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     if (empty($_SESSION['admin_erro'])) {
         if ($action === 'excluir') {
             if ($id > 0 && excluir_banner($id)) {
-                $_SESSION['admin_sucesso'] = 'Banner excluído com sucesso.';
+                $_SESSION['admin_sucesso'] = 'Banner excluÃ­do com sucesso.';
             } else {
                 $_SESSION['admin_erro'] = 'Erro ao excluir banner.';
             }
         } elseif ($titulo === '' || ($action === 'adicionar' && $imagem === '')) {
-            $_SESSION['admin_erro'] = 'Título e imagem são obrigatórios.';
+            $_SESSION['admin_erro'] = 'TÃ­tulo e imagem sÃ£o obrigatÃ³rios.';
         } elseif ($action === 'editar' && $id > 0) {
             if (atualizar_banner($id, $titulo, $subtitulo, $imagem, $link_url, $texto_botao, $ativo, $ordem)) {
                 $_SESSION['admin_sucesso'] = 'Banner atualizado com sucesso.';
@@ -62,13 +62,13 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
     <div class="text-xl font-headline-lg tracking-[0.4em] text-white">LUPI&Egrave;RE ADMIN</div>
   </div>
   <nav class="flex-1 flex-col pt-6 space-y-4">
-    <a href="index.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">dashboard</span><span class="ml-3">Dashboard</span></a>
-    <a href="produtos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">inventory_2</span><span class="ml-3">Produtos</span></a>
-    <a href="categorias.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">category</span><span class="ml-3">Categorias</span></a>
-    <a href="pedidos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">list_alt</span><span class="ml-3">Pedidos</span></a>
-    <a href="banners.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors"><span class="material-symbols-outlined">image</span><span class="ml-3">Banners</span></a>
-    <a href="administradores.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">admin_panel_settings</span><span class="ml-3">Administradores</span></a>
-    <a href="../logout.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto"><span class="material-symbols-outlined">logout</span><span class="ml-3">Sair</span></a>
+    <a href="index.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">dashboard</span><span class="ml-3">Dashboard</span></a>
+    <a href="produtos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">inventory_2</span><span class="ml-3">Produtos</span></a>
+    <a href="categorias.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">category</span><span class="ml-3">Categorias</span></a>
+    <a href="pedidos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">list_alt</span><span class="ml-3">Pedidos</span></a>
+    <a href="banners.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">image</span><span class="ml-3">Banners</span></a>
+    <a href="administradores.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">admin_panel_settings</span><span class="ml-3">Administradores</span></a>
+    <a href="../logout.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto"><span class="notranslate material-symbols-outlined" translate="no">logout</span><span class="ml-3">Sair</span></a>
   </nav>
 </aside>
 
@@ -98,16 +98,16 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
           <input type="hidden" name="action" value="adicionar">
           <div class="grid gap-4 md:grid-cols-2">
             <div>
-              <label class="block font-label-caps text-label-caps mb-2">Título</label>
+              <label class="block font-label-caps text-label-caps mb-2">TÃ­tulo</label>
               <input type="text" name="titulo" class="w-full form-input-bespoke py-3 text-body-md font-body-md text-primary" required>
             </div>
             <div>
-              <label class="block font-label-caps text-label-caps mb-2">Link do botão</label>
+              <label class="block font-label-caps text-label-caps mb-2">Link do botÃ£o</label>
               <input type="text" name="link_url" value="produtos.php" class="w-full form-input-bespoke py-3 text-body-md font-body-md text-primary">
             </div>
             <div>
-              <label class="block font-label-caps text-label-caps mb-2">Texto do botão</label>
-              <input type="text" name="texto_botao" value="Explorar coleção" class="w-full form-input-bespoke py-3 text-body-md font-body-md text-primary">
+              <label class="block font-label-caps text-label-caps mb-2">Texto do botÃ£o</label>
+              <input type="text" name="texto_botao" value="Explorar coleÃ§Ã£o" class="w-full form-input-bespoke py-3 text-body-md font-body-md text-primary">
             </div>
             <div>
               <label class="block font-label-caps text-label-caps mb-2">Ordem</label>
@@ -122,7 +122,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               <input type="text" name="imagem_url" class="w-full form-input-bespoke py-3 text-body-md font-body-md text-primary">
             </div>
             <div class="md:col-span-2">
-              <label class="block font-label-caps text-label-caps mb-2">Subtítulo</label>
+              <label class="block font-label-caps text-label-caps mb-2">SubtÃ­tulo</label>
               <textarea name="subtitulo" rows="3" class="w-full form-input-bespoke py-3 text-body-md font-body-md text-primary"></textarea>
             </div>
             <label class="flex items-center gap-3 text-primary">

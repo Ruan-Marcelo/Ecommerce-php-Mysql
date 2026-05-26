@@ -2,13 +2,13 @@
 session_start();
 require_once __DIR__ . '/app/core/funcoes.php';
 
-// Verificar se o usuário está logado
+// Verificar se o usuÃ¡rio estÃ¡ logado
 if (!isset($_SESSION["usuario_id"])) {
     header("Location: login.php");
     exit();
 }
 
-// Processar ações do carrinho
+// Processar aÃ§Ãµes do carrinho
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['action'])) {
         if ($_POST['action'] == 'remover' && isset($_POST['index'])) {
@@ -47,11 +47,11 @@ if (isset($_SESSION['carrinho'])) {
 }
 ?>
 <!doctype html>
-<html class="light" lang="en">
+<html class="light" lang="pt-BR">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>LUPIÈRE | Meu Carrinho</title>
+    <title>LUPIÃˆRE | Meu Carrinho</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&amp;family=Noto+Serif:wght@400;700&amp;display=swap"
@@ -175,7 +175,19 @@ if (isset($_SESSION['carrinho'])) {
     </script>
     <style>
       .material-symbols-outlined {
-        font-variation-settings:
+        
+        font-family: 'Material Symbols Outlined' !important;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+font-variation-settings:
           "FILL" 0,
           "wght" 300,
           "GRAD" 0,
@@ -206,16 +218,16 @@ if (isset($_SESSION['carrinho'])) {
       <div
         class="flex justify-between items-center w-full px-6 md:px-16 max-w-[1440px] mx-auto"
       >
-        <!-- BOTÃO MENU MOBILE -->
+        <!-- BOTÃƒO MENU MOBILE -->
         <button id="menuBtn" class="lg:hidden text-[#1B3022]">
-          <span class="material-symbols-outlined">menu</span>
+          <span class="notranslate material-symbols-outlined" translate="no">menu</span>
         </button>
 
         <!-- NAV DESKTOP -->
         <nav class="hidden lg:flex gap-10">
           <a class="nav-link" href="index.php">In&iacute;cio</a>
-          <a class="nav-link active" href="produtos.php">Coleções</a>
-          <a class="nav-link" href="acessorios.php">Acessórios</a>
+          <a class="nav-link active" href="produtos.php">ColeÃ§Ãµes</a>
+          <a class="nav-link" href="acessorios.php">AcessÃ³rios</a>
           <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
         </nav>
 
@@ -223,21 +235,21 @@ if (isset($_SESSION['carrinho'])) {
         <div
           class="text-xl md:text-2xl font-headline-lg tracking-[0.4em] text-[#1B3022]"
         >
-          LUPIÈRE
+          LUPIÃˆRE
         </div>
 
         <!-- ICONES -->
         <div class="flex items-center gap-5 md:gap-8 text-[#1B3022]">
           <a href="carrinho.php" class="icon-btn">
-            <span class="material-symbols-outlined">shopping_bag</span>
+            <span class="notranslate material-symbols-outlined" translate="no">shopping_bag</span>
           </a>
           <?php if (isset($_SESSION["usuario_id"])): ?>
             <a href="perfil.php" class="icon-btn">
-              <span class="material-symbols-outlined">person</span>
+              <span class="notranslate material-symbols-outlined" translate="no">person</span>
             </a>
           <?php else: ?>
             <a href="login.php" class="icon-btn">
-              <span class="material-symbols-outlined">person</span>
+              <span class="notranslate material-symbols-outlined" translate="no">person</span>
             </a>
           <?php endif; ?>
         </div>
@@ -251,13 +263,13 @@ if (isset($_SESSION['carrinho'])) {
       <div class="flex justify-between items-center">
         <span class="font-label-caps text-sm tracking-widest">MENU</span>
         <button id="closeMenu">
-          <span class="material-symbols-outlined">close</span>
+          <span class="notranslate material-symbols-outlined" translate="no">close</span>
         </button>
       </div>
 
       <a class="nav-link" href="index.php">In&iacute;cio</a>
-      <a class="nav-link" href="produtos.php">Coleções</a>
-      <a class="nav-link" href="acessorios.php">Acessórios</a>
+      <a class="nav-link" href="produtos.php">ColeÃ§Ãµes</a>
+      <a class="nav-link" href="acessorios.php">AcessÃ³rios</a>
       <a class="nav-link" href="sobre.php">Nossa hist&oacute;ria</a>
     </div>
     <main
@@ -267,10 +279,10 @@ if (isset($_SESSION['carrinho'])) {
         <?php if (!isset($_SESSION['carrinho']) || count($_SESSION['carrinho']) == 0): ?>
           <div class="text-center py-16">
             <h2 class="font-headline-lg text-headline-lg text-primary mb-6">
-              Seu carrinho está vazio
+              Seu carrinho estÃ¡ vazio
             </h2>
             <p class="font-body-lg text-body-lg text-on-surface-variant mb-8">
-              Adicione produtos ao seu carrinho para começar
+              Adicione produtos ao seu carrinho para comeÃ§ar
             </p>
             <a href="produtos.php" class="bg-primary-container text-white py-3 px-6 font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary transition-all duration-300">
               Ver Produtos
@@ -296,7 +308,7 @@ if (isset($_SESSION['carrinho'])) {
                         />
                       <?php else: ?>
                         <div class="w-full h-full bg-surface-container flex items-center justify-center rounded-lg">
-                          <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
+                          <span class="notranslate material-symbols-outlined text-on-surface-variant/60" translate="no">inventory_2</span>
                         </div>
                       <?php endif; ?>
                     </div>
@@ -313,7 +325,7 @@ if (isset($_SESSION['carrinho'])) {
                             type="submit"
                             class="text-red-500 hover:text-red-700 transition-colors"
                           >
-                            <span class="material-symbols-outlined">delete</span>
+                            <span class="notranslate material-symbols-outlined" translate="no">delete</span>
                           </button>
                         </form>
                       </div>
@@ -379,7 +391,7 @@ if (isset($_SESSION['carrinho'])) {
       class="mt-auto w-full border-t border-outline/20 bg-surface-container flex items-center justify-center py-8"
     >
       <div class="text-center text-on-surface-variant/60 font-body-md">
-        &copy; <?php echo date("Y"); ?> LUPIÈRE. Todos os direitos reservados.
+        &copy; <?php echo date("Y"); ?> LUPIÃˆRE. Todos os direitos reservados.
       </div>
     </footer>
 

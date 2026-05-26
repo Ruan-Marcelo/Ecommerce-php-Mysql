@@ -187,14 +187,14 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
     <div class="text-xl font-headline-lg tracking-[0.4em] text-white">LUPIERE ADMIN</div>
   </div>
   <nav class="flex-1 flex-col pt-6 space-y-4">
-    <a href="index.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors"><span class="material-symbols-outlined">dashboard</span><span class="ml-3">Dashboard</span></a>
-    <a href="produtos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">inventory_2</span><span class="ml-3">Produtos</span></a>
-    <a href="categorias.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">category</span><span class="ml-3">Categorias</span></a>
-    <a href="pedidos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">list_alt</span><span class="ml-3">Pedidos</span></a>
-    <a href="banners.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">image</span><span class="ml-3">Banners</span></a>
-    <a href="emails.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">mail</span><span class="ml-3">E-mails</span></a>
-    <a href="administradores.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="material-symbols-outlined">admin_panel_settings</span><span class="ml-3">Administradores</span></a>
-    <a href="../logout.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto"><span class="material-symbols-outlined">logout</span><span class="ml-3">Sair</span></a>
+    <a href="index.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">dashboard</span><span class="ml-3">Dashboard</span></a>
+    <a href="produtos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">inventory_2</span><span class="ml-3">Produtos</span></a>
+    <a href="categorias.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">category</span><span class="ml-3">Categorias</span></a>
+    <a href="pedidos.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">list_alt</span><span class="ml-3">Pedidos</span></a>
+    <a href="banners.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">image</span><span class="ml-3">Banners</span></a>
+    <a href="emails.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">mail</span><span class="ml-3">E-mails</span></a>
+    <a href="administradores.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"><span class="notranslate material-symbols-outlined" translate="no">admin_panel_settings</span><span class="ml-3">Administradores</span></a>
+    <a href="../logout.php" class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto"><span class="notranslate material-symbols-outlined" translate="no">logout</span><span class="ml-3">Sair</span></a>
   </nav>
 </aside>
 
@@ -206,14 +206,14 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
       </div>
       <div class="flex items-center gap-6 text-[#1B3022]">
         <form method="get" class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-[20px]">calendar_month</span>
+          <span class="notranslate material-symbols-outlined text-[20px]" translate="no">calendar_month</span>
           <select name="dias" class="form-input-bespoke py-2 text-sm text-primary" onchange="this.form.submit()">
             <?php foreach ($periodos as $valor => $label): ?>
               <option value="<?php echo $valor; ?>" <?php echo $dias === $valor ? 'selected' : ''; ?>><?php echo $label; ?></option>
             <?php endforeach; ?>
           </select>
         </form>
-        <span class="material-symbols-outlined">account_circle</span>
+        <span class="notranslate material-symbols-outlined" translate="no">account_circle</span>
         <span class="text-on-surface-variant/70"><?php echo escapar($usuario['nome'] ?? 'Usuario'); ?></span>
       </div>
     </div>
@@ -228,10 +228,10 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
           <p class="text-on-surface-variant mt-3 max-w-2xl">Acompanhe vendas, clientes, estoque, pedidos, desejos, carrinhos abandonados e desempenho dos e-mails em um unico lugar.</p>
         </div>
         <div class="flex flex-wrap gap-3">
-          <a href="exportar_relatorio.php?tipo=pedidos&dias=<?php echo $dias; ?>" class="inline-flex items-center gap-2 bg-primary-container text-white px-4 py-3 font-label-caps text-label-caps tracking-[0.16em] hover:bg-primary transition-all"><span class="material-symbols-outlined text-[18px]">download</span>Pedidos</a>
-          <a href="exportar_relatorio.php?tipo=produtos" class="inline-flex items-center gap-2 border border-outline/30 text-primary px-4 py-3 font-label-caps text-label-caps tracking-[0.16em] hover:bg-surface-container-low transition-all"><span class="material-symbols-outlined text-[18px]">download</span>Produtos</a>
-          <a href="exportar_relatorio.php?tipo=clientes" class="inline-flex items-center gap-2 border border-outline/30 text-primary px-4 py-3 font-label-caps text-label-caps tracking-[0.16em] hover:bg-surface-container-low transition-all"><span class="material-symbols-outlined text-[18px]">download</span>Clientes</a>
-          <a href="exportar_relatorio.php?tipo=estoque" class="inline-flex items-center gap-2 border border-outline/30 text-primary px-4 py-3 font-label-caps text-label-caps tracking-[0.16em] hover:bg-surface-container-low transition-all"><span class="material-symbols-outlined text-[18px]">download</span>Estoque</a>
+          <a href="exportar_relatorio.php?tipo=pedidos&dias=<?php echo $dias; ?>" class="inline-flex items-center gap-2 bg-primary-container text-white px-4 py-3 font-label-caps text-label-caps tracking-[0.16em] hover:bg-primary transition-all"><span class="notranslate material-symbols-outlined text-[18px]" translate="no">download</span>Pedidos</a>
+          <a href="exportar_relatorio.php?tipo=produtos" class="inline-flex items-center gap-2 border border-outline/30 text-primary px-4 py-3 font-label-caps text-label-caps tracking-[0.16em] hover:bg-surface-container-low transition-all"><span class="notranslate material-symbols-outlined text-[18px]" translate="no">download</span>Produtos</a>
+          <a href="exportar_relatorio.php?tipo=clientes" class="inline-flex items-center gap-2 border border-outline/30 text-primary px-4 py-3 font-label-caps text-label-caps tracking-[0.16em] hover:bg-surface-container-low transition-all"><span class="notranslate material-symbols-outlined text-[18px]" translate="no">download</span>Clientes</a>
+          <a href="exportar_relatorio.php?tipo=estoque" class="inline-flex items-center gap-2 border border-outline/30 text-primary px-4 py-3 font-label-caps text-label-caps tracking-[0.16em] hover:bg-surface-container-low transition-all"><span class="notranslate material-symbols-outlined text-[18px]" translate="no">download</span>Estoque</a>
         </div>
       </section>
 
@@ -242,7 +242,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               <p class="font-label-caps text-label-caps text-on-surface-variant/60">Receita no periodo</p>
               <p class="font-headline-md text-[34px] text-primary mt-3"><?php echo formatar_moeda($resumo_periodo['receita']); ?></p>
             </div>
-            <div class="flex h-12 w-12 items-center justify-center bg-green-500/15 text-green-700 rounded-lg"><span class="material-symbols-outlined">payments</span></div>
+            <div class="flex h-12 w-12 items-center justify-center bg-green-500/15 text-green-700 rounded-lg"><span class="notranslate material-symbols-outlined" translate="no">payments</span></div>
           </div>
           <p class="text-sm text-on-surface-variant mt-4"><?php echo numero_dashboard($resumo_periodo['pedidos']); ?> pedidos em <?php echo $dias; ?> dias</p>
         </div>
@@ -252,7 +252,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               <p class="font-label-caps text-label-caps text-on-surface-variant/60">Ticket medio</p>
               <p class="font-headline-md text-[34px] text-primary mt-3"><?php echo formatar_moeda($resumo_periodo['ticket_medio']); ?></p>
             </div>
-            <div class="flex h-12 w-12 items-center justify-center bg-secondary/15 text-secondary rounded-lg"><span class="material-symbols-outlined">monitoring</span></div>
+            <div class="flex h-12 w-12 items-center justify-center bg-secondary/15 text-secondary rounded-lg"><span class="notranslate material-symbols-outlined" translate="no">monitoring</span></div>
           </div>
           <p class="text-sm text-on-surface-variant mt-4">Media por pedido confirmado no periodo</p>
         </div>
@@ -262,7 +262,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               <p class="font-label-caps text-label-caps text-on-surface-variant/60">Clientes ativos</p>
               <p class="font-headline-md text-[34px] text-primary mt-3"><?php echo numero_dashboard($clientes_compradores); ?></p>
             </div>
-            <div class="flex h-12 w-12 items-center justify-center bg-blue-500/15 text-blue-700 rounded-lg"><span class="material-symbols-outlined">groups</span></div>
+            <div class="flex h-12 w-12 items-center justify-center bg-blue-500/15 text-blue-700 rounded-lg"><span class="notranslate material-symbols-outlined" translate="no">groups</span></div>
           </div>
           <p class="text-sm text-on-surface-variant mt-4">Conversao da base: <?php echo porcentagem_dashboard($taxa_conversao); ?></p>
         </div>
@@ -272,7 +272,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               <p class="font-label-caps text-label-caps text-on-surface-variant/60">Alertas de estoque</p>
               <p class="font-headline-md text-[34px] text-primary mt-3"><?php echo numero_dashboard($produtos_baixo_estoque); ?></p>
             </div>
-            <div class="flex h-12 w-12 items-center justify-center bg-red-500/15 text-red-700 rounded-lg"><span class="material-symbols-outlined">warning</span></div>
+            <div class="flex h-12 w-12 items-center justify-center bg-red-500/15 text-red-700 rounded-lg"><span class="notranslate material-symbols-outlined" translate="no">warning</span></div>
           </div>
           <p class="text-sm text-on-surface-variant mt-4">Produtos com 5 unidades ou menos</p>
         </div>
@@ -294,7 +294,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               <h2 class="font-headline-md text-headline-md text-primary">Vendas por dia</h2>
               <p class="text-on-surface-variant">Receita e volume de pedidos no periodo selecionado.</p>
             </div>
-            <span class="material-symbols-outlined text-secondary">query_stats</span>
+            <span class="notranslate material-symbols-outlined text-secondary" translate="no">query_stats</span>
           </div>
           <div class="chart-box"><canvas id="vendasChart"></canvas></div>
         </div>
@@ -304,7 +304,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               <h2 class="font-headline-md text-headline-md text-primary">Status dos pedidos</h2>
               <p class="text-on-surface-variant">Distribuicao operacional.</p>
             </div>
-            <span class="material-symbols-outlined text-secondary">donut_large</span>
+            <span class="notranslate material-symbols-outlined text-secondary" translate="no">donut_large</span>
           </div>
           <div class="chart-box"><canvas id="statusChart"></canvas></div>
         </div>
@@ -452,7 +452,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
           <div>
             <p class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase mb-3">Planilhas de controle</p>
             <h2 class="font-headline-md text-headline-md">Exportacoes prontas para Excel</h2>
-            <p class="text-white/75 mt-2">Baixe relatórios de vendas, produtos, clientes, estoque, e-mails e carrinhos abandonados para controle financeiro e operacional.</p>
+            <p class="text-white/75 mt-2">Baixe relatÃ³rios de vendas, produtos, clientes, estoque, e-mails e carrinhos abandonados para controle financeiro e operacional.</p>
           </div>
           <div class="flex flex-wrap gap-3">
             <a href="exportar_relatorio.php?tipo=emails" class="bg-white text-primary px-4 py-3 font-label-caps text-label-caps tracking-[0.16em]">E-mails</a>

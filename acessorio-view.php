@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html class="light" lang="en">
+<html class="light" lang="pt-BR">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -127,7 +127,19 @@
     </script>
     <style>
       .material-symbols-outlined {
-        font-variation-settings:
+        
+        font-family: 'Material Symbols Outlined' !important;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+font-variation-settings:
           "FILL" 0,
           "wght" 300,
           "GRAD" 0,
@@ -143,7 +155,7 @@
     <header
       class="bg-[#F9F7F2] dark:bg-[#121212] docked full-width top-0 border-b border-[#1B3022]/10 dark:border-white/10 sticky z-50"
     >
-      <!-- BOTÃO MOBILE -->
+      <!-- BOTÃƒO MOBILE -->
       <div
         class="flex justify-between items-center w-full px-12 py-8 max-w-[1440px] mx-auto"
       >
@@ -151,12 +163,12 @@
           id="menuBtn"
           class="md:hidden text-[#1B3022] dark:text-[#EAEAEA]"
         >
-          <span class="material-symbols-outlined">menu</span>
+          <span class="notranslate material-symbols-outlined" translate="no">menu</span>
         </button>
         <div
           class="text-2xl font-serif tracking-[0.4em] text-[#1B3022] dark:text-[#EAEAEA]"
         >
-          LUPIÈRE
+          LUPIÃˆRE
         </div>
         <nav class="hidden md:flex items-center space-x-12">
           <a
@@ -167,17 +179,17 @@
           <a
             class="font-serif uppercase tracking-[0.2em] text-xs font-medium text-[#1B3022]/60 dark:text-[#EAEAEA]/60 hover:text-[#C5A059] transition-all duration-500"
             href="produtos.php"
-            >Coleções</a
+            >ColeÃ§Ãµes</a
           >
           <a
             class="font-serif uppercase tracking-[0.2em] text-xs font-medium text-[#1B3022] dark:text-white border-b border-[#C5A059] pb-1"
             href="acessorios.php"
-            >Acessórios</a
+            >AcessÃ³rios</a
           >
           <a
             class="font-serif uppercase tracking-[0.2em] text-xs font-medium text-[#1B3022]/60 dark:text-[#EAEAEA]/60 hover:text-[#C5A059] transition-all duration-500"
             href="sobre.php"
-            >Nossa História</a
+            >Nossa HistÃ³ria</a
           >
         </nav>
         <div
@@ -189,19 +201,19 @@
             class="group cursor-pointer transition-all duration-300 hover:text-[#C5A059]"
           >
             <span
-              class="material-symbols-outlined transition-transform duration-300 group-hover:scale-110"
-            >
+              class="notranslate material-symbols-outlined transition-transform duration-300 group-hover:scale-110"
+             translate="no">
               shopping_bag
             </span>
           </a>
           <a
             href="login.php"
-            aria-label="Abrir perfil do usuário"
+            aria-label="Abrir perfil do usuÃ¡rio"
             class="group cursor-pointer transition-all duration-300 hover:text-[#C5A059]"
           >
             <span
-              class="material-symbols-outlined transition-transform duration-300 group-hover:scale-110"
-            >
+              class="notranslate material-symbols-outlined transition-transform duration-300 group-hover:scale-110"
+             translate="no">
               person
             </span>
           </a>
@@ -216,16 +228,16 @@
       <div class="flex justify-between items-center">
         <span class="font-serif uppercase tracking-widest text-xs">Menu</span>
         <button id="closeMenu">
-          <span class="material-symbols-outlined">close</span>
+          <span class="notranslate material-symbols-outlined" translate="no">close</span>
         </button>
       </div>
 
       <a class="mobile-link" href="index.php">Inicio</a>
-      <a class="mobile-link" href="produtos.php">Coleções</a>
+      <a class="mobile-link" href="produtos.php">ColeÃ§Ãµes</a>
       <a class="mobile-link text-[#C5A059]" href="acessorios.php"
-        >Acessórios</a
+        >AcessÃ³rios</a
       >
-      <a class="mobile-link" href="sobre.php">Nossa História</a>
+      <a class="mobile-link" href="sobre.php">Nossa HistÃ³ria</a>
     </div>
 
     <main class="max-w-[1440px] mx-auto">
@@ -312,9 +324,9 @@
             </div>
             <div class="mt-12 flex items-center gap-4 text-on-surface-variant">
               <span
-                class="material-symbols-outlined text-[20px]"
+                class="notranslate material-symbols-outlined text-[20px]"
                 data-icon="local_shipping"
-                >local_shipping</span
+                 translate="no">local_shipping</span
               >
               <span
                 class="font-label-caps text-[10px] uppercase tracking-widest"
@@ -343,7 +355,7 @@
           <p class="font-body-lg text-body-lg text-on-surface-variant">
             Our emerald hue is achieved through a multi-stage artisanal dyeing
             process in the heart of Como, Italy. This specific depth of green
-            was selected for its versatility—striking against white poplin yet
+            was selected for its versatilityâ€”striking against white poplin yet
             subtle enough for charcoal wool.
           </p>
           <div
@@ -389,7 +401,7 @@
               <div class="aspect-[4/5] bg-surface-variant overflow-hidden">
                 <img
                   class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                  data-alt="A fashion-forward portrait showing the Silk Emerald Tie paired with a Lupière white poplin shirt and a charcoal wool blazer. The lighting is soft and editorial, coming from the side to define the knot. The aesthetic is clean and minimalist luxury, highlighting the intersection of traditional tailoring and modern style within a neutral grey and white environment."
+                  data-alt="A fashion-forward portrait showing the Silk Emerald Tie paired with a LupiÃ¨re white poplin shirt and a charcoal wool blazer. The lighting is soft and editorial, coming from the side to define the knot. The aesthetic is clean and minimalist luxury, highlighting the intersection of traditional tailoring and modern style within a neutral grey and white environment."
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp5zfI-eAtAd0qiApb0h5-zc1LylIFFuYY112sALWSjSd7FZ1TwWYGDjkNZHBiEKs5K98GaZBdLSLlMfhRvMNEpbAc-kftR-yzOpxZgOvnnGDssG3GAhUf9ckWgu8-1HmgX-SSX7s6CYfG4N81KTlrGWYGCySaC0CWj1dQzgieq5O5O0j2zTaS8662EXA1z0ucICTphRXumdx24iqwYGSD3kMPV3DlyOvCihMts16AE-qFhxx_WOUrzzi4aXTzWisFknK2LADJQBZ3"
                 />
               </div>
@@ -425,7 +437,7 @@
               <div class="aspect-[4/5] bg-surface-variant overflow-hidden">
                 <img
                   class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                  data-alt="A lifestyle product shot featuring the Silk Emerald Tie lying next to a pair of sterling silver cufflinks and a Lupière white shirt. The composition is asymmetrical and elegant, using a soft-focus background and a light-mode color palette of off-white and deep green. The image conveys a sense of high-end preparation and exclusive craftsmanship."
+                  data-alt="A lifestyle product shot featuring the Silk Emerald Tie lying next to a pair of sterling silver cufflinks and a LupiÃ¨re white shirt. The composition is asymmetrical and elegant, using a soft-focus background and a light-mode color palette of off-white and deep green. The image conveys a sense of high-end preparation and exclusive craftsmanship."
                   src="https://lh3.googleusercontent.com/aida/ADBb0uhCEUISheRANO1PGb3eXb_mYHgBNfSGduPyVIkLKAz1HAgkBoFCBjFW_hZVUF1MXFF-RWy3dNKCEzo39vOD68gAbQOmyS7TmKW0l94i_T5AwdMXGHHQx2hizKKkvpJip_OBxdhMfzBNqQxThYCNp7cPrTpR85YbiVNMqeh_z4JaE-ibfiytr2Ti9Yr6JOla6ZFcWTdzykIoDZ9UB5t6sgxXfdMjxXFtihdAUDpqChkmDliGf_72AmH8FlwPG40a3c8T-7ffLzJcG9w"
                 />
               </div>
@@ -445,17 +457,17 @@
       <!-- Newsletter / Transition -->
       <section class="py-[120px] px-8 text-center max-w-4xl mx-auto">
         <h3 class="font-headline-lg text-headline-lg text-primary mb-6 italic">
-          Adaptado à sua viagem.
+          Adaptado Ã  sua viagem.
         </h3>
         <p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
-          Receba acesso exclusivo a novas coleções e alfaiataria sob medida
-eventos em nosso ateliê.
+          Receba acesso exclusivo a novas coleÃ§Ãµes e alfaiataria sob medida
+eventos em nosso ateliÃª.
         </p>
         <div class="flex flex-col md:flex-row gap-4 justify-center items-end">
           <div class="w-full md:w-80">
             <label
               class="block font-label-caps text-label-caps uppercase text-left mb-2"
-              >Endereço de email</label
+              >EndereÃ§o de email</label
             >
             <input
               class="w-full bg-transparent border-b border-outline text-primary py-2 px-0 focus:outline-none focus:border-secondary transition-colors"
@@ -482,11 +494,11 @@ eventos em nosso ateliê.
           <div
             class="text-2xl font-headline-lg tracking-[0.3em] text-[#1B3022] uppercase mb-8"
           >
-            LUPIÈRE
+            LUPIÃˆRE
           </div>
           <p class="font-body-md text-[#1B3022]/60 max-w-xs">
-            Elevando a alfaiataria clássica para o homem contemporâneo. Rigor,
-            tradição e personalidade.
+            Elevando a alfaiataria clÃ¡ssica para o homem contemporÃ¢neo. Rigor,
+            tradiÃ§Ã£o e personalidade.
           </p>
         </div>
         <div class="flex flex-col gap-4">
@@ -503,12 +515,12 @@ eventos em nosso ateliê.
           <a
             class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
             href="#"
-            >Coleções</a
+            >ColeÃ§Ãµes</a
           >
           <a
             class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
             href="#"
-            >Acessórios</a
+            >AcessÃ³rios</a
           >
         </div>
         <div class="flex flex-col gap-4">
@@ -520,12 +532,12 @@ eventos em nosso ateliê.
           <a
             class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
             href="#"
-            >Envio &amp; Devoluções</a
+            >Envio &amp; DevoluÃ§Ãµes</a
           >
           <a
             class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
             href="#"
-            >Política de Privacidade</a
+            >PolÃ­tica de Privacidade</a
           >
         </div>
         <div class="flex flex-col gap-4">
@@ -544,7 +556,7 @@ eventos em nosso ateliê.
               href="https://www.instagram.com/uselupiere/"
               target="_blank"
             >
-              <span class="material-symbols-outlined text-[20px]">
+              <span class="notranslate material-symbols-outlined text-[20px]" translate="no">
                 photo_camera
               </span>
             </a>
@@ -553,7 +565,7 @@ eventos em nosso ateliê.
               href="mailto:info@lupiere.com"
               target="_blank"
             >
-              <span class="material-symbols-outlined text-[20px]">mail</span></a
+              <span class="notranslate material-symbols-outlined text-[20px]" translate="no">mail</span></a
             >
           </div>
         </div>
@@ -564,7 +576,7 @@ eventos em nosso ateliê.
         <div
           class="font-label-caps text-[10px] tracking-[0.2em] text-[#1B3022]/40 uppercase"
         >
-          © 2026 LUPIÈRE TAILORS. ALL RIGHTS RESERVED.
+          Â© 2026 LUPIÃˆRE TAILORS. ALL RIGHTS RESERVED.
         </div>
         <div class="flex gap-8">
           <a

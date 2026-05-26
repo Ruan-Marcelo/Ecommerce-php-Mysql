@@ -6,7 +6,7 @@ proteger_pagina_admin();
 $titulo_pagina = 'Gerenciar Pedidos';
 global $pdo;
 
-// Processar ações (atualizar status do pedido)
+// Processar aÃ§Ãµes (atualizar status do pedido)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action']) && $_POST['action'] === 'atualizar_status') {
         $id = intval($_POST['id'] ?? 0);
@@ -24,18 +24,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['admin_erro'] = 'Erro ao atualizar status do pedido.';
             }
         } else {
-            $_SESSION['admin_erro'] = 'Dados inválidos para atualização de status.';
+            $_SESSION['admin_erro'] = 'Dados invÃ¡lidos para atualizaÃ§Ã£o de status.';
         }
         header('Location: pedidos.php');
         exit();
     }
 }
 
-// Buscar pedidos com paginação e busca
+// Buscar pedidos com paginaÃ§Ã£o e busca
 $busca = isset($_GET['busca']) ? trim($_GET['busca']) : '';
 $status_filtro = isset($_GET['status']) ? $_GET['status'] : '';
 $pagina = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
-$limite = 10; // Pedidos por página no admin
+$limite = 10; // Pedidos por pÃ¡gina no admin
 $offset = ($pagina - 1) * $limite;
 
 // Construir query com filtros
@@ -57,7 +57,7 @@ if (!empty($status_filtro)) {
 
 $where_clause = empty($where) ? '' : 'WHERE ' . implode(' AND ', $where);
 
-// Contar total de pedidos para paginação
+// Contar total de pedidos para paginaÃ§Ã£o
 $stmt_count = $pdo->prepare("SELECT COUNT(*) as total FROM pedidos p LEFT JOIN usuarios u ON p.usuario_id = u.id $where_clause");
 $stmt_count->execute($params);
 $total_pedidos = $stmt_count->fetch()['total'];
@@ -83,7 +83,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
     <div
       class="text-xl font-headline-lg tracking-[0.4em] text-white"
     >
-      LUPIÈRE ADMIN
+      LUPIÃˆRE ADMIN
     </div>
   </div>
   <nav class="flex-1 flex-col pt-6 space-y-4">
@@ -91,56 +91,56 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
       href="index.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">dashboard</span>
+      <span class="notranslate material-symbols-outlined" translate="no">dashboard</span>
       <span class="ml-3">Dashboard</span>
     </a>
     <a
       href="produtos.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">inventory_2</span>
+      <span class="notranslate material-symbols-outlined" translate="no">inventory_2</span>
       <span class="ml-3">Produtos</span>
     </a>
     <a
       href="categorias.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">category</span>
+      <span class="notranslate material-symbols-outlined" translate="no">category</span>
       <span class="ml-3">Categorias</span>
     </a>
     <a
       href="pedidos.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors"
     >
-      <span class="material-symbols-outlined">list_alt</span>
+      <span class="notranslate material-symbols-outlined" translate="no">list_alt</span>
       <span class="ml-3">Pedidos</span>
     </a>
     <a
       href="banners.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">image</span>
+      <span class="notranslate material-symbols-outlined" translate="no">image</span>
       <span class="ml-3">Banners</span>
     </a>
     <a
       href="emails.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">mail</span>
+      <span class="notranslate material-symbols-outlined" translate="no">mail</span>
       <span class="ml-3">E-mails</span>
     </a>
     <a
       href="administradores.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">admin_panel_settings</span>
+      <span class="notranslate material-symbols-outlined" translate="no">admin_panel_settings</span>
       <span class="ml-3">Administradores</span>
     </a>
     <a
       href="../logout.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto"
     >
-      <span class="material-symbols-outlined">logout</span>
+      <span class="notranslate material-symbols-outlined" translate="no">logout</span>
       <span class="ml-3">Sair</span>
     </a>
   </nav>
@@ -165,7 +165,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
 
       <!-- ICONES -->
       <div class="flex items-center gap-5 md:gap-8 text-[#1B3022]">
-        <span class="material-symbols-outlined">search</span>
+        <span class="notranslate material-symbols-outlined" translate="no">search</span>
       </div>
     </div>
   </header>
@@ -254,7 +254,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Total</th>
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Status</th>
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Itens</th>
-                <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Ações</th>
+                <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">AÃ§Ãµes</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-outline/20">
@@ -332,7 +332,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
           </table>
         </div>
 
-        <!-- Paginação -->
+        <!-- PaginaÃ§Ã£o -->
         <?php if ($total_paginas > 1): ?>
           <div class="mt-6">
             <nav class="flex flex-wrap justify-center gap-2">
@@ -346,7 +346,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               <?php endif; ?>
 
               <?php
-              // Mostrar números das páginas (máximo 5 visibles)
+              // Mostrar nÃºmeros das pÃ¡ginas (mÃ¡ximo 5 visibles)
               $inicio_pagina = max(1, $pagina - 2);
               $fim_pagina = min($total_paginas, $inicio_pagina + 4);
               if ($fim_pagina - $inicio_pagina < 4) {
@@ -368,7 +368,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
                   href="pedidos.php?<?php echo http_build_query(array_merge($_GET, ['pagina' => $pagina + 1])); ?>"
                   class="px-4 py-2 bg-primary-container text-white font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary transition-all duration-300"
                 >
-                  Próxima
+                  PrÃ³xima
                 </a>
               <?php endif; ?>
             </nav>
@@ -388,11 +388,11 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
         onclick="document.getElementById('modal-itens').classList.add('hidden')"
         class="text-xs text-on-surface-variant/60 hover:text-primary"
       >
-        <span class="material-symbols-outlined">close</span>
+        <span class="notranslate material-symbols-outlined" translate="no">close</span>
       </button>
     </div>
     <div id="modal-itens-content" class="space-y-4">
-      <!-- Conteúdo será carregado via JavaScript -->
+      <!-- ConteÃºdo serÃ¡ carregado via JavaScript -->
     </div>
   </div>
 </div>
@@ -406,7 +406,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
         onclick="document.getElementById('modal-status').classList.add('hidden')"
         class="text-xs text-on-surface-variant/60 hover:text-primary"
       >
-        <span class="material-symbols-outlined">close</span>
+        <span class="notranslate material-symbols-outlined" translate="no">close</span>
       </button>
     </div>
     <form id="form-atualizar-status" class="space-y-4">
@@ -448,14 +448,14 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
 </div>
 
 <script>
-// Função para ver itens do pedido
+// FunÃ§Ã£o para ver itens do pedido
 function verItensPedido(pedidoId) {
     // Mostrar loading
-    document.getElementById('modal-itens-content').innerHTML = '<div class="text-center py-8"><span class="material-symbols-outlined">hourglass_bottom</span> <p class="mt-2 text-on-surface-variant/60">Carregando itens...</p></div>';
+    document.getElementById('modal-itens-content').innerHTML = '<div class="text-center py-8"><span class="notranslate material-symbols-outlined" translate="no">hourglass_bottom</span> <p class="mt-2 text-on-surface-variant/60">Carregando itens...</p></div>';
     document.getElementById('modal-pedido-id').textContent = pedidoId;
     document.getElementById('modal-itens').classList.remove('hidden');
 
-    // Fazer requisição AJAX para obter os itens do pedido
+    // Fazer requisiÃ§Ã£o AJAX para obter os itens do pedido
     fetch('get_itens_pedido.php?id=' + pedidoId)
         .then(response => response.json())
         .then(data => {
@@ -471,7 +471,7 @@ function verItensPedido(pedidoId) {
                         const imagemHtml = imagem
                             ? `<img src="../public/uploads/${encodeURIComponent(imagem)}" alt="${nome}" class="w-16 h-16 object-contain rounded-lg border border-outline/10">`
                             : `<div class="w-16 h-16 bg-surface-container flex items-center justify-center rounded-lg">
-                                  <span class="material-symbols-outlined text-on-surface-variant/60">inventory_2</span>
+                                  <span class="notranslate material-symbols-outlined text-on-surface-variant/60" translate="no">inventory_2</span>
                                </div>`;
 
                         content += `
@@ -501,7 +501,7 @@ function verItensPedido(pedidoId) {
         })
         .catch(error => {
             console.error('Erro:', error);
-            document.getElementById('modal-itens-content').innerHTML = '<p class="text-center text-on-surface-variant/60 py-8">Erro de conexão</p>';
+            document.getElementById('modal-itens-content').innerHTML = '<p class="text-center text-on-surface-variant/60 py-8">Erro de conexÃ£o</p>';
         });
 }
 
@@ -524,15 +524,15 @@ function formatarMoeda(valor) {
     });
 }
 
-// Função para atualizar status do pedido
+// FunÃ§Ã£o para atualizar status do pedido
 function atualizarStatusPedido(pedidoId) {
     document.getElementById('modal-status-pedido-id').value = pedidoId;
     document.getElementById('modal-status-pedido-label').textContent = pedidoId;
-    document.getElementById('modal-status-select').value = ''; // Resetar seleção
+    document.getElementById('modal-status-select').value = ''; // Resetar seleÃ§Ã£o
     document.getElementById('modal-status').classList.remove('hidden');
 }
 
-// Event listener para o formulário de atualização de status
+// Event listener para o formulÃ¡rio de atualizaÃ§Ã£o de status
 document.getElementById('form-atualizar-status').addEventListener('submit', function(e) {
     e.preventDefault();
 
@@ -540,11 +540,11 @@ document.getElementById('form-atualizar-status').addEventListener('submit', func
     const status = document.getElementById('modal-status-select').value;
 
     if (!pedidoId || !status) {
-        alert('Por favor, selecione um status válido.');
+        alert('Por favor, selecione um status vÃ¡lido.');
         return;
     }
 
-    // Enviar requisição POST para atualizar o status
+    // Enviar requisiÃ§Ã£o POST para atualizar o status
     fetch('pedidos.php', {
         method: 'POST',
         headers: {
@@ -565,7 +565,7 @@ document.getElementById('form-atualizar-status').addEventListener('submit', func
     })
     .catch(error => {
         console.error('Erro:', error);
-        alert('Erro de conexão');
+        alert('Erro de conexÃ£o');
     });
 });
 

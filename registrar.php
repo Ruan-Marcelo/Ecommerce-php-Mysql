@@ -10,19 +10,19 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
     $senha = $_POST["password"] ?? '';
     $inscrever_email = isset($_POST['newsletter']);
 
-    // Validação
+    // ValidaÃ§Ã£o
     if (empty($nome) || empty($email) || empty($senha)) {
-        $erro = "Preencha todos os campos obrigatórios.";
+        $erro = "Preencha todos os campos obrigatÃ³rios.";
     } else {
 
-        // Verifica se email já existe
+        // Verifica se email jÃ¡ existe
         if (obter_usuario_por_email($email)) {
 
-            $erro = "Este email já está cadastrado.";
+            $erro = "Este email jÃ¡ estÃ¡ cadastrado.";
 
         } else {
 
-            // Cria usuário usando função do funcoes.php
+            // Cria usuÃ¡rio usando funÃ§Ã£o do funcoes.php
             $criado = criar_usuario(
                 $nome,
                 $email,
@@ -54,7 +54,7 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>LUPIÈRE | Registrar</title>
+    <title>LUPIÃˆRE | Registrar</title>
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
@@ -106,7 +106,19 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
         }
 
         .material-symbols-outlined {
-            font-variation-settings:
+            
+        font-family: 'Material Symbols Outlined' !important;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+font-variation-settings:
                 "FILL" 0,
                 "wght" 300,
                 "GRAD" 0,
@@ -157,7 +169,7 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
 
         <!-- MENU MOBILE -->
         <button id="menuBtn" class="lg:hidden text-[#1B3022]">
-            <span class="material-symbols-outlined">menu</span>
+            <span class="notranslate material-symbols-outlined" translate="no">menu</span>
         </button>
 
         <!-- NAV -->
@@ -165,28 +177,28 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
 
             <a class="nav-link" href="index.php">Inicio</a>
 
-            <a class="nav-link" href="produtos.php">Coleções</a>
+            <a class="nav-link" href="produtos.php">ColeÃ§Ãµes</a>
 
-            <a class="nav-link" href="acessorios.php">Acessórios</a>
+            <a class="nav-link" href="acessorios.php">AcessÃ³rios</a>
 
-            <a class="nav-link" href="sobre.php">Nossa história</a>
+            <a class="nav-link" href="sobre.php">Nossa histÃ³ria</a>
 
         </nav>
 
         <!-- LOGO -->
         <div class="text-xl md:text-2xl headline tracking-[0.4em] text-[#1B3022]">
-            LUPIÈRE
+            LUPIÃˆRE
         </div>
 
         <!-- ICONES -->
         <div class="flex items-center gap-5 md:gap-8 text-[#1B3022]">
 
             <a href="carrinho.php" class="icon-btn">
-                <span class="material-symbols-outlined">shopping_bag</span>
+                <span class="notranslate material-symbols-outlined" translate="no">shopping_bag</span>
             </a>
 
             <a href="login.php" class="icon-btn">
-                <span class="material-symbols-outlined">person</span>
+                <span class="notranslate material-symbols-outlined" translate="no">person</span>
             </a>
 
         </div>
@@ -208,15 +220,15 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
         </span>
 
         <button id="closeMenu">
-            <span class="material-symbols-outlined">close</span>
+            <span class="notranslate material-symbols-outlined" translate="no">close</span>
         </button>
 
     </div>
 
     <a class="nav-link" href="index.php">Inicio</a>
-    <a class="nav-link" href="produtos.php">Coleções</a>
-    <a class="nav-link" href="acessorios.php">Acessórios</a>
-    <a class="nav-link" href="sobre.php">Nossa história</a>
+    <a class="nav-link" href="produtos.php">ColeÃ§Ãµes</a>
+    <a class="nav-link" href="acessorios.php">AcessÃ³rios</a>
+    <a class="nav-link" href="sobre.php">Nossa histÃ³ria</a>
 
 </div>
 
@@ -260,7 +272,7 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
                 </h2>
 
                 <p class="text-lg text-on-surface-variant italic">
-                    Entre no mundo de Lupière.
+                    Entre no mundo de LupiÃ¨re.
                 </p>
 
             </header>
@@ -348,7 +360,7 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
                         <input
                             class="w-full form-input-bespoke py-3"
                             name="password"
-                            placeholder="••••••••"
+                            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                             type="password"
                             required
                         />
@@ -368,12 +380,12 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
                     />
 
                     <label class="text-sm text-on-surface-variant" for="newsletter">
-                        Assine a newsletter exclusiva para receber novidades e catálogos.
+                        Assine a newsletter exclusiva para receber novidades e catÃ¡logos.
                     </label>
 
                 </div>
 
-                <!-- BOTÃO -->
+                <!-- BOTÃƒO -->
                 <div class="pt-8 space-y-6">
 
                     <button
@@ -418,7 +430,7 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
             <!-- LOGIN -->
             <p class="mt-12 text-center text-sm text-on-surface-variant">
 
-                Já possui conta?
+                JÃ¡ possui conta?
 
                 <a
                     class="text-secondary font-semibold hover:underline"
@@ -443,11 +455,11 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
         <div>
 
             <div class="text-2xl headline tracking-[0.3em] text-[#1B3022] uppercase mb-8">
-                LUPIÈRE
+                LUPIÃˆRE
             </div>
 
             <p class="text-[#1B3022]/60 max-w-xs">
-                Elegância clássica para o homem contemporâneo.
+                ElegÃ¢ncia clÃ¡ssica para o homem contemporÃ¢neo.
             </p>
 
         </div>
@@ -462,9 +474,9 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
 
                 <a href="index.php">Inicio</a>
 
-                <a href="produtos.php">Coleções</a>
+                <a href="produtos.php">ColeÃ§Ãµes</a>
 
-                <a href="acessorios.php">Acessórios</a>
+                <a href="acessorios.php">AcessÃ³rios</a>
 
             </div>
 
@@ -478,9 +490,9 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
 
             <div class="flex flex-col gap-3">
 
-                <a href="#">Envio & Devoluções</a>
+                <a href="#">Envio & DevoluÃ§Ãµes</a>
 
-                <a href="#">Política de Privacidade</a>
+                <a href="#">PolÃ­tica de Privacidade</a>
 
             </div>
 

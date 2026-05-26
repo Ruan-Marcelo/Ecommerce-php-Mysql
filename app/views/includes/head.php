@@ -1,9 +1,9 @@
 <!doctype html>
-<html class="light" lang="en">
+<html class="light" lang="pt-BR">
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title><?php echo isset($titulo_pagina) ? $titulo_pagina . ' | LUPIÈRE' : 'LUPIÈRE'; ?></title>
+    <title><?php echo isset($titulo_pagina) ? $titulo_pagina . ' | LUPIÃˆRE' : 'LUPIÃˆRE'; ?></title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&amp;family=Noto+Serif:wght@400;700&amp;display=swap"
@@ -127,7 +127,19 @@
     </script>
     <style>
       .material-symbols-outlined {
-        font-variation-settings:
+        
+        font-family: 'Material Symbols Outlined' !important;
+        font-style: normal;
+        font-weight: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+font-variation-settings:
           "FILL" 0,
           "wght" 300,
           "GRAD" 0,

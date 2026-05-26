@@ -5,7 +5,7 @@ proteger_pagina_admin();
 
 $titulo_pagina = 'Gerenciar Categorias';
 
-// Processar ações
+// Processar aÃ§Ãµes
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         switch ($_POST['action']) {
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $_SESSION['admin_erro'] = 'Erro ao adicionar categoria.';
                     }
                 } else {
-                    $_SESSION['admin_erro'] = 'Nome da categoria é obrigatório.';
+                    $_SESSION['admin_erro'] = 'Nome da categoria Ã© obrigatÃ³rio.';
                 }
                 header('Location: categorias.php');
                 exit();
@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $_SESSION['admin_erro'] = 'Erro ao atualizar categoria.';
                     }
                 } else {
-                    $_SESSION['admin_erro'] = 'Nome da categoria é obrigatório.';
+                    $_SESSION['admin_erro'] = 'Nome da categoria Ã© obrigatÃ³rio.';
                 }
                 header('Location: categorias.php');
                 exit();
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Excluir categoria
                 $id = intval($_POST['id'] ?? 0);
                 if ($id > 0 && excluir_categoria($id)) {
-                    $_SESSION['admin_sucesso'] = 'Categoria excluída com sucesso!';
+                    $_SESSION['admin_sucesso'] = 'Categoria excluÃ­da com sucesso!';
                 } else {
                     $_SESSION['admin_erro'] = 'Erro ao excluir categoria.';
                 }
@@ -58,14 +58,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Função para obter todas as categorias (já existe em funcoes.php, mas vamos garantir)
+// FunÃ§Ã£o para obter todas as categorias (jÃ¡ existe em funcoes.php, mas vamos garantir)
 function obter_categorias_admin() {
     global $pdo;
     $stmt = $pdo->query("SELECT * FROM categorias ORDER BY nome");
     return $stmt->fetchAll();
 }
 
-// Função para obter categoria por ID
+// FunÃ§Ã£o para obter categoria por ID
 function obter_categoria_por_id_admin($id) {
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM categorias WHERE id = ?");
@@ -73,47 +73,47 @@ function obter_categoria_por_id_admin($id) {
     return $stmt->fetch();
 }
 
-// Função para adicionar categoria
+// FunÃ§Ã£o para adicionar categoria
 function adicionar_categoria($nome, $descricao = '') {
     global $pdo;
     $stmt = $pdo->prepare("INSERT INTO categorias (nome, descricao, data_criacao) VALUES (?, ?, NOW())");
     return $stmt->execute([$nome, $descricao]);
 }
 
-// Função para atualizar categoria
+// FunÃ§Ã£o para atualizar categoria
 function atualizar_categoria($id, $nome, $descricao = '') {
     global $pdo;
     $stmt = $pdo->prepare("UPDATE categorias SET nome = ?, descricao = ? WHERE id = ?");
     return $stmt->execute([$nome, $descricao, $id]);
 }
 
-// Função para excluir categoria
+// FunÃ§Ã£o para excluir categoria
 function excluir_categoria($id) {
     global $pdo;
-    // Verificar se há produtos associados
+    // Verificar se hÃ¡ produtos associados
     $stmt_check = $pdo->prepare("SELECT COUNT(*) as total FROM produtos WHERE categoria_id = ?");
     $stmt_check->execute([$id]);
     if ($stmt_check->fetch()['total'] > 0) {
-        return false; // Não pode excluir se houver produtos associados
+        return false; // NÃ£o pode excluir se houver produtos associados
     }
     $stmt = $pdo->prepare("DELETE FROM categorias WHERE id = ?");
     return $stmt->execute([$id]);
 }
 
-// Buscar categorias com paginação e busca
+// Buscar categorias com paginaÃ§Ã£o e busca
 $busca = isset($_GET['busca']) ? trim($_GET['busca']) : '';
 $pagina = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
-$limite = 10; // Categorias por página no admin
+$limite = 10; // Categorias por pÃ¡gina no admin
 $offset = ($pagina - 1) * $limite;
 
 if (!empty($busca)) {
-    // Busca por nome ou descrição
+    // Busca por nome ou descriÃ§Ã£o
     $stmt = $pdo->prepare("SELECT * FROM categorias WHERE nome LIKE ? OR descricao LIKE ? ORDER BY nome");
     $busca_term = "%$busca%";
     $stmt->execute([$busca_term, $busca_term]);
     $categorias = $stmt->fetchAll();
 
-    // Contar total para paginação
+    // Contar total para paginaÃ§Ã£o
     $stmt_count = $pdo->prepare("SELECT COUNT(*) as total FROM categorias WHERE nome LIKE ? OR descricao LIKE ?");
     $stmt_count->execute([$busca_term, $busca_term]);
     $total_categorias = $stmt_count->fetch()['total'];
@@ -121,7 +121,7 @@ if (!empty($busca)) {
     $categorias = obter_categorias_admin();
     $total_categorias = contar_categorias();
 
-    // Aplicar paginação manualmente (como obter_categorias_admin não aceita limite/offset)
+    // Aplicar paginaÃ§Ã£o manualmente (como obter_categorias_admin nÃ£o aceita limite/offset)
     $categorias = array_slice($categorias, $offset, $limite);
 }
 
@@ -136,7 +136,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
     <div
       class="text-xl font-headline-lg tracking-[0.4em] text-white"
     >
-      LUPIÈRE ADMIN
+      LUPIÃˆRE ADMIN
     </div>
   </div>
   <nav class="flex-1 flex-col pt-6 space-y-4">
@@ -144,49 +144,49 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
       href="index.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">dashboard</span>
+      <span class="notranslate material-symbols-outlined" translate="no">dashboard</span>
       <span class="ml-3">Dashboard</span>
     </a>
     <a
       href="produtos.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">inventory_2</span>
+      <span class="notranslate material-symbols-outlined" translate="no">inventory_2</span>
       <span class="ml-3">Produtos</span>
     </a>
     <a
       href="categorias.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] bg-primary/20 hover:bg-primary/30 transition-colors"
     >
-      <span class="material-symbols-outlined">category</span>
+      <span class="notranslate material-symbols-outlined" translate="no">category</span>
       <span class="ml-3">Categorias</span>
     </a>
     <a
       href="pedidos.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">list_alt</span>
+      <span class="notranslate material-symbols-outlined" translate="no">list_alt</span>
       <span class="ml-3">Pedidos</span>
     </a>
     <a
       href="banners.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">image</span>
+      <span class="notranslate material-symbols-outlined" translate="no">image</span>
       <span class="ml-3">Banners</span>
     </a>
     <a
       href="administradores.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors"
     >
-      <span class="material-symbols-outlined">admin_panel_settings</span>
+      <span class="notranslate material-symbols-outlined" translate="no">admin_panel_settings</span>
       <span class="ml-3">Administradores</span>
     </a>
     <a
       href="../logout.php"
       class="flex items-center px-4 py-3 text-sm font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary/20 transition-colors mt-auto"
     >
-      <span class="material-symbols-outlined">logout</span>
+      <span class="notranslate material-symbols-outlined" translate="no">logout</span>
       <span class="ml-3">Sair</span>
     </a>
   </nav>
@@ -212,7 +212,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
       <!-- ICONES -->
       <div class="flex items-center gap-5 md:gap-8 text-[#1B3022]">
         <a href="categorias.php?acao=adicionar" class="icon-btn">
-          <span class="material-symbols-outlined">add</span>
+          <span class="notranslate material-symbols-outlined" translate="no">add</span>
         </a>
       </div>
     </div>
@@ -246,7 +246,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
           </div>
         </div>
 
-        <!-- Formulário de categoria (adicionar/editar) -->
+        <!-- FormulÃ¡rio de categoria (adicionar/editar) -->
         <div id="categoria-form" class="mb-8 hidden bg-surface rounded-lg border border-outline/20 p-6">
           <h3 class="font-headline-sm text-headline-sm mb-4">Dados da Categoria</h3>
           <form action="categorias.php" method="POST" class="space-y-6">
@@ -266,7 +266,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               </div>
 
               <div>
-                <label class="block font-label-caps text-label-caps mb-2">Descrição:</label>
+                <label class="block font-label-caps text-label-caps mb-2">DescriÃ§Ã£o:</label>
                 <textarea
                   name="descricao"
                   id="categoria-descricao"
@@ -321,10 +321,10 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               <tr>
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">ID</th>
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Nome</th>
-                <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Descrição</th>
+                <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">DescriÃ§Ã£o</th>
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Produtos Associados</th>
                 <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Data</th>
-                <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">Ações</th>
+                <th class="px-6 py-3 text-left text-xs font-label-caps text-label-caps tracking-[0.2em] text-on-surface-variant/60">AÃ§Ãµes</th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-outline/20">
@@ -392,7 +392,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
           </table>
         </div>
 
-        <!-- Paginação -->
+        <!-- PaginaÃ§Ã£o -->
         <?php if ($total_paginas > 1): ?>
           <div class="mt-6">
             <nav class="flex flex-wrap justify-center gap-2">
@@ -406,7 +406,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
               <?php endif; ?>
 
               <?php
-              // Mostrar números das páginas (máximo 5 visibles)
+              // Mostrar nÃºmeros das pÃ¡ginas (mÃ¡ximo 5 visibles)
               $inicio_pagina = max(1, $pagina - 2);
               $fim_pagina = min($total_paginas, $inicio_pagina + 4);
               if ($fim_pagina - $inicio_pagina < 4) {
@@ -428,7 +428,7 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
                   href="categorias.php?<?php echo http_build_query(array_merge($_GET, ['pagina' => $pagina + 1])); ?>"
                   class="px-4 py-2 bg-primary-container text-white font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary transition-all duration-300"
                 >
-                  Próxima
+                  PrÃ³xima
                 </a>
               <?php endif; ?>
             </nav>
@@ -454,11 +454,11 @@ function limparFormularioCategoria() {
     document.getElementById('categoria-salvar').textContent = 'Salvar Categoria';
 }
 
-// Função para editar categoria
+// FunÃ§Ã£o para editar categoria
 function editarCategoria(id) {
     const categoria = categoriasAdmin[id];
     if (!categoria) {
-        alert('Categoria não encontrada na listagem atual.');
+        alert('Categoria nÃ£o encontrada na listagem atual.');
         return;
     }
 
@@ -471,10 +471,10 @@ function editarCategoria(id) {
     document.getElementById('categoria-salvar').textContent = 'Atualizar Categoria';
 }
 
-// Função para excluir categoria
+// FunÃ§Ã£o para excluir categoria
 function excluirCategoria(id) {
-    if (confirm('Tem certeza que deseja excluir esta categoria? Esta ação não pode ser desfeita.')) {
-        // Criar formulário temporário para submit
+    if (confirm('Tem certeza que deseja excluir esta categoria? Esta aÃ§Ã£o nÃ£o pode ser desfeita.')) {
+        // Criar formulÃ¡rio temporÃ¡rio para submit
         const form = document.createElement('form');
         form.method = 'POST';
         form.action = 'categorias.php';
@@ -496,18 +496,18 @@ function excluirCategoria(id) {
     }
 }
 
-// Função para cancelar edição
+// FunÃ§Ã£o para cancelar ediÃ§Ã£o
 document.getElementById('categoria-cancelar').addEventListener('click', function() {
     document.getElementById('categoria-form').classList.add('hidden');
     limparFormularioCategoria();
 });
 
-// Fecha o formulário ao clicar fora (opcional)
+// Fecha o formulÃ¡rio ao clicar fora (opcional)
 document.addEventListener('click', function(e) {
     const form = document.getElementById('categoria-form');
     const button = document.querySelector('button[onclick*="categoria-form"]');
     if (!form.contains(e.target) && !button.contains(e.target) && !form.classList.contains('hidden')) {
-        // Clicou fora do formulário e do botão de abrir
+        // Clicou fora do formulÃ¡rio e do botÃ£o de abrir
         form.classList.add('hidden');
         limparFormularioCategoria();
     }
