@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             global $pdo;
             $stmt = $pdo->prepare("UPDATE pedidos SET status = ? WHERE id = ?");
             if ($stmt->execute([$status, $id])) {
+                enviar_email_status_pedido($id, $status);
                 $_SESSION['admin_sucesso'] = 'Status do pedido atualizado com sucesso!';
             } else {
                 $_SESSION['admin_erro'] = 'Erro ao atualizar status do pedido.';

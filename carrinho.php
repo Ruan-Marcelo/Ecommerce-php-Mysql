@@ -17,6 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 unset($_SESSION['carrinho'][$index]);
                 // Reindexar o array
                 $_SESSION['carrinho'] = array_values($_SESSION['carrinho']);
+                if (!empty($_SESSION['carrinho'])) {
+                    registrar_carrinho_abandonado_usuario($_SESSION['usuario_id'], $_SESSION['carrinho']);
+                } else {
+                    desativar_carrinho_abandonado_usuario($_SESSION['usuario_id']);
+                }
             }
         } elseif ($_POST['action'] == 'atualizar' && isset($_POST['index']) && isset($_POST['quantidade'])) {
             $index = intval($_POST['index']);
@@ -26,6 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $produto = obter_produto_por_id($_SESSION['carrinho'][$index]['produto_id']);
                 if ($produto && $quantidade <= $produto['estoque']) {
                     $_SESSION['carrinho'][$index]['quantidade'] = $quantidade;
+                    registrar_carrinho_abandonado_usuario($_SESSION['usuario_id'], $_SESSION['carrinho']);
                 }
             }
         }

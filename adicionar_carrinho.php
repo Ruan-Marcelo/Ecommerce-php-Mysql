@@ -66,6 +66,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ];
     }
 
+    registrar_carrinho_abandonado_usuario($_SESSION['usuario_id'], $_SESSION['carrinho']);
+
     $redirect = $_POST['redirect'] ?? ($_SERVER['HTTP_REFERER'] ?? 'produtos.php');
     $separator = str_contains($redirect, '?') ? '&' : '?';
     redirect_seguro($redirect . $separator . "carrinho=aberto", 'produtos.php?carrinho=aberto');

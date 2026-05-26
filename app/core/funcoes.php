@@ -250,6 +250,316 @@ function criar_tabelas_interacao_se_necessario() {
     ");
 }
 
+function criar_tabelas_email_se_necessario() {
+    global $pdo;
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS email_inscritos (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            usuario_id int(11) DEFAULT NULL,
+            nome varchar(120) DEFAULT NULL,
+            email varchar(150) NOT NULL,
+            origem varchar(40) DEFAULT 'manual',
+            ativo tinyint(1) DEFAULT 1,
+            data_criacao timestamp NOT NULL DEFAULT current_timestamp(),
+            data_atualizacao timestamp NULL DEFAULT NULL,
+            PRIMARY KEY (id),
+            UNIQUE KEY email (email),
+            KEY usuario_id (usuario_id),
+            KEY ativo (ativo)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS email_campanhas (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            titulo varchar(180) NOT NULL,
+            assunto varchar(180) NOT NULL,
+            tipo varchar(40) DEFAULT 'promocao',
+            publico varchar(40) DEFAULT 'inscritos',
+            conteudo_html mediumtext NOT NULL,
+            status varchar(30) DEFAULT 'rascunho',
+            criador_id int(11) DEFAULT NULL,
+            data_criacao timestamp NOT NULL DEFAULT current_timestamp(),
+            data_envio timestamp NULL DEFAULT NULL,
+            PRIMARY KEY (id),
+            KEY tipo (tipo),
+            KEY status (status)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS email_fila (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            campanha_id int(11) DEFAULT NULL,
+            usuario_id int(11) DEFAULT NULL,
+            email varchar(150) NOT NULL,
+            nome varchar(120) DEFAULT NULL,
+            assunto varchar(180) NOT NULL,
+            conteudo_html mediumtext NOT NULL,
+            status varchar(30) DEFAULT 'pendente',
+            tentativas int(11) DEFAULT 0,
+            erro text DEFAULT NULL,
+            agendado_para timestamp NOT NULL DEFAULT current_timestamp(),
+            enviado_em timestamp NULL DEFAULT NULL,
+            data_criacao timestamp NOT NULL DEFAULT current_timestamp(),
+            PRIMARY KEY (id),
+            KEY status_agendado (status, agendado_para),
+            KEY campanha_id (campanha_id),
+            KEY usuario_id (usuario_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS email_automacoes (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            nome varchar(120) NOT NULL,
+            tipo varchar(40) NOT NULL,
+            assunto varchar(180) NOT NULL,
+            conteudo_html mediumtext NOT NULL,
+            intervalo_minutos int(11) NOT NULL DEFAULT 1440,
+            ativo tinyint(1) DEFAULT 1,
+            ultima_execucao timestamp NULL DEFAULT NULL,
+            proxima_execucao timestamp NULL DEFAULT NULL,
+            data_criacao timestamp NOT NULL DEFAULT current_timestamp(),
+            PRIMARY KEY (id),
+            KEY ativo_proxima (ativo, proxima_execucao)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS carrinhos_abandonados (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            usuario_id int(11) NOT NULL,
+            itens_json mediumtext NOT NULL,
+            total decimal(10,2) NOT NULL DEFAULT 0,
+            ativo tinyint(1) DEFAULT 1,
+            ultimo_email_em timestamp NULL DEFAULT NULL,
+            data_atualizacao timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+            PRIMARY KEY (id),
+            UNIQUE KEY usuario_id (usuario_id),
+            KEY ativo_atualizacao (ativo, data_atualizacao)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+}
+
+function garantir_inscricao_email($email, $nome = '', $usuario_id = null, $origem = 'manual', $ativo = 1) {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    $email = strtolower(trim((string) $email));
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+    $stmt = $pdo->prepare("
+        INSERT INTO email_inscritos (usuario_id, nome, email, origem, ativo, data_atualizacao)
+        VALUES (?, ?, ?, ?, ?, NOW())
+        ON DUPLICATE KEY UPDATE usuario_id = COALESCE(VALUES(usuario_id), usuario_id), nome = VALUES(nome), origem = VALUES(origem), ativo = VALUES(ativo), data_atualizacao = NOW()
+    ");
+    return $stmt->execute([$usuario_id ?: null, $nome, $email, $origem, $ativo ? 1 : 0]);
+}
+
+function obter_destinatarios_email($publico = 'inscritos', $ids = []) {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    $publico = (string) $publico;
+    if ($publico === 'selecionados' && !empty($ids)) {
+        $ids = array_values(array_filter(array_map('intval', $ids)));
+        if (empty($ids)) {
+            return [];
+        }
+        $placeholders = implode(',', array_fill(0, count($ids), '?'));
+        $stmt = $pdo->prepare("SELECT id AS usuario_id, nome, email FROM usuarios WHERE id IN ($placeholders) ORDER BY nome");
+        $stmt->execute($ids);
+        return $stmt->fetchAll();
+    }
+    if ($publico === 'clientes') {
+        $stmt = $pdo->query("SELECT id AS usuario_id, nome, email FROM usuarios WHERE admin = 0 ORDER BY nome");
+        return $stmt->fetchAll();
+    }
+    if ($publico === 'com_pedidos') {
+        $stmt = $pdo->query("SELECT DISTINCT u.id AS usuario_id, u.nome, u.email FROM usuarios u INNER JOIN pedidos p ON p.usuario_id = u.id WHERE u.admin = 0 ORDER BY u.nome");
+        return $stmt->fetchAll();
+    }
+    if ($publico === 'com_desejos') {
+        criar_tabelas_interacao_se_necessario();
+        $stmt = $pdo->query("SELECT DISTINCT u.id AS usuario_id, u.nome, u.email FROM usuarios u INNER JOIN lista_desejos l ON l.usuario_id = u.id WHERE u.admin = 0 ORDER BY u.nome");
+        return $stmt->fetchAll();
+    }
+    $stmt = $pdo->query("SELECT usuario_id, nome, email FROM email_inscritos WHERE ativo = 1 ORDER BY nome, email");
+    return $stmt->fetchAll();
+}
+
+function criar_campanha_email($titulo, $assunto, $tipo, $publico, $conteudo_html, $criador_id = null) {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    $stmt = $pdo->prepare("INSERT INTO email_campanhas (titulo, assunto, tipo, publico, conteudo_html, criador_id) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$titulo, $assunto, $tipo, $publico, $conteudo_html, $criador_id ?: null]);
+    return (int) $pdo->lastInsertId();
+}
+
+function enfileirar_email($email, $nome, $assunto, $conteudo_html, $campanha_id = null, $usuario_id = null, $agendado_para = null) {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+    $stmt = $pdo->prepare("INSERT INTO email_fila (campanha_id, usuario_id, email, nome, assunto, conteudo_html, agendado_para) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    return $stmt->execute([$campanha_id ?: null, $usuario_id ?: null, $email, $nome, $assunto, $conteudo_html, $agendado_para ?: date('Y-m-d H:i:s')]);
+}
+
+function enfileirar_campanha_email($campanha_id, $publico, $ids = []) {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    $stmt = $pdo->prepare("SELECT * FROM email_campanhas WHERE id = ?");
+    $stmt->execute([(int) $campanha_id]);
+    $campanha = $stmt->fetch();
+    if (!$campanha) {
+        return 0;
+    }
+    $destinatarios = obter_destinatarios_email($publico ?: $campanha['publico'], $ids);
+    $total = 0;
+    foreach ($destinatarios as $destinatario) {
+        if (enfileirar_email($destinatario['email'], $destinatario['nome'] ?? '', $campanha['assunto'], $campanha['conteudo_html'], $campanha_id, $destinatario['usuario_id'] ?? null)) {
+            $total++;
+        }
+    }
+    $update = $pdo->prepare("UPDATE email_campanhas SET status = 'enfileirada', data_envio = NOW() WHERE id = ?");
+    $update->execute([(int) $campanha_id]);
+    return $total;
+}
+
+function renderizar_email_lupiere($titulo, $conteudo_html) {
+    $titulo = escapar($titulo);
+    return '<!doctype html><html><body style="margin:0;background:#faf9f4;color:#1b1c19;font-family:Arial,sans-serif;">'
+        . '<div style="max-width:680px;margin:0 auto;padding:32px 20px;">'
+        . '<div style="letter-spacing:8px;color:#1b3022;font-family:Georgia,serif;font-size:22px;margin-bottom:28px;">LUPIERE</div>'
+        . '<div style="background:#ffffff;border:1px solid #e3e3de;padding:28px;">'
+        . '<h1 style="font-family:Georgia,serif;color:#061b0e;font-size:30px;font-weight:400;margin:0 0 18px;">' . $titulo . '</h1>'
+        . '<div style="font-size:16px;line-height:1.7;color:#434843;">' . $conteudo_html . '</div>'
+        . '</div>'
+        . '<p style="font-size:12px;color:#737973;margin-top:20px;">LUPIERE Alfaiataria. Voce recebeu este email por se cadastrar ou interagir com a loja.</p>'
+        . '</div></body></html>';
+}
+
+function enviar_email_lupiere($para, $assunto, $conteudo_html) {
+    $from = getenv('LUPIERE_EMAIL_FROM') ?: 'no-reply@lupiere.local';
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-type: text/html; charset=UTF-8',
+        'From: LUPIERE <' . $from . '>',
+    ];
+    return @mail($para, $assunto, $conteudo_html, implode("\r\n", $headers));
+}
+
+function processar_fila_emails($limite = 20) {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    $stmt = $pdo->prepare("SELECT * FROM email_fila WHERE status = 'pendente' AND agendado_para <= NOW() ORDER BY agendado_para ASC, id ASC LIMIT ?");
+    $stmt->bindValue(1, (int) $limite, PDO::PARAM_INT);
+    $stmt->execute();
+    $emails = $stmt->fetchAll();
+    $resultado = ['enviados' => 0, 'falhas' => 0];
+    foreach ($emails as $email) {
+        $html = renderizar_email_lupiere($email['assunto'], $email['conteudo_html']);
+        $ok = enviar_email_lupiere($email['email'], $email['assunto'], $html);
+        if ($ok) {
+            $update = $pdo->prepare("UPDATE email_fila SET status = 'enviado', enviado_em = NOW(), erro = NULL WHERE id = ?");
+            $update->execute([$email['id']]);
+            $resultado['enviados']++;
+        } else {
+            $update = $pdo->prepare("UPDATE email_fila SET tentativas = tentativas + 1, status = IF(tentativas >= 2, 'falhou', 'pendente'), erro = ? WHERE id = ?");
+            $update->execute(['Falha no mail(). Configure SMTP/sendmail no PHP para envio real.', $email['id']]);
+            $resultado['falhas']++;
+        }
+    }
+    return $resultado;
+}
+
+function registrar_carrinho_abandonado_usuario($usuario_id, $carrinho = null) {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    $carrinho = $carrinho ?? ($_SESSION['carrinho'] ?? []);
+    if (empty($usuario_id) || empty($carrinho)) {
+        return false;
+    }
+    $total = 0;
+    foreach ($carrinho as $item) {
+        $total += (float) ($item['preco'] ?? 0) * (int) ($item['quantidade'] ?? 0);
+    }
+    $stmt = $pdo->prepare("
+        INSERT INTO carrinhos_abandonados (usuario_id, itens_json, total, ativo)
+        VALUES (?, ?, ?, 1)
+        ON DUPLICATE KEY UPDATE itens_json = VALUES(itens_json), total = VALUES(total), ativo = 1, data_atualizacao = NOW()
+    ");
+    return $stmt->execute([$usuario_id, json_encode($carrinho, JSON_UNESCAPED_UNICODE), $total]);
+}
+
+function desativar_carrinho_abandonado_usuario($usuario_id) {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    $stmt = $pdo->prepare("UPDATE carrinhos_abandonados SET ativo = 0 WHERE usuario_id = ?");
+    return $stmt->execute([(int) $usuario_id]);
+}
+
+function enviar_email_status_pedido($pedido_id, $status) {
+    $pedido = obter_pedido_por_id($pedido_id);
+    if (!$pedido || empty($pedido['usuario_email'])) {
+        return false;
+    }
+    $labels = ['pendente' => 'pendente', 'processando' => 'em processamento', 'enviado' => 'enviado', 'entregue' => 'entregue', 'cancelado' => 'cancelado'];
+    $status_label = $labels[$status] ?? $status;
+    $conteudo = '<p>O status do seu pedido #' . (int) $pedido_id . ' foi atualizado para <strong>' . escapar($status_label) . '</strong>.</p>'
+        . '<p>Total do pedido: <strong>' . formatar_moeda($pedido['total']) . '</strong>.</p>'
+        . '<p><a href="../pedido_confirmado.php?id=' . (int) $pedido_id . '" style="color:#735c00;">Ver detalhes do pedido</a></p>';
+    return enfileirar_email($pedido['usuario_email'], $pedido['usuario_nome'] ?? '', 'Atualizacao do pedido #' . (int) $pedido_id, $conteudo, null, $pedido['usuario_id'] ?? null);
+}
+
+function salvar_automacao_email($nome, $tipo, $assunto, $conteudo_html, $intervalo_minutos, $ativo = 1) {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    $intervalo_minutos = max(15, (int) $intervalo_minutos);
+    $stmt = $pdo->prepare("INSERT INTO email_automacoes (nome, tipo, assunto, conteudo_html, intervalo_minutos, ativo, proxima_execucao) VALUES (?, ?, ?, ?, ?, ?, DATE_ADD(NOW(), INTERVAL ? MINUTE))");
+    return $stmt->execute([$nome, $tipo, $assunto, $conteudo_html, $intervalo_minutos, $ativo ? 1 : 0, $intervalo_minutos]);
+}
+
+function obter_automacoes_email() {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    return $pdo->query("SELECT * FROM email_automacoes ORDER BY data_criacao DESC")->fetchAll();
+}
+
+function processar_automacoes_email() {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    $automacoes = $pdo->query("SELECT * FROM email_automacoes WHERE ativo = 1 AND (proxima_execucao IS NULL OR proxima_execucao <= NOW())")->fetchAll();
+    $total = 0;
+    foreach ($automacoes as $automacao) {
+        if ($automacao['tipo'] === 'desejos') {
+            criar_tabelas_interacao_se_necessario();
+            $stmt = $pdo->query("SELECT DISTINCT u.id AS usuario_id, u.nome, u.email FROM usuarios u INNER JOIN lista_desejos l ON l.usuario_id = u.id LEFT JOIN email_inscritos i ON i.email = u.email WHERE u.admin = 0 AND COALESCE(i.ativo, 1) = 1");
+            foreach ($stmt->fetchAll() as $usuario) {
+                if (enfileirar_email($usuario['email'], $usuario['nome'], $automacao['assunto'], $automacao['conteudo_html'], null, $usuario['usuario_id'])) {
+                    $total++;
+                }
+            }
+        } elseif ($automacao['tipo'] === 'carrinho') {
+            $stmt = $pdo->query("SELECT c.*, u.nome, u.email FROM carrinhos_abandonados c INNER JOIN usuarios u ON u.id = c.usuario_id LEFT JOIN email_inscritos i ON i.email = u.email WHERE c.ativo = 1 AND c.data_atualizacao < DATE_SUB(NOW(), INTERVAL 2 HOUR) AND (c.ultimo_email_em IS NULL OR c.ultimo_email_em < DATE_SUB(NOW(), INTERVAL 1 DAY)) AND COALESCE(i.ativo, 1) = 1");
+            foreach ($stmt->fetchAll() as $carrinho) {
+                if (enfileirar_email($carrinho['email'], $carrinho['nome'], $automacao['assunto'], $automacao['conteudo_html'], null, $carrinho['usuario_id'])) {
+                    $update = $pdo->prepare("UPDATE carrinhos_abandonados SET ultimo_email_em = NOW() WHERE id = ?");
+                    $update->execute([$carrinho['id']]);
+                    $total++;
+                }
+            }
+        } else {
+            $destinatarios = obter_destinatarios_email('inscritos');
+            foreach ($destinatarios as $destinatario) {
+                if (enfileirar_email($destinatario['email'], $destinatario['nome'] ?? '', $automacao['assunto'], $automacao['conteudo_html'], null, $destinatario['usuario_id'] ?? null)) {
+                    $total++;
+                }
+            }
+        }
+        $update = $pdo->prepare("UPDATE email_automacoes SET ultima_execucao = NOW(), proxima_execucao = DATE_ADD(NOW(), INTERVAL ? MINUTE) WHERE id = ?");
+        $update->execute([(int) $automacao['intervalo_minutos'], $automacao['id']]);
+    }
+    return $total;
+}
+
 function garantir_colunas_pagamento_pedidos() {
     global $pdo;
     $colunas = [];

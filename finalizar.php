@@ -70,6 +70,7 @@ $pedido_id = finalizar_compra(
 );
 
 if ($pedido_id) {
+    desativar_carrinho_abandonado_usuario($_SESSION['usuario_id']);
     $pedido = obter_pedido_por_id($pedido_id);
     $preferencia = criar_preferencia_mercado_pago($pedido, $_SESSION['carrinho']);
     if (!empty($preferencia['sucesso']) && !empty($preferencia['checkout_url'])) {

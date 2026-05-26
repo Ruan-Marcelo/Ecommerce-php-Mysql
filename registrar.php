@@ -8,6 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["email"] ?? '');
     $telefone = trim($_POST["telefone"] ?? '');
     $senha = $_POST["password"] ?? '';
+    $inscrever_email = isset($_POST['newsletter']);
 
     // Validação
     if (empty($nome) || empty($email) || empty($senha)) {
@@ -30,6 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             );
 
             if ($criado) {
+                $usuario_criado = obter_usuario_por_email($email);
+                if ($inscrever_email) {
+                    garantir_inscricao_email($email, $nome, $usuario_criado['id'] ?? null, 'cadastro', 1);
+                }
 
                 $sucesso = "Conta criada com sucesso!";
 
@@ -358,6 +363,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input
                         class="mt-1"
                         id="newsletter"
+                        name="newsletter"
                         type="checkbox"
                     />
 
