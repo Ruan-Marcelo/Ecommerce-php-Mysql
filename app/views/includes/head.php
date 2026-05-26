@@ -158,8 +158,228 @@ font-variation-settings:
         box-shadow: none;
         outline: none;
       }
+      :focus-visible {
+        outline: 3px solid rgba(115, 92, 0, 0.45);
+        outline-offset: 3px;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        overflow-x: hidden;
+      }
+      img,
+      video,
+      canvas,
+      svg {
+        max-width: 100%;
+      }
+      button,
+      a,
+      input,
+      select,
+      textarea {
+        touch-action: manipulation;
+      }
+      input,
+      select,
+      textarea,
+      button {
+        font-size: 16px;
+      }
+      .admin-menu-toggle {
+        position: fixed;
+        left: 16px;
+        top: 14px;
+        z-index: 95;
+        width: 44px;
+        height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(27, 48, 34, 0.15);
+        background: #faf9f4;
+        color: #061b0e;
+        box-shadow: 0 12px 32px rgba(6, 27, 14, 0.14);
+        border-radius: 8px;
+      }
+      .admin-sidebar-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 70;
+        background: rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 180ms ease;
+      }
+      body.admin-sidebar-open .admin-sidebar-overlay {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      @media (min-width: 1025px) {
+        .admin-menu-toggle {
+          left: 20px;
+        }
+        body.admin-sidebar-collapsed aside.fixed.top-0.left-0.h-full {
+          width: 76px !important;
+        }
+        body.admin-sidebar-collapsed aside.fixed.top-0.left-0.h-full > div:first-child {
+          opacity: 0;
+          height: 64px;
+          overflow: hidden;
+          pointer-events: none;
+        }
+        body.admin-sidebar-collapsed aside.fixed.top-0.left-0.h-full nav a {
+          justify-content: center;
+          padding-left: 0.75rem;
+          padding-right: 0.75rem;
+        }
+        body.admin-sidebar-collapsed aside.fixed.top-0.left-0.h-full nav a span.ml-3 {
+          display: none;
+        }
+        body.admin-sidebar-collapsed main.ml-64 {
+          margin-left: 76px !important;
+        }
+        body.admin-sidebar-collapsed header.left-64 {
+          left: 76px !important;
+        }
+      }
+      @media (max-width: 1024px) {
+        .admin-menu-toggle {
+          display: inline-flex;
+        }
+        aside.fixed.top-0.left-0.h-full.w-64 {
+          width: min(82vw, 320px) !important;
+          transform: translateX(-105%);
+          transition: transform 220ms ease;
+          z-index: 90 !important;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+        body.admin-sidebar-open aside.fixed.top-0.left-0.h-full.w-64 {
+          transform: translateX(0);
+        }
+        main.ml-64 {
+          margin-left: 0 !important;
+          width: 100%;
+        }
+        header.left-64 {
+          left: 0 !important;
+          padding-left: 64px;
+        }
+        header.left-64 .tracking-\[0\.4em\],
+        header.left-64 .tracking-\[0\.3em\] {
+          letter-spacing: 0.12em !important;
+        }
+        .py-section-gap {
+          padding-top: 88px !important;
+          padding-bottom: 48px !important;
+        }
+        .px-gutter {
+          padding-left: 16px !important;
+          padding-right: 16px !important;
+        }
+        table {
+          min-width: 680px;
+        }
+        .overflow-x-auto {
+          -webkit-overflow-scrolling: touch;
+        }
+      }
+      @media (max-width: 640px) {
+        .font-headline-display,
+        .text-\[72px\],
+        .text-\[64px\],
+        .text-\[48px\] {
+          font-size: 36px !important;
+          line-height: 1.12 !important;
+        }
+        .text-headline-lg,
+        .font-headline-lg {
+          font-size: 30px !important;
+          line-height: 1.2 !important;
+        }
+        .text-headline-md,
+        .font-headline-md {
+          font-size: 24px !important;
+          line-height: 1.25 !important;
+        }
+        .grid {
+          min-width: 0;
+        }
+      }
     </style>
   </head>
   <body
     class="bg-background text-on-surface font-body-md min-h-screen flex flex-col"
   >
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.querySelector('aside.fixed.top-0.left-0.h-full');
+        const main = document.querySelector('main.ml-64');
+        if (!sidebar || !main) return;
+
+        sidebar.setAttribute('aria-label', 'Menu administrativo');
+
+        const overlay = document.createElement('div');
+        overlay.className = 'admin-sidebar-overlay';
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(overlay);
+
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'admin-menu-toggle';
+        toggle.setAttribute('aria-label', 'Abrir menu administrativo');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.innerHTML = '<span class="notranslate material-symbols-outlined" translate="no">menu</span>';
+        document.body.appendChild(toggle);
+
+        function isMobileAdmin() {
+          return window.matchMedia('(max-width: 1024px)').matches;
+        }
+
+        function closeSidebar() {
+          document.body.classList.remove('admin-sidebar-open');
+          toggle.setAttribute('aria-expanded', 'false');
+          toggle.setAttribute('aria-label', 'Abrir menu administrativo');
+        }
+
+        function openSidebar() {
+          document.body.classList.add('admin-sidebar-open');
+          toggle.setAttribute('aria-expanded', 'true');
+          toggle.setAttribute('aria-label', 'Fechar menu administrativo');
+        }
+
+        toggle.addEventListener('click', function () {
+          if (isMobileAdmin()) {
+            if (document.body.classList.contains('admin-sidebar-open')) {
+              closeSidebar();
+            } else {
+              openSidebar();
+            }
+            return;
+          }
+
+          document.body.classList.toggle('admin-sidebar-collapsed');
+          const collapsed = document.body.classList.contains('admin-sidebar-collapsed');
+          toggle.setAttribute('aria-expanded', String(!collapsed));
+          toggle.setAttribute('aria-label', collapsed ? 'Expandir menu administrativo' : 'Recolher menu administrativo');
+        });
+
+        overlay.addEventListener('click', closeSidebar);
+
+        sidebar.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            if (isMobileAdmin()) closeSidebar();
+          });
+        });
+
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape') closeSidebar();
+        });
+
+        window.addEventListener('resize', function () {
+          if (!isMobileAdmin()) closeSidebar();
+        });
+      });
+    </script>
