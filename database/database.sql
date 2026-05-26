@@ -124,6 +124,85 @@ CREATE TABLE IF NOT EXISTS `lista_desejos` (
   KEY `produto_id` (`produto_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS `email_inscritos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) DEFAULT NULL,
+  `nome` varchar(120) DEFAULT NULL,
+  `email` varchar(150) NOT NULL,
+  `origem` varchar(40) DEFAULT 'manual',
+  `ativo` tinyint(1) DEFAULT 1,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `data_atualizacao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`),
+  KEY `usuario_id` (`usuario_id`),
+  KEY `ativo` (`ativo`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `email_campanhas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(180) NOT NULL,
+  `assunto` varchar(180) NOT NULL,
+  `tipo` varchar(40) DEFAULT 'promocao',
+  `publico` varchar(40) DEFAULT 'inscritos',
+  `conteudo_html` mediumtext NOT NULL,
+  `status` varchar(30) DEFAULT 'rascunho',
+  `criador_id` int(11) DEFAULT NULL,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `data_envio` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tipo` (`tipo`),
+  KEY `status` (`status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `email_fila` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `campanha_id` int(11) DEFAULT NULL,
+  `usuario_id` int(11) DEFAULT NULL,
+  `email` varchar(150) NOT NULL,
+  `nome` varchar(120) DEFAULT NULL,
+  `assunto` varchar(180) NOT NULL,
+  `conteudo_html` mediumtext NOT NULL,
+  `status` varchar(30) DEFAULT 'pendente',
+  `tentativas` int(11) DEFAULT 0,
+  `erro` text DEFAULT NULL,
+  `agendado_para` timestamp NOT NULL DEFAULT current_timestamp(),
+  `enviado_em` timestamp NULL DEFAULT NULL,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `status_agendado` (`status`,`agendado_para`),
+  KEY `campanha_id` (`campanha_id`),
+  KEY `usuario_id` (`usuario_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `email_automacoes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(120) NOT NULL,
+  `tipo` varchar(40) NOT NULL,
+  `assunto` varchar(180) NOT NULL,
+  `conteudo_html` mediumtext NOT NULL,
+  `intervalo_minutos` int(11) NOT NULL DEFAULT 1440,
+  `ativo` tinyint(1) DEFAULT 1,
+  `ultima_execucao` timestamp NULL DEFAULT NULL,
+  `proxima_execucao` timestamp NULL DEFAULT NULL,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `ativo_proxima` (`ativo`,`proxima_execucao`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS `carrinhos_abandonados` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) NOT NULL,
+  `itens_json` mediumtext NOT NULL,
+  `total` decimal(10,2) NOT NULL DEFAULT 0,
+  `ativo` tinyint(1) DEFAULT 1,
+  `ultimo_email_em` timestamp NULL DEFAULT NULL,
+  `data_atualizacao` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `usuario_id` (`usuario_id`),
+  KEY `ativo_atualizacao` (`ativo`,`data_atualizacao`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Inserir algumas categorias de exemplo
 INSERT INTO `categorias` (`nome`, `descricao`) VALUES
 ('Roupas', 'Peças de vestuário'),

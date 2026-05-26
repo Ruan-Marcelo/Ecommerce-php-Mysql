@@ -10,6 +10,7 @@ $categoria_acessorios = garantir_categoria_acessorios();
 garantir_banner_padrao();
 criar_tabelas_interacao_se_necessario();
 garantir_colunas_pagamento_pedidos();
+criar_tabelas_email_se_necessario();
 
 header('Content-Type: text/plain; charset=utf-8');
 
@@ -27,3 +28,4 @@ echo "Categoria Acessórios: " . ($categoria_acessorios['nome'] ?? 'erro') . PHP
 echo "Tabela de banners pronta." . PHP_EOL;
 echo "Tabelas de comentários, avaliações e lista de desejos prontas." . PHP_EOL;
 echo "Campos de pagamento dos pedidos prontos." . PHP_EOL;
+echo "Tabelas de email, automacoes e carrinhos abandonados prontas." . PHP_EOL;

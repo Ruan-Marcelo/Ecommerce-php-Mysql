@@ -531,14 +531,14 @@ function processar_automacoes_email() {
     foreach ($automacoes as $automacao) {
         if ($automacao['tipo'] === 'desejos') {
             criar_tabelas_interacao_se_necessario();
-            $stmt = $pdo->query("SELECT DISTINCT u.id AS usuario_id, u.nome, u.email FROM usuarios u INNER JOIN lista_desejos l ON l.usuario_id = u.id LEFT JOIN email_inscritos i ON i.email = u.email WHERE u.admin = 0 AND COALESCE(i.ativo, 1) = 1");
+            $stmt = $pdo->query("SELECT DISTINCT u.id AS usuario_id, u.nome, u.email FROM usuarios u INNER JOIN lista_desejos l ON l.usuario_id = u.id INNER JOIN email_inscritos i ON i.email = u.email AND i.ativo = 1 WHERE u.admin = 0");
             foreach ($stmt->fetchAll() as $usuario) {
                 if (enfileirar_email($usuario['email'], $usuario['nome'], $automacao['assunto'], $automacao['conteudo_html'], null, $usuario['usuario_id'])) {
                     $total++;
                 }
             }
         } elseif ($automacao['tipo'] === 'carrinho') {
-            $stmt = $pdo->query("SELECT c.*, u.nome, u.email FROM carrinhos_abandonados c INNER JOIN usuarios u ON u.id = c.usuario_id LEFT JOIN email_inscritos i ON i.email = u.email WHERE c.ativo = 1 AND c.data_atualizacao < DATE_SUB(NOW(), INTERVAL 2 HOUR) AND (c.ultimo_email_em IS NULL OR c.ultimo_email_em < DATE_SUB(NOW(), INTERVAL 1 DAY)) AND COALESCE(i.ativo, 1) = 1");
+            $stmt = $pdo->query("SELECT c.*, u.nome, u.email FROM carrinhos_abandonados c INNER JOIN usuarios u ON u.id = c.usuario_id INNER JOIN email_inscritos i ON i.email = u.email AND i.ativo = 1 WHERE c.ativo = 1 AND c.data_atualizacao < DATE_SUB(NOW(), INTERVAL 2 HOUR) AND (c.ultimo_email_em IS NULL OR c.ultimo_email_em < DATE_SUB(NOW(), INTERVAL 1 DAY))");
             foreach ($stmt->fetchAll() as $carrinho) {
                 if (enfileirar_email($carrinho['email'], $carrinho['nome'], $automacao['assunto'], $automacao['conteudo_html'], null, $carrinho['usuario_id'])) {
                     $update = $pdo->prepare("UPDATE carrinhos_abandonados SET ultimo_email_em = NOW() WHERE id = ?");
