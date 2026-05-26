@@ -64,8 +64,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: emails.php');
         exit();
     }
+
+    if ($acao === 'config_smtp') {
+        $host = trim($_POST['host'] ?? '');
+        $porta = (int) ($_POST['porta'] ?? 587);
+        $criptografia = $_POST['criptografia'] ?? 'tls';
+        $usuario = trim($_POST['usuario'] ?? '');
+        $senha = (string) ($_POST['senha'] ?? '');
+        $remetente_email = trim($_POST['remetente_email'] ?? '');
+        $remetente_nome = trim($_POST['remetente_nome'] ?? 'LUPIERE');
+        $ativo = isset($_POST['ativo']);
+
+        if ($ativo && ($host === '' || $remetente_email === '')) {
+            $_SESSION['admin_erro'] = 'Host SMTP e e-mail remetente sao obrigatorios para ativar o SMTP.';
+        } elseif (salvar_config_email($host, $porta, $criptografia, $usuario, $senha, $remetente_email, $remetente_nome, $ativo)) {
+            $_SESSION['admin_sucesso'] = 'Configuracao SMTP salva.';
+        } else {
+            $_SESSION['admin_erro'] = 'Erro ao salvar configuracao SMTP.';
+        }
+        header('Location: emails.php');
+        exit();
+    }
+
+    if ($acao === 'teste_smtp') {
+        $email_teste = trim($_POST['email_teste'] ?? '');
+        if (!filter_var($email_teste, FILTER_VALIDATE_EMAIL)) {
+            $_SESSION['admin_erro'] = 'Informe um e-mail de teste valido.';
+        } else {
+            enfileirar_email($email_teste, 'Teste', 'Teste de envio LUPIERE', '<p>Se voce recebeu este e-mail, o SMTP da LUPIERE esta configurado.</p>');
+            $resultado = processar_fila_emails(1);
+            if ($resultado['enviados'] > 0) {
+                $_SESSION['admin_sucesso'] = 'E-mail de teste enviado.';
+            } else {
+                $_SESSION['admin_erro'] = 'Teste enfileirado, mas o envio falhou. Veja o erro em Fila e historico.';
+            }
+        }
+        header('Location: emails.php');
+        exit();
+    }
 }
 
+$config_email = obter_config_email();
 $usuarios = $pdo->query("SELECT id, nome, email FROM usuarios WHERE admin = 0 ORDER BY nome")->fetchAll();
 $inscritos = $pdo->query("SELECT * FROM email_inscritos ORDER BY data_criacao DESC LIMIT 20")->fetchAll();
 $campanhas = $pdo->query("SELECT * FROM email_campanhas ORDER BY data_criacao DESC LIMIT 10")->fetchAll();
@@ -126,6 +165,59 @@ require_once dirname(__DIR__) . '/app/views/includes/head.php';
         <div class="bg-surface rounded-lg border border-outline/20 p-6"><p class="font-label-caps text-label-caps text-on-surface-variant/60">Enviados</p><p class="font-headline-md text-headline-md text-primary"><?php echo $stats['enviados']; ?></p></div>
         <div class="bg-surface rounded-lg border border-outline/20 p-6"><p class="font-label-caps text-label-caps text-on-surface-variant/60">Falhas</p><p class="font-headline-md text-headline-md text-primary"><?php echo $stats['falhas']; ?></p></div>
       </div>
+
+      <section class="bg-surface rounded-lg border border-outline/20 p-6">
+        <h2 class="font-headline-md text-headline-md mb-6">Configuracao SMTP</h2>
+        <form method="post" class="space-y-6">
+          <input type="hidden" name="acao" value="config_smtp">
+          <div class="grid gap-4 md:grid-cols-4">
+            <div class="md:col-span-2">
+              <label class="block font-label-caps text-label-caps mb-2">Host SMTP</label>
+              <input name="host" value="<?php echo escapar($config_email['host'] ?? ''); ?>" placeholder="smtp.gmail.com" class="w-full form-input-bespoke py-3 text-primary">
+            </div>
+            <div>
+              <label class="block font-label-caps text-label-caps mb-2">Porta</label>
+              <input type="number" name="porta" value="<?php echo escapar($config_email['porta'] ?? 587); ?>" class="w-full form-input-bespoke py-3 text-primary">
+            </div>
+            <div>
+              <label class="block font-label-caps text-label-caps mb-2">Seguranca</label>
+              <select name="criptografia" class="w-full form-input-bespoke py-3 text-primary">
+                <?php foreach (['tls' => 'TLS', 'ssl' => 'SSL', 'none' => 'Nenhuma'] as $valor => $label): ?>
+                  <option value="<?php echo $valor; ?>" <?php echo (($config_email['criptografia'] ?? 'tls') === $valor) ? 'selected' : ''; ?>><?php echo $label; ?></option>
+                <?php endforeach; ?>
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block font-label-caps text-label-caps mb-2">Usuario SMTP</label>
+              <input name="usuario" value="<?php echo escapar($config_email['usuario'] ?? ''); ?>" class="w-full form-input-bespoke py-3 text-primary">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block font-label-caps text-label-caps mb-2">Senha SMTP</label>
+              <input type="password" name="senha" placeholder="<?php echo !empty($config_email['senha']) ? 'Senha salva - deixe vazio para manter' : ''; ?>" class="w-full form-input-bespoke py-3 text-primary" autocomplete="new-password">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block font-label-caps text-label-caps mb-2">E-mail remetente</label>
+              <input type="email" name="remetente_email" value="<?php echo escapar($config_email['remetente_email'] ?? ''); ?>" placeholder="contato@seudominio.com" class="w-full form-input-bespoke py-3 text-primary">
+            </div>
+            <div class="md:col-span-2">
+              <label class="block font-label-caps text-label-caps mb-2">Nome remetente</label>
+              <input name="remetente_nome" value="<?php echo escapar($config_email['remetente_nome'] ?? 'LUPIERE'); ?>" class="w-full form-input-bespoke py-3 text-primary">
+            </div>
+          </div>
+          <div class="flex items-center justify-between gap-4">
+            <label class="flex items-center gap-3"><input type="checkbox" name="ativo" <?php echo !empty($config_email['ativo']) ? 'checked' : ''; ?>><span>Usar SMTP para envios reais</span></label>
+            <button class="bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary transition-all">Salvar SMTP</button>
+          </div>
+        </form>
+        <form method="post" class="mt-6 flex gap-3 items-end">
+          <input type="hidden" name="acao" value="teste_smtp">
+          <div class="flex-1">
+            <label class="block font-label-caps text-label-caps mb-2">Enviar teste para</label>
+            <input type="email" name="email_teste" value="<?php echo escapar($config_email['remetente_email'] ?? ''); ?>" class="w-full form-input-bespoke py-3 text-primary">
+          </div>
+          <button class="border border-outline/30 text-primary py-3 px-5 font-label-caps text-label-caps tracking-[0.2em] hover:bg-surface-container-low transition-all">Enviar teste</button>
+        </form>
+      </section>
 
       <section class="bg-surface rounded-lg border border-outline/20 p-6">
         <h2 class="font-headline-md text-headline-md mb-6">Nova campanha</h2>

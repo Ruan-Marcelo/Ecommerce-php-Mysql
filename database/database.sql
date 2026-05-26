@@ -203,6 +203,20 @@ CREATE TABLE IF NOT EXISTS `carrinhos_abandonados` (
   KEY `ativo_atualizacao` (`ativo`,`data_atualizacao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS `email_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `host` varchar(180) DEFAULT NULL,
+  `porta` int(11) DEFAULT 587,
+  `criptografia` varchar(20) DEFAULT 'tls',
+  `usuario` varchar(180) DEFAULT NULL,
+  `senha` varchar(255) DEFAULT NULL,
+  `remetente_email` varchar(180) DEFAULT NULL,
+  `remetente_nome` varchar(120) DEFAULT 'LUPIERE',
+  `ativo` tinyint(1) DEFAULT 0,
+  `data_atualizacao` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Inserir algumas categorias de exemplo
 INSERT INTO `categorias` (`nome`, `descricao`) VALUES
 ('Roupas', 'Peças de vestuário'),

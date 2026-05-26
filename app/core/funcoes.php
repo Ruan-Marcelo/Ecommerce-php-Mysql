@@ -336,6 +336,55 @@ function criar_tabelas_email_se_necessario() {
             KEY ativo_atualizacao (ativo, data_atualizacao)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
     ");
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS email_config (
+            id int(11) NOT NULL AUTO_INCREMENT,
+            host varchar(180) DEFAULT NULL,
+            porta int(11) DEFAULT 587,
+            criptografia varchar(20) DEFAULT 'tls',
+            usuario varchar(180) DEFAULT NULL,
+            senha varchar(255) DEFAULT NULL,
+            remetente_email varchar(180) DEFAULT NULL,
+            remetente_nome varchar(120) DEFAULT 'LUPIERE',
+            ativo tinyint(1) DEFAULT 0,
+            data_atualizacao timestamp NULL DEFAULT NULL,
+            PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+    ");
+}
+
+function obter_config_email() {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    $config = $pdo->query("SELECT * FROM email_config ORDER BY id DESC LIMIT 1")->fetch();
+    if ($config) {
+        return $config;
+    }
+    return [
+        'host' => getenv('SMTP_HOST') ?: '',
+        'porta' => getenv('SMTP_PORT') ?: 587,
+        'criptografia' => getenv('SMTP_ENCRYPTION') ?: 'tls',
+        'usuario' => getenv('SMTP_USER') ?: '',
+        'senha' => getenv('SMTP_PASS') ?: '',
+        'remetente_email' => getenv('LUPIERE_EMAIL_FROM') ?: '',
+        'remetente_nome' => getenv('LUPIERE_EMAIL_FROM_NAME') ?: 'LUPIERE',
+        'ativo' => getenv('SMTP_HOST') ? 1 : 0,
+    ];
+}
+
+function salvar_config_email($host, $porta, $criptografia, $usuario, $senha, $remetente_email, $remetente_nome, $ativo) {
+    global $pdo;
+    criar_tabelas_email_se_necessario();
+    $config = obter_config_email();
+    if ($senha === '' && !empty($config['senha'])) {
+        $senha = $config['senha'];
+    }
+    $pdo->exec("DELETE FROM email_config");
+    $stmt = $pdo->prepare("
+        INSERT INTO email_config (host, porta, criptografia, usuario, senha, remetente_email, remetente_nome, ativo, data_atualizacao)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
+    ");
+    return $stmt->execute([$host, (int) $porta, $criptografia, $usuario, $senha, $remetente_email, $remetente_nome, $ativo ? 1 : 0]);
 }
 
 function garantir_inscricao_email($email, $nome = '', $usuario_id = null, $origem = 'manual', $ativo = 1) {
@@ -436,12 +485,104 @@ function renderizar_email_lupiere($titulo, $conteudo_html) {
         . '</div></body></html>';
 }
 
+function smtp_ler_resposta($socket) {
+    $resposta = '';
+    while (($linha = fgets($socket, 515)) !== false) {
+        $resposta .= $linha;
+        if (isset($linha[3]) && $linha[3] === ' ') {
+            break;
+        }
+    }
+    return $resposta;
+}
+
+function smtp_comando($socket, $comando, $codigos_esperados) {
+    fwrite($socket, $comando . "\r\n");
+    $resposta = smtp_ler_resposta($socket);
+    $codigo = (int) substr($resposta, 0, 3);
+    if (!in_array($codigo, (array) $codigos_esperados, true)) {
+        throw new RuntimeException(trim($resposta));
+    }
+    return $resposta;
+}
+
+function email_header_texto($texto) {
+    if (function_exists('mb_encode_mimeheader')) {
+        return mb_encode_mimeheader($texto, 'UTF-8');
+    }
+    return '=?UTF-8?B?' . base64_encode($texto) . '?=';
+}
+
+function enviar_email_smtp_lupiere($para, $assunto, $conteudo_html, $config) {
+    $host = trim((string) ($config['host'] ?? ''));
+    $porta = (int) ($config['porta'] ?? 587);
+    $criptografia = strtolower(trim((string) ($config['criptografia'] ?? 'tls')));
+    $usuario = trim((string) ($config['usuario'] ?? ''));
+    $senha = (string) ($config['senha'] ?? '');
+    $from_email = trim((string) ($config['remetente_email'] ?? $usuario));
+    $from_nome = trim((string) ($config['remetente_nome'] ?? 'LUPIERE'));
+
+    if ($host === '' || $from_email === '') {
+        throw new RuntimeException('SMTP incompleto.');
+    }
+
+    $transport = $criptografia === 'ssl' ? 'ssl://' : '';
+    $socket = stream_socket_client($transport . $host . ':' . $porta, $errno, $errstr, 20, STREAM_CLIENT_CONNECT);
+    if (!$socket) {
+        throw new RuntimeException($errstr ?: 'Nao foi possivel conectar ao SMTP.');
+    }
+    stream_set_timeout($socket, 20);
+
+    smtp_ler_resposta($socket);
+    smtp_comando($socket, 'EHLO lupiere.local', 250);
+    if ($criptografia === 'tls') {
+        smtp_comando($socket, 'STARTTLS', 220);
+        if (!stream_socket_enable_crypto($socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+            throw new RuntimeException('Falha ao iniciar TLS.');
+        }
+        smtp_comando($socket, 'EHLO lupiere.local', 250);
+    }
+    if ($usuario !== '' && $senha !== '') {
+        smtp_comando($socket, 'AUTH LOGIN', 334);
+        smtp_comando($socket, base64_encode($usuario), 334);
+        smtp_comando($socket, base64_encode($senha), 235);
+    }
+
+    $headers = [
+        'MIME-Version: 1.0',
+        'Content-Type: text/html; charset=UTF-8',
+        'From: ' . email_header_texto($from_nome) . ' <' . $from_email . '>',
+        'To: <' . $para . '>',
+        'Subject: ' . email_header_texto($assunto),
+        'Date: ' . date('r'),
+    ];
+    $mensagem = implode("\r\n", $headers) . "\r\n\r\n" . $conteudo_html;
+
+    smtp_comando($socket, 'MAIL FROM:<' . $from_email . '>', 250);
+    smtp_comando($socket, 'RCPT TO:<' . $para . '>', [250, 251]);
+    smtp_comando($socket, 'DATA', 354);
+    fwrite($socket, str_replace("\n.", "\n..", $mensagem) . "\r\n.\r\n");
+    $resposta = smtp_ler_resposta($socket);
+    $codigo = (int) substr($resposta, 0, 3);
+    if ($codigo !== 250) {
+        throw new RuntimeException(trim($resposta));
+    }
+    smtp_comando($socket, 'QUIT', 221);
+    fclose($socket);
+    return true;
+}
+
 function enviar_email_lupiere($para, $assunto, $conteudo_html) {
-    $from = getenv('LUPIERE_EMAIL_FROM') ?: 'no-reply@lupiere.local';
+    $config = obter_config_email();
+    if (!empty($config['ativo'])) {
+        return enviar_email_smtp_lupiere($para, $assunto, $conteudo_html, $config);
+    }
+    $from = $config['remetente_email'] ?: (getenv('LUPIERE_EMAIL_FROM') ?: 'no-reply@lupiere.local');
+    $from_nome = $config['remetente_nome'] ?: 'LUPIERE';
     $headers = [
         'MIME-Version: 1.0',
         'Content-type: text/html; charset=UTF-8',
-        'From: LUPIERE <' . $from . '>',
+        'From: ' . $from_nome . ' <' . $from . '>',
     ];
     return @mail($para, $assunto, $conteudo_html, implode("\r\n", $headers));
 }
@@ -456,14 +597,20 @@ function processar_fila_emails($limite = 20) {
     $resultado = ['enviados' => 0, 'falhas' => 0];
     foreach ($emails as $email) {
         $html = renderizar_email_lupiere($email['assunto'], $email['conteudo_html']);
-        $ok = enviar_email_lupiere($email['email'], $email['assunto'], $html);
+        $erro_envio = null;
+        try {
+            $ok = enviar_email_lupiere($email['email'], $email['assunto'], $html);
+        } catch (Throwable $e) {
+            $ok = false;
+            $erro_envio = $e->getMessage();
+        }
         if ($ok) {
             $update = $pdo->prepare("UPDATE email_fila SET status = 'enviado', enviado_em = NOW(), erro = NULL WHERE id = ?");
             $update->execute([$email['id']]);
             $resultado['enviados']++;
         } else {
             $update = $pdo->prepare("UPDATE email_fila SET tentativas = tentativas + 1, status = IF(tentativas >= 2, 'falhou', 'pendente'), erro = ? WHERE id = ?");
-            $update->execute(['Falha no mail(). Configure SMTP/sendmail no PHP para envio real.', $email['id']]);
+            $update->execute([$erro_envio ?: 'Falha no envio. Verifique as configuracoes de SMTP.', $email['id']]);
             $resultado['falhas']++;
         }
     }
