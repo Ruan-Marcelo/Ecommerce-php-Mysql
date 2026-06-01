@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Email válido é obrigatório';
+        $errors[] = 'E-mail válido é obrigatório';
     }
 
     if (empty($mensagem)) {

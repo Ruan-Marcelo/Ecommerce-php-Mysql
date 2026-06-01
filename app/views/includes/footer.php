@@ -20,8 +20,8 @@ if (!empty($GLOBALS['lupiere_navbar_main_open'])):
   <div class="max-w-[1440px] mx-auto">
     <div class="flex items-end justify-between gap-4 mb-8">
       <div>
-        <p class="font-label-caps text-label-caps text-secondary uppercase mb-3">RecomendaÃ§Ãµes</p>
-        <h2 class="font-headline-md text-headline-md text-primary">VocÃª tambÃ©m pode gostar</h2>
+        <p class="font-label-caps text-label-caps text-secondary uppercase mb-3">Recomendações</p>
+        <h2 class="font-headline-md text-headline-md text-primary">Você também pode gostar</h2>
       </div>
       <a href="<?php echo $base_path; ?>produtos.php" class="font-label-caps text-label-caps text-primary border-b border-primary/20 pb-1">Ver produtos</a>
     </div>

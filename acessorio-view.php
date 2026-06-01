@@ -155,7 +155,7 @@ font-variation-settings:
     <header
       class="bg-[#F9F7F2] dark:bg-[#121212] docked full-width top-0 border-b border-[#1B3022]/10 dark:border-white/10 sticky z-50"
     >
-      <!-- BOTÃƒO MOBILE -->
+      <!-- BOTÃO MOBILE -->
       <div
         class="flex justify-between items-center w-full px-12 py-8 max-w-[1440px] mx-auto"
       >
@@ -168,28 +168,28 @@ font-variation-settings:
         <div
           class="text-2xl font-serif tracking-[0.4em] text-[#1B3022] dark:text-[#EAEAEA]"
         >
-          LUPIÃˆRE
+          LUPIÈRE
         </div>
         <nav class="hidden md:flex items-center space-x-12">
           <a
             class="font-serif uppercase tracking-[0.2em] text-xs font-medium text-[#1B3022]/60 dark:text-[#EAEAEA]/60 hover:text-[#C5A059] transition-all duration-500"
             href="index.php"
-            >Inicio</a
+            >Início</a
           >
           <a
             class="font-serif uppercase tracking-[0.2em] text-xs font-medium text-[#1B3022]/60 dark:text-[#EAEAEA]/60 hover:text-[#C5A059] transition-all duration-500"
             href="produtos.php"
-            >ColeÃ§Ãµes</a
+            >Coleções</a
           >
           <a
             class="font-serif uppercase tracking-[0.2em] text-xs font-medium text-[#1B3022] dark:text-white border-b border-[#C5A059] pb-1"
             href="acessorios.php"
-            >AcessÃ³rios</a
+            >Acessórios</a
           >
           <a
             class="font-serif uppercase tracking-[0.2em] text-xs font-medium text-[#1B3022]/60 dark:text-[#EAEAEA]/60 hover:text-[#C5A059] transition-all duration-500"
             href="sobre.php"
-            >Nossa HistÃ³ria</a
+            >Nossa História</a
           >
         </nav>
         <div
@@ -208,7 +208,7 @@ font-variation-settings:
           </a>
           <a
             href="login.php"
-            aria-label="Abrir perfil do usuÃ¡rio"
+            aria-label="Abrir perfil do usuário"
             class="group cursor-pointer transition-all duration-300 hover:text-[#C5A059]"
           >
             <span
@@ -232,12 +232,12 @@ font-variation-settings:
         </button>
       </div>
 
-      <a class="mobile-link" href="index.php">Inicio</a>
-      <a class="mobile-link" href="produtos.php">ColeÃ§Ãµes</a>
+      <a class="mobile-link" href="index.php">Início</a>
+      <a class="mobile-link" href="produtos.php">Coleções</a>
       <a class="mobile-link text-[#C5A059]" href="acessorios.php"
-        >AcessÃ³rios</a
+        >Acessórios</a
       >
-      <a class="mobile-link" href="sobre.php">Nossa HistÃ³ria</a>
+      <a class="mobile-link" href="sobre.php">Nossa História</a>
     </div>
 
     <main class="max-w-[1440px] mx-auto">
@@ -330,7 +330,7 @@ font-variation-settings:
               >
               <span
                 class="font-label-caps text-[10px] uppercase tracking-widest"
-                >Complimentary Express Shipping on orders over R$ 2.000</span
+                >Frete expresso grátis em pedidos acima de R$ 2.000</span
               >
             </div>
           </div>
@@ -349,14 +349,14 @@ font-variation-settings:
         </div>
         <div class="order-1 md:order-2 space-y-8">
           <h2 class="font-headline-lg text-headline-lg text-primary">
-            The Art of the Emerald
+            A Arte da Esmeralda
           </h2>
           <div class="w-12 h-[1px] bg-secondary"></div>
           <p class="font-body-lg text-body-lg text-on-surface-variant">
-            Our emerald hue is achieved through a multi-stage artisanal dyeing
-            process in the heart of Como, Italy. This specific depth of green
-            was selected for its versatilityâ€”striking against white poplin yet
-            subtle enough for charcoal wool.
+            Nosso tom esmeralda é obtido por meio de um tingimento artesanal em
+            várias etapas no coração de Como, na Itália. Essa profundidade
+            específica de verde foi escolhida por sua versatilidade: marcante
+            com popeline branca e sutil com lã grafite.
           </p>
           <div
             class="pt-8 grid grid-cols-2 gap-8 border-t border-outline-variant/30"
@@ -365,17 +365,17 @@ font-variation-settings:
               <p
                 class="font-label-caps text-label-caps uppercase text-secondary mb-2"
               >
-                Heritage
+                Origem
               </p>
               <p class="font-body-md text-body-md text-on-surface">
-                Milanese Workshop
+                Oficina Milanesa
               </p>
             </div>
             <div>
               <p
                 class="font-label-caps text-label-caps uppercase text-secondary mb-2"
               >
-                Weight
+                Gramatura
               </p>
               <p class="font-body-md text-body-md text-on-surface">
                 Premium 24-momme silk
@@ -390,10 +390,10 @@ font-variation-settings:
           <div class="text-center mb-16">
             <span
               class="font-label-caps text-label-caps uppercase text-secondary tracking-[0.3em]"
-              >Styling Suggestions</span
+              >Sugestões de Estilo</span
             >
             <h2 class="font-headline-lg text-headline-lg text-primary mt-4">
-              The Art of the Knot
+              A Arte do Nó
             </h2>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -401,17 +401,17 @@ font-variation-settings:
               <div class="aspect-[4/5] bg-surface-variant overflow-hidden">
                 <img
                   class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                  data-alt="A fashion-forward portrait showing the Silk Emerald Tie paired with a LupiÃ¨re white poplin shirt and a charcoal wool blazer. The lighting is soft and editorial, coming from the side to define the knot. The aesthetic is clean and minimalist luxury, highlighting the intersection of traditional tailoring and modern style within a neutral grey and white environment."
+                  data-alt="A fashion-forward portrait showing the Silk Emerald Tie paired with a Lupière white poplin shirt and a charcoal wool blazer. The lighting is soft and editorial, coming from the side to define the knot. The aesthetic is clean and minimalist luxury, highlighting the intersection of traditional tailoring and modern style within a neutral grey and white environment."
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuDp5zfI-eAtAd0qiApb0h5-zc1LylIFFuYY112sALWSjSd7FZ1TwWYGDjkNZHBiEKs5K98GaZBdLSLlMfhRvMNEpbAc-kftR-yzOpxZgOvnnGDssG3GAhUf9ckWgu8-1HmgX-SSX7s6CYfG4N81KTlrGWYGCySaC0CWj1dQzgieq5O5O0j2zTaS8662EXA1z0ucICTphRXumdx24iqwYGSD3kMPV3DlyOvCihMts16AE-qFhxx_WOUrzzi4aXTzWisFknK2LADJQBZ3"
                 />
               </div>
               <div class="px-2">
                 <h3 class="font-headline-md text-[24px] text-primary mb-2">
-                  The Four-in-Hand
+                  Nó Simples
                 </h3>
                 <p class="font-body-md text-body-md text-on-surface-variant">
-                  A versatile, asymmetrical knot that highlights the tie's
-                  hand-rolled edges and natural drape.
+                  Um nó versátil e assimétrico que destaca as bordas enroladas
+                  à mão e o caimento natural da gravata.
                 </p>
               </div>
             </div>
@@ -425,11 +425,11 @@ font-variation-settings:
               </div>
               <div class="px-2">
                 <h3 class="font-headline-md text-[24px] text-primary mb-2">
-                  The Half Windsor
+                  Meio-Windsor
                 </h3>
                 <p class="font-body-md text-body-md text-on-surface-variant">
-                  A classic choice for the wide-spread collar of our bespoke
-                  poplin shirts, providing a symmetric, authoritative look.
+                  Uma escolha clássica para o colarinho aberto de nossas camisas
+                  de popeline sob medida, com aparência simétrica e imponente.
                 </p>
               </div>
             </div>
@@ -437,17 +437,17 @@ font-variation-settings:
               <div class="aspect-[4/5] bg-surface-variant overflow-hidden">
                 <img
                   class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                  data-alt="A lifestyle product shot featuring the Silk Emerald Tie lying next to a pair of sterling silver cufflinks and a LupiÃ¨re white shirt. The composition is asymmetrical and elegant, using a soft-focus background and a light-mode color palette of off-white and deep green. The image conveys a sense of high-end preparation and exclusive craftsmanship."
+                  data-alt="A lifestyle product shot featuring the Silk Emerald Tie lying next to a pair of sterling silver cufflinks and a Lupière white shirt. The composition is asymmetrical and elegant, using a soft-focus background and a light-mode color palette of off-white and deep green. The image conveys a sense of high-end preparation and exclusive craftsmanship."
                   src="https://lh3.googleusercontent.com/aida/ADBb0uhCEUISheRANO1PGb3eXb_mYHgBNfSGduPyVIkLKAz1HAgkBoFCBjFW_hZVUF1MXFF-RWy3dNKCEzo39vOD68gAbQOmyS7TmKW0l94i_T5AwdMXGHHQx2hizKKkvpJip_OBxdhMfzBNqQxThYCNp7cPrTpR85YbiVNMqeh_z4JaE-ibfiytr2Ti9Yr6JOla6ZFcWTdzykIoDZ9UB5t6sgxXfdMjxXFtihdAUDpqChkmDliGf_72AmH8FlwPG40a3c8T-7ffLzJcG9w"
                 />
               </div>
               <div class="px-2">
                 <h3 class="font-headline-md text-[24px] text-primary mb-2">
-                  Evening Refinement
+                  Refinamento Noturno
                 </h3>
                 <p class="font-body-md text-body-md text-on-surface-variant">
-                  Pair with midnight navy tailoring for a look that commands
-                  respect through subtle tonal shifts.
+                  Combine com alfaiataria azul-marinho escura para um visual
+                  marcante, com variações sutis de tom.
                 </p>
               </div>
             </div>
@@ -457,17 +457,17 @@ font-variation-settings:
       <!-- Newsletter / Transition -->
       <section class="py-[120px] px-8 text-center max-w-4xl mx-auto">
         <h3 class="font-headline-lg text-headline-lg text-primary mb-6 italic">
-          Adaptado Ã  sua viagem.
+          Adaptado à sua viagem.
         </h3>
         <p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
-          Receba acesso exclusivo a novas coleÃ§Ãµes e alfaiataria sob medida
-eventos em nosso ateliÃª.
+          Receba acesso exclusivo a novas coleções e alfaiataria sob medida
+eventos em nosso ateliê.
         </p>
         <div class="flex flex-col md:flex-row gap-4 justify-center items-end">
           <div class="w-full md:w-80">
             <label
               class="block font-label-caps text-label-caps uppercase text-left mb-2"
-              >EndereÃ§o de email</label
+              >Endereço de e-mail</label
             >
             <input
               class="w-full bg-transparent border-b border-outline text-primary py-2 px-0 focus:outline-none focus:border-secondary transition-colors"
@@ -478,7 +478,7 @@ eventos em nosso ateliÃª.
           <button
             class="bg-primary-container text-on-primary px-12 py-3 font-label-caps text-label-caps uppercase tracking-widest hover:opacity-90"
           >
-            Join
+            Inscrever-se
           </button>
         </div>
       </section>
@@ -494,11 +494,11 @@ eventos em nosso ateliÃª.
           <div
             class="text-2xl font-headline-lg tracking-[0.3em] text-[#1B3022] uppercase mb-8"
           >
-            LUPIÃˆRE
+            LUPIÈRE
           </div>
           <p class="font-body-md text-[#1B3022]/60 max-w-xs">
-            Elevando a alfaiataria clÃ¡ssica para o homem contemporÃ¢neo. Rigor,
-            tradiÃ§Ã£o e personalidade.
+            Elevando a alfaiataria clássica para o homem contemporâneo. Rigor,
+            tradição e personalidade.
           </p>
         </div>
         <div class="flex flex-col gap-4">
@@ -510,17 +510,17 @@ eventos em nosso ateliÃª.
           <a
             class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
             href="#"
-            >Inicio</a
+            >Início</a
           >
           <a
             class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
             href="#"
-            >ColeÃ§Ãµes</a
+            >Coleções</a
           >
           <a
             class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
             href="#"
-            >AcessÃ³rios</a
+            >Acessórios</a
           >
         </div>
         <div class="flex flex-col gap-4">
@@ -532,12 +532,12 @@ eventos em nosso ateliÃª.
           <a
             class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
             href="#"
-            >Envio &amp; DevoluÃ§Ãµes</a
+            >Envio &amp; Devoluções</a
           >
           <a
             class="font-body-md text-[#1B3022]/60 hover:text-[#1B3022] transition-colors"
             href="#"
-            >PolÃ­tica de Privacidade</a
+            >Política de Privacidade</a
           >
         </div>
         <div class="flex flex-col gap-4">
@@ -576,7 +576,7 @@ eventos em nosso ateliÃª.
         <div
           class="font-label-caps text-[10px] tracking-[0.2em] text-[#1B3022]/40 uppercase"
         >
-          Â© 2026 LUPIÃˆRE TAILORS. ALL RIGHTS RESERVED.
+          © 2026 LUPIÈRE TAILORS. TODOS OS DIREITOS RESERVADOS.
         </div>
         <div class="flex gap-8">
           <a

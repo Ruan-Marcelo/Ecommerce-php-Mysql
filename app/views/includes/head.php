@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title><?php echo isset($titulo_pagina) ? $titulo_pagina . ' | LUPIÃˆRE' : 'LUPIÃˆRE'; ?></title>
+    <title><?php echo isset($titulo_pagina) ? $titulo_pagina . ' | LUPIÈRE' : 'LUPIÈRE'; ?></title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&amp;family=Noto+Serif:wght@400;700&amp;display=swap"

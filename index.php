@@ -2,7 +2,7 @@
 session_start();
 require_once __DIR__ . '/app/core/funcoes.php';
 
-$titulo_pagina = 'InÃ­cio';
+$titulo_pagina = 'Início';
 garantir_banner_padrao();
 $banner = obter_banner_home();
 $produtos_destaque = obter_produtos(6, 0);
@@ -32,16 +32,16 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
       <div class="max-w-3xl">
         <p class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase mb-5">Lupi&egrave;re Alfaiataria</p>
         <h1 class="font-headline-display text-[48px] md:text-[72px] leading-tight text-white mb-6">
-          <?php echo escapar($banner['titulo'] ?? 'ElegÃ¢ncia com Personalidade'); ?>
+          <?php echo escapar($banner['titulo'] ?? 'Elegância com Personalidade'); ?>
         </h1>
         <p class="font-body-lg text-body-lg text-white/90 mb-10 border-l-2 border-secondary-fixed-dim pl-6 max-w-2xl">
-          <?php echo escapar($banner['subtitulo'] ?? 'PeÃ§as feitas para quem impÃµe presenÃ§a.'); ?>
+          <?php echo escapar($banner['subtitulo'] ?? 'Peças feitas para quem impõe presença.'); ?>
         </p>
         <a
           href="<?php echo escapar($banner['link_url'] ?? 'produtos.php'); ?>"
           class="inline-flex bg-primary-container text-white px-10 py-5 font-label-caps text-label-caps uppercase tracking-[0.2em] hover:bg-primary transition-all duration-300"
         >
-          <?php echo escapar($banner['texto_botao'] ?? 'Explorar coleÃ§Ã£o'); ?>
+          <?php echo escapar($banner['texto_botao'] ?? 'Explorar coleção'); ?>
         </a>
       </div>
     </div>
@@ -52,7 +52,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
   <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
     <div class="md:col-span-5">
       <p class="font-label-caps text-label-caps text-secondary uppercase mb-6">Manifesto</p>
-      <h2 class="font-headline-lg text-headline-lg text-primary">A essÃªncia</h2>
+      <h2 class="font-headline-lg text-headline-lg text-primary">A essência</h2>
     </div>
     <div class="md:col-span-7 space-y-6 text-on-surface-variant">
       <p class="font-body-lg text-body-lg">
@@ -168,14 +168,14 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
 <section class="py-section-gap px-gutter bg-primary text-white">
   <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
     <div>
-      <p class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase mb-6">HeranÃ§a</p>
-      <h2 class="font-headline-lg text-headline-lg mb-8">O sÃ­mbolo da marca</h2>
+      <p class="font-label-caps text-label-caps text-secondary-fixed-dim uppercase mb-6">Herança</p>
+      <h2 class="font-headline-lg text-headline-lg mb-8">O símbolo da marca</h2>
       <p class="font-body-lg text-body-lg text-white/80">
-        Uma identidade construÃ­da sobre precisÃ£o, postura e permanÃªncia. A roupa nÃ£o substitui presenÃ§a: ela a sustenta.
+        Uma identidade construída sobre precisão, postura e permanência. A roupa não substitui presença: ela a sustenta.
       </p>
     </div>
     <div class="bg-white/5 border border-white/10 p-10 flex items-center justify-center min-h-[320px]">
-      <img src="public/assets/img/logo.jpg" alt="LupiÃ¨re" class="max-h-[260px] object-contain opacity-95">
+      <img src="public/assets/img/logo.jpg" alt="Lupière" class="max-h-[260px] object-contain opacity-95">
     </div>
   </div>
 </section>

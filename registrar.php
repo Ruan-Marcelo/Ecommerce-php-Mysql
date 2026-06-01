@@ -10,19 +10,19 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
     $senha = $_POST["password"] ?? '';
     $inscrever_email = isset($_POST['newsletter']);
 
-    // ValidaÃ§Ã£o
+    // Validação
     if (empty($nome) || empty($email) || empty($senha)) {
-        $erro = "Preencha todos os campos obrigatÃ³rios.";
+        $erro = "Preencha todos os campos obrigatórios.";
     } else {
 
-        // Verifica se email jÃ¡ existe
+        // Verifica se email já existe
         if (obter_usuario_por_email($email)) {
 
-            $erro = "Este email jÃ¡ estÃ¡ cadastrado.";
+            $erro = "Este e-mail já está cadastrado.";
 
         } else {
 
-            // Cria usuÃ¡rio usando funÃ§Ã£o do funcoes.php
+            // Cria usuário usando função do funcoes.php
             $criado = criar_usuario(
                 $nome,
                 $email,
@@ -54,7 +54,7 @@ if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>LUPIÃˆRE | Registrar</title>
+    <title>LUPIÈRE | Registrar</title>
 
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
@@ -175,19 +175,19 @@ font-variation-settings:
         <!-- NAV -->
         <nav class="hidden lg:flex gap-10">
 
-            <a class="nav-link" href="index.php">Inicio</a>
+            <a class="nav-link" href="index.php">Início</a>
 
-            <a class="nav-link" href="produtos.php">ColeÃ§Ãµes</a>
+            <a class="nav-link" href="produtos.php">Coleções</a>
 
-            <a class="nav-link" href="acessorios.php">AcessÃ³rios</a>
+            <a class="nav-link" href="acessorios.php">Acessórios</a>
 
-            <a class="nav-link" href="sobre.php">Nossa histÃ³ria</a>
+            <a class="nav-link" href="sobre.php">Nossa história</a>
 
         </nav>
 
         <!-- LOGO -->
         <div class="text-xl md:text-2xl headline tracking-[0.4em] text-[#1B3022]">
-            LUPIÃˆRE
+            LUPIÈRE
         </div>
 
         <!-- ICONES -->
@@ -225,10 +225,10 @@ font-variation-settings:
 
     </div>
 
-    <a class="nav-link" href="index.php">Inicio</a>
-    <a class="nav-link" href="produtos.php">ColeÃ§Ãµes</a>
-    <a class="nav-link" href="acessorios.php">AcessÃ³rios</a>
-    <a class="nav-link" href="sobre.php">Nossa histÃ³ria</a>
+    <a class="nav-link" href="index.php">Início</a>
+    <a class="nav-link" href="produtos.php">Coleções</a>
+    <a class="nav-link" href="acessorios.php">Acessórios</a>
+    <a class="nav-link" href="sobre.php">Nossa história</a>
 
 </div>
 
@@ -272,7 +272,7 @@ font-variation-settings:
                 </h2>
 
                 <p class="text-lg text-on-surface-variant italic">
-                    Entre no mundo de LupiÃ¨re.
+                    Entre no mundo de Lupière.
                 </p>
 
             </header>
@@ -360,7 +360,7 @@ font-variation-settings:
                         <input
                             class="w-full form-input-bespoke py-3"
                             name="password"
-                            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                            placeholder="••••••••"
                             type="password"
                             required
                         />
@@ -380,12 +380,12 @@ font-variation-settings:
                     />
 
                     <label class="text-sm text-on-surface-variant" for="newsletter">
-                        Assine a newsletter exclusiva para receber novidades e catÃ¡logos.
+                        Assine a newsletter exclusiva para receber novidades e catálogos.
                     </label>
 
                 </div>
 
-                <!-- BOTÃƒO -->
+                <!-- BOTÃO -->
                 <div class="pt-8 space-y-6">
 
                     <button
@@ -430,7 +430,7 @@ font-variation-settings:
             <!-- LOGIN -->
             <p class="mt-12 text-center text-sm text-on-surface-variant">
 
-                JÃ¡ possui conta?
+                Já possui conta?
 
                 <a
                     class="text-secondary font-semibold hover:underline"
@@ -455,11 +455,11 @@ font-variation-settings:
         <div>
 
             <div class="text-2xl headline tracking-[0.3em] text-[#1B3022] uppercase mb-8">
-                LUPIÃˆRE
+                LUPIÈRE
             </div>
 
             <p class="text-[#1B3022]/60 max-w-xs">
-                ElegÃ¢ncia clÃ¡ssica para o homem contemporÃ¢neo.
+                Elegância clássica para o homem contemporâneo.
             </p>
 
         </div>
@@ -472,11 +472,11 @@ font-variation-settings:
 
             <div class="flex flex-col gap-3">
 
-                <a href="index.php">Inicio</a>
+                <a href="index.php">Início</a>
 
-                <a href="produtos.php">ColeÃ§Ãµes</a>
+                <a href="produtos.php">Coleções</a>
 
-                <a href="acessorios.php">AcessÃ³rios</a>
+                <a href="acessorios.php">Acessórios</a>
 
             </div>
 
@@ -490,9 +490,9 @@ font-variation-settings:
 
             <div class="flex flex-col gap-3">
 
-                <a href="#">Envio & DevoluÃ§Ãµes</a>
+                <a href="#">Envio & Devoluções</a>
 
-                <a href="#">PolÃ­tica de Privacidade</a>
+                <a href="#">Política de Privacidade</a>
 
             </div>
 

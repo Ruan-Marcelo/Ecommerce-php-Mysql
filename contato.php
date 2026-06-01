@@ -17,7 +17,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
             Personal Assistance
           </span>
           <h1 class="font-headline-display text-headline-display mb-8">
-            The Concierge Service
+            Serviço de Concierge
           </h1>
           <p
             class="font-body-lg text-body-lg text-on-surface-variant max-w-xl italic"
@@ -45,11 +45,11 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
         <!-- Inquiry Form -->
         <div>
           <h2 class="font-headline-lg text-headline-lg mb-4">
-            Private Consultation
+            Consultoria Privada
           </h2>
           <p class="font-body-md text-body-md text-on-surface-variant mb-12">
-            Submit your details below and a dedicated concierge will contact
-            you within 24 hours.
+            Envie seus dados abaixo e um concierge dedicado entrará em contato
+            em até 24 horas.
           </p>
           <form action="processar_contato.php" method="POST" class="space-y-10">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -57,7 +57,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                 <label
                   class="font-label-caps text-[10px] uppercase tracking-widest text-outline block mb-1"
                 >
-                  Full Name
+                  Nome Completo
                 </label>
                 <input
                   name="nome"
@@ -71,7 +71,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                 <label
                   class="font-label-caps text-[10px] uppercase tracking-widest text-outline block mb-1"
                 >
-                  Email Address
+                  Endereço de E-mail
                 </label>
                 <input
                   name="email"
@@ -86,29 +86,29 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
               <label
                 class="font-label-caps text-[10px] uppercase tracking-widest text-outline block mb-1"
               >
-                Subject of Interest
+                Assunto de Interesse
               </label>
               <select
                 name="assunto"
                 class="form-input-bespoke"
               >
                 <option value="">Selecione um assunto</option>
-                <option value="BESPOKE TAILORING">BESPOKE TAILORING</option>
-                <option value="MADE-TO-MEASURE">MADE-TO-MEASURE</option>
-                <option value="CORPORATE GIFTING">CORPORATE GIFTING</option>
-                <option value="WEDDING ATELIER">WEDDING ATELIER</option>
+                <option value="BESPOKE TAILORING">ALFAIATARIA SOB MEDIDA</option>
+                <option value="MADE-TO-MEASURE">FEITO SOB MEDIDA</option>
+                <option value="CORPORATE GIFTING">PRESENTES CORPORATIVOS</option>
+                <option value="WEDDING ATELIER">ATELIÊ PARA CASAMENTOS</option>
               </select>
             </div>
             <div>
               <label
                 class="font-label-caps text-[10px] uppercase tracking-widest text-outline block mb-1"
               >
-                Message
+                Mensagem
               </label>
               <textarea
                 name="mensagem"
                 class="form-input-bespoke resize-none"
-                placeholder="YOUR REQUIREMENTS..."
+                placeholder="SUAS NECESSIDADES..."
                 rows="4"
                 required
               ></textarea>
@@ -117,7 +117,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
               type="submit"
               class="w-full py-5 bg-primary-container text-white font-label-caps tracking-[0.2em] uppercase hover:bg-primary transition-colors duration-300"
             >
-              Request Appointment
+              Solicitar Agendamento
             </button>
           </form>
         </div>
@@ -127,11 +127,11 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
         >
           <div>
             <h2 class="font-headline-md text-headline-md mb-8">
-              Lisbon Atelier
+              Ateliê de Lisboa
             </h2>
             <div class="space-y-8">
               <div>
-                <h4 class="font-label-caps text-secondary mb-2">Address</h4>
+                <h4 class="font-label-caps text-secondary mb-2">Endereço</h4>
                 <address
                   class="not-italic font-body-lg text-body-lg leading-relaxed"
                 >
@@ -141,19 +141,19 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
                 </address>
               </div>
               <div>
-                <h4 class="font-label-caps text-secondary mb-2">Inquiries</h4>
+                <h4 class="font-label-caps text-secondary mb-2">Contato</h4>
                 <p class="font-body-lg text-body-lg">concierge@lupiere.com</p>
                 <p class="font-body-lg text-body-lg">+351 210 000 000</p>
               </div>
               <div>
                 <h4 class="font-label-caps text-secondary mb-2">
-                  Opening Hours
+                  Horário de Funcionamento
                 </h4>
                 <p class="font-body-md text-body-md text-on-surface-variant">
-                  Monday — Friday: 10:00 - 19:00
+                  Segunda a sexta: 10:00 - 19:00
                 </p>
                 <p class="font-body-md text-body-md text-on-surface-variant">
-                  Saturday: By Appointment Only
+                  Sábado: somente com agendamento
                 </p>
               </div>
             </div>

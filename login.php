@@ -3,7 +3,7 @@ session_start();
 
 require_once __DIR__ . '/app/core/funcoes.php';
 
-// REDIRECIONA SE JÃ ESTIVER LOGADO
+// REDIRECIONA SE JÁ ESTIVER LOGADO
 if (isset($_SESSION["usuario_id"])) {
     header("Location: " . (!empty($_SESSION["admin"]) ? "admin/index.php" : "perfil.php"));
     exit();
@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         } else {
 
-            $erro = "Email ou senha invÃ¡lidos.";
+            $erro = "E-mail ou senha inválidos.";
 
         }
 
@@ -55,9 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <title>LUPIÃˆRE | Login</title>
+    <title>LUPIÈRE | Login</title>
 
-    <meta name="description" content="Acesse sua conta LupiÃ¨re. ElegÃ¢ncia, sofisticaÃ§Ã£o e alfaiataria premium." />
+    <meta name="description" content="Acesse sua conta Lupière. Elegância, sofisticação e alfaiataria premium." />
 
     <link rel="icon" href="favicon.ico" />
 
@@ -249,19 +249,19 @@ font-variation-settings:
         <nav class="hidden lg:flex gap-10">
 
             <a href="index.php" class="nav-link">
-                Inicio
+                Início
             </a>
 
             <a href="produtos.php" class="nav-link">
-                ColeÃ§Ãµes
+                Coleções
             </a>
 
             <a href="acessorios.php" class="nav-link">
-                AcessÃ³rios
+                Acessórios
             </a>
 
             <a href="sobre.php" class="nav-link">
-                Nossa histÃ³ria
+                Nossa história
             </a>
 
         </nav>
@@ -270,7 +270,7 @@ font-variation-settings:
         <a href="index.php"
            class="text-xl md:text-2xl title-font tracking-[0.4em] uppercase">
 
-            LUPIÃˆRE
+            LUPIÈRE
 
         </a>
 
@@ -320,19 +320,19 @@ font-variation-settings:
     </div>
 
     <a href="index.php" class="nav-link">
-        Inicio
+        Início
     </a>
 
     <a href="produtos.php" class="nav-link">
-        ColeÃ§Ãµes
+        Coleções
     </a>
 
     <a href="acessorios.php" class="nav-link">
-        AcessÃ³rios
+        Acessórios
     </a>
 
     <a href="sobre.php" class="nav-link">
-        Nossa histÃ³ria
+        Nossa história
     </a>
 
 </div>
@@ -432,7 +432,7 @@ font-variation-settings:
                             name="password"
                             required
                             autocomplete="current-password"
-                            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                            placeholder="••••••••"
                             class="custom-input w-full bg-transparent border-0 border-b border-[#1B3022]/20 py-4 pr-10 focus:border-secondary transition-all placeholder:text-[#1B3022]/30"
                         />
 
@@ -544,7 +544,7 @@ font-variation-settings:
 
                 <p class="text-sm text-[#1B3022]/60">
 
-                    NÃ£o possui uma conta?
+                    Não possui uma conta?
 
                     <a href="registrar.php"
                        class="font-semibold hover:underline ml-1">
@@ -572,14 +572,14 @@ font-variation-settings:
 
             <div class="title-font text-2xl tracking-[0.3em] uppercase mb-5">
 
-                LUPIÃˆRE
+                LUPIÈRE
 
             </div>
 
             <p class="text-[#1B3022]/60 max-w-sm leading-relaxed">
 
-                Elevando a alfaiataria clÃ¡ssica para o homem contemporÃ¢neo.
-                SofisticaÃ§Ã£o, tradiÃ§Ã£o e personalidade.
+                Elevando a alfaiataria clássica para o homem contemporâneo.
+                Sofisticação, tradição e personalidade.
 
             </p>
 

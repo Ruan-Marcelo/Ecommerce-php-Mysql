@@ -2,7 +2,7 @@
 session_start();
 require_once __DIR__ . '/app/core/funcoes.php';
 
-$titulo_pagina = 'AcessÃ³rios';
+$titulo_pagina = 'Acessórios';
 $categoria_acessorios = garantir_categoria_acessorios();
 $produtos = $categoria_acessorios ? obter_produtos_por_categoria((int) $categoria_acessorios['id']) : [];
 

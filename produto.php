@@ -23,9 +23,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         $comentario = trim($_POST['comentario'] ?? '');
         if ($nome !== '' && $comentario !== '') {
             adicionar_comentario_produto($id, $_SESSION['usuario_id'] ?? null, $nome, $comentario);
-            $_SESSION['produto_sucesso'] = 'ComentÃ¡rio publicado.';
+            $_SESSION['produto_sucesso'] = 'Comentário publicado.';
         } else {
-            $_SESSION['produto_erro'] = 'Informe nome e comentÃ¡rio.';
+            $_SESSION['produto_erro'] = 'Informe nome e comentário.';
         }
     }
     if ($acao === 'avaliar') {
@@ -33,7 +33,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
             $_SESSION['produto_erro'] = 'Entre na conta para avaliar.';
         } else {
             salvar_avaliacao_produto($id, $_SESSION['usuario_id'], (int) ($_POST['nota'] ?? 0));
-            $_SESSION['produto_sucesso'] = 'AvaliaÃ§Ã£o salva.';
+            $_SESSION['produto_sucesso'] = 'Avaliação salva.';
         }
     }
     header('Location: produto.php?id=' . $id);
@@ -173,7 +173,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
           <input type="hidden" name="produto_id" value="<?php echo (int) $produto['id']; ?>">
           <input type="hidden" name="redirect" value="produto.php?id=<?php echo (int) $produto['id']; ?>">
           <button type="submit" class="w-full border border-outline/30 text-primary py-4 px-6 font-label-caps text-label-caps tracking-[0.2em] hover:bg-surface-container-low transition-all duration-300">
-            <?php echo $na_lista_desejos ? 'Remover da lista de desejos' : 'Adicionar Ã  lista de desejos'; ?>
+            <?php echo $na_lista_desejos ? 'Remover da lista de desejos' : 'Adicionar à lista de desejos'; ?>
           </button>
         </form>
       <?php endif; ?>
@@ -197,7 +197,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
       <h2 class="font-headline-md text-headline-md text-primary mb-4">Coment&aacute;rios</h2>
       <div class="space-y-4">
         <?php if (empty($comentarios)): ?>
-          <p class="text-on-surface-variant text-sm">Nenhum comentÃ¡rio ainda.</p>
+          <p class="text-on-surface-variant text-sm">Nenhum comentário ainda.</p>
         <?php endif; ?>
         <?php foreach ($comentarios as $comentario): ?>
           <div class="border border-outline/20 p-4">
@@ -220,8 +220,8 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
         <?php if (!isset($_SESSION['usuario_id'])): ?>
           <input type="text" name="nome" placeholder="Seu nome" class="w-full form-input-bespoke py-3 text-primary" required>
         <?php endif; ?>
-        <textarea name="comentario" rows="4" placeholder="Escreva seu comentÃ¡rio" class="w-full form-input-bespoke py-3 text-primary" required></textarea>
-        <button type="submit" class="bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em]">Publicar comentÃ¡rio</button>
+        <textarea name="comentario" rows="4" placeholder="Escreva seu comentário" class="w-full form-input-bespoke py-3 text-primary" required></textarea>
+        <button type="submit" class="bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em]">Publicar comentário</button>
       </form>
     </div>
 
@@ -243,7 +243,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
               </label>
             <?php endfor; ?>
           </div>
-          <button type="submit" class="bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em]">Salvar avaliaÃ§Ã£o</button>
+          <button type="submit" class="bg-primary-container text-white py-3 px-5 font-label-caps text-label-caps tracking-[0.2em]">Salvar avaliação</button>
         </form>
       <?php endif; ?>
     </div>

@@ -13,7 +13,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
 <section class="pt-32 pb-24 px-gutter">
   <div class="max-w-[1440px] mx-auto">
     <header class="mb-12">
-      <p class="font-label-caps text-label-caps text-secondary uppercase mb-4">Sua seleÃ§Ã£o</p>
+      <p class="font-label-caps text-label-caps text-secondary uppercase mb-4">Sua seleção</p>
       <h1 class="font-headline-lg text-headline-lg text-primary">Lista de desejos</h1>
     </header>
 

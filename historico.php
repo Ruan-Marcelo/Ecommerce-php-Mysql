@@ -1,18 +1,18 @@
 <?php
 session_start();
 require_once __DIR__ . '/app/core/funcoes.php';
-proteger_pagina(); // Redireciona se nÃ£o estiver logado
+proteger_pagina(); // Redireciona se não estiver logado
 
 $titulo_pagina = 'Meus Pedidos';
 require_once __DIR__ . '/app/views/includes/header.php';
 require_once __DIR__ . '/app/views/includes/navbar.php';
 
-// ParÃ¢metros de paginaÃ§Ã£o
+// Parâmetros de paginação
 $pagina = isset($_GET['pagina']) ? max(1, intval($_GET['pagina'])) : 1;
-$limite = 5; // Pedidos por pÃ¡gina
+$limite = 5; // Pedidos por página
 $offset = ($pagina - 1) * $limite;
 
-// Obter pedidos do usuÃ¡rio
+// Obter pedidos do usuário
 $pedidos = obter_pedidos_usuario($_SESSION['usuario_id'], $limite, $offset);
 $total_pedidos = contar_pedidos_usuario($_SESSION['usuario_id']);
 $total_paginas = ceil($total_pedidos / $limite);
@@ -36,8 +36,8 @@ $total_paginas = ceil($total_pedidos / $limite);
 
       <?php if (empty($pedidos)): ?>
         <div class="text-center py-12">
-          <p class="text-on-surface-variant/60">VocÃª ainda nÃ£o realizou nenhum pedido.</p>
-          <a href="produtos.php" class="mt-4 inline-block text-primary hover:underline">ComeÃ§ar a comprar</a>
+          <p class="text-on-surface-variant/60">Você ainda não realizou nenhum pedido.</p>
+          <a href="produtos.php" class="mt-4 inline-block text-primary hover:underline">Começar a comprar</a>
         </div>
       <?php else: ?>
         <div class="space-y-6">
@@ -99,7 +99,7 @@ $total_paginas = ceil($total_pedidos / $limite);
                           <?php endif; ?>
                         </div>
 
-                        <!-- InformaÃ§Ãµes do item -->
+                        <!-- Informações do item -->
                         <div class="flex-1 space-y-1">
                           <p class="font-body-sm text-body-sm line-clamp-1"><?php echo escapar($item['produto_nome']); ?></p>
                           <p class="text-xs text-on-surface-variant/60">
@@ -129,7 +129,7 @@ $total_paginas = ceil($total_pedidos / $limite);
           <?php endforeach; ?>
         </div>
 
-        <!-- PaginaÃ§Ã£o -->
+        <!-- Paginação -->
         <?php if ($total_paginas > 1): ?>
           <div class="mt-8">
             <nav class="flex flex-wrap justify-center gap-2">
@@ -143,7 +143,7 @@ $total_paginas = ceil($total_pedidos / $limite);
               <?php endif; ?>
 
               <?php
-              // Mostrar nÃºmeros das pÃ¡ginas (mÃ¡ximo 5 visibles)
+              // Mostrar números das páginas (máximo 5 visíveis)
               $inicio_pagina = max(1, $pagina - 2);
               $fim_pagina = min($total_paginas, $inicio_pagina + 4);
               if ($fim_pagina - $inicio_pagina < 4) {
@@ -165,7 +165,7 @@ $total_paginas = ceil($total_pedidos / $limite);
                   href="historico.php?<?php echo http_build_query(array_merge($_GET, ['pagina' => $pagina + 1])); ?>"
                   class="px-4 py-2 bg-primary-container text-white font-label-caps text-label-caps tracking-[0.2em] hover:bg-primary transition-all duration-300"
                 >
-                  PrÃ³xima
+                  Próxima
                 </a>
               <?php endif; ?>
             </nav>

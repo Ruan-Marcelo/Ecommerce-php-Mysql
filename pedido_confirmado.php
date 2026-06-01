@@ -56,7 +56,7 @@ require_once __DIR__ . '/app/views/includes/navbar.php';
 
       <?php if ($pedido['forma_pagamento'] === 'pix'): ?>
         <div class="border border-outline/20 rounded-lg p-6 bg-surface-container-low">
-          <h2 class="font-headline-md text-headline-md text-primary mb-4">Pix copia e cola</h2>
+          <h2 class="font-headline-md text-headline-md text-primary mb-4">Pix Copia e Cola</h2>
           <textarea readonly class="w-full form-input-bespoke py-3 text-primary" rows="4"><?php echo escapar($pedido['pix_copia_cola']); ?></textarea>
           <p class="text-sm text-on-surface-variant mt-3">Simulação interna. Em produção, esse código deve vir da API de pagamento.</p>
         </div>
