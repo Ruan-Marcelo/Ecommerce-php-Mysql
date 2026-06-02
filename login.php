@@ -3,6 +3,9 @@ session_start();
 
 require_once __DIR__ . '/app/core/funcoes.php';
 
+$erro = $_SESSION['login_erro'] ?? null;
+unset($_SESSION['login_erro']);
+
 // REDIRECIONA SE JÁ ESTIVER LOGADO
 if (isset($_SESSION["usuario_id"])) {
     header("Location: " . (!empty($_SESSION["admin"]) ? "admin/index.php" : "perfil.php"));
@@ -12,8 +15,8 @@ if (isset($_SESSION["usuario_id"])) {
 // PROCESSA LOGIN
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $email = trim($_POST["email"]);
-    $senha = trim($_POST["password"]);
+    $email = trim($_POST["email"] ?? '');
+    $senha = (string) ($_POST["password"] ?? '');
 
     if (!empty($email) && !empty($senha)) {
 
@@ -383,7 +386,6 @@ font-variation-settings:
 
             <!-- FORM -->
             <form method="POST" class="space-y-8">
-
                 <!-- EMAIL -->
                 <div class="space-y-2">
 
@@ -505,8 +507,8 @@ font-variation-settings:
             <div class="grid grid-cols-2 gap-4">
 
                 <!-- GOOGLE -->
-                <button
-                    type="button"
+                <a
+                    href="oauth_inicio.php?provedor=google"
                     class="border border-[#1B3022]/10 py-4 uppercase tracking-[0.15em] text-xs hover:bg-[#F5F5F5] transition flex items-center justify-center gap-3">
 
                     <img
@@ -517,11 +519,11 @@ font-variation-settings:
 
                     Google
 
-                </button>
+                </a>
 
                 <!-- APPLE -->
-                <button
-                    type="button"
+                <a
+                    href="oauth_inicio.php?provedor=apple"
                     class="border border-[#1B3022]/10 py-4 uppercase tracking-[0.15em] text-xs hover:bg-[#F5F5F5] transition flex items-center justify-center gap-3">
 
                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -535,7 +537,7 @@ font-variation-settings:
 
                     Apple
 
-                </button>
+                </a>
 
             </div>
 

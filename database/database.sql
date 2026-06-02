@@ -14,6 +14,19 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Identidades externas usadas pelo login social
+CREATE TABLE IF NOT EXISTS `oauth_identidades` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) NOT NULL,
+  `provedor` varchar(20) NOT NULL,
+  `provedor_usuario_id` varchar(255) NOT NULL,
+  `data_criacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `oauth_provedor_usuario` (`provedor`, `provedor_usuario_id`),
+  KEY `oauth_usuario_id` (`usuario_id`),
+  CONSTRAINT `oauth_identidades_usuario_fk` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 -- Tabela de categorias
 CREATE TABLE IF NOT EXISTS `categorias` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

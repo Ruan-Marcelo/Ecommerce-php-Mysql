@@ -238,6 +238,22 @@ Recomendacoes antes de publicar:
 - Definir permissao restrita para `public/uploads`.
 - Manter `app/core/config.php` fora de repositorios publicos quando houver credenciais reais.
 - Configurar backups periodicos do banco.
+
+## Login social
+
+Defina a URL publica da aplicacao e as credenciais OAuth antes de usar os botoes de Google e Apple:
+
+```env
+APP_URL=https://seu-dominio.com
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+APPLE_CLIENT_ID=
+APPLE_CLIENT_SECRET=
+```
+
+Cadastre `https://seu-dominio.com/oauth_callback.php` como URI de retorno nos dois provedores. No Google, use um cliente OAuth para aplicacao web. Na Apple, `APPLE_CLIENT_ID` corresponde ao Services ID e `APPLE_CLIENT_SECRET` ao client secret JWT assinado gerado para o Services ID.
+
+O callback valida `state`, `nonce`, assinatura OIDC, emissor, audiencia e expiracao antes de criar ou vincular a conta local. A tabela `oauth_identidades` tambem e criada automaticamente na primeira autenticacao para facilitar a atualizacao de instalacoes existentes.
 - Revisar logs de erro e envios falhos.
 
 ## Testes e Validacao

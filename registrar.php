@@ -296,7 +296,6 @@ font-variation-settings:
 
             <!-- FORMULARIO -->
             <form class="space-y-8" method="POST">
-
                 <div class="space-y-6">
 
                     <!-- NOME -->
@@ -408,9 +407,9 @@ font-variation-settings:
                     </div>
 
                     <!-- GOOGLE -->
-                    <button
+                    <a
+                        href="oauth_inicio.php?provedor=google"
                         class="w-full border border-outline/30 text-primary py-4 uppercase tracking-widest hover:bg-surface-container-low transition-all duration-300 flex items-center justify-center gap-3"
-                        type="button"
                     >
 
                         <img
@@ -421,7 +420,14 @@ font-variation-settings:
 
                         Continue com Google
 
-                    </button>
+                    </a>
+
+                    <a
+                        href="oauth_inicio.php?provedor=apple"
+                        class="w-full border border-outline/30 text-primary py-4 uppercase tracking-widest hover:bg-surface-container-low transition-all duration-300 flex items-center justify-center gap-3"
+                    >
+                        Continue com Apple
+                    </a>
 
                 </div>
 
