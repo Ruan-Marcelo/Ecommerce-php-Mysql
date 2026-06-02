@@ -4,6 +4,8 @@ require_once __DIR__ . '/app/core/funcoes.php';
 
 if (($_SERVER["REQUEST_METHOD"] ?? '') == "POST") {
 
+    validar_csrf();
+    limitar_requisicoes('registrar', 8, 300);
     $nome = trim($_POST["full_name"] ?? '');
     $email = trim($_POST["email"] ?? '');
     $telefone = trim($_POST["telefone"] ?? '');
@@ -289,13 +291,14 @@ font-variation-settings:
             <?php if (isset($erro)): ?>
 
                 <div class="bg-red-100 text-red-700 p-4 rounded mb-6">
-                    <?php echo $erro; ?>
+                    <?php echo escapar($erro); ?>
                 </div>
 
             <?php endif; ?>
 
             <!-- FORMULARIO -->
             <form class="space-y-8" method="POST">
+                <?php echo csrf_input(); ?>
                 <div class="space-y-6">
 
                     <!-- NOME -->

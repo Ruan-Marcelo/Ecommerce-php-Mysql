@@ -15,6 +15,8 @@ if (isset($_SESSION["usuario_id"])) {
 // PROCESSA LOGIN
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    validar_csrf();
+    limitar_requisicoes('login', 8, 300);
     $email = trim($_POST["email"] ?? '');
     $senha = (string) ($_POST["password"] ?? '');
 
@@ -386,6 +388,7 @@ font-variation-settings:
 
             <!-- FORM -->
             <form method="POST" class="space-y-8">
+                <?php echo csrf_input(); ?>
                 <!-- EMAIL -->
                 <div class="space-y-2">
 
